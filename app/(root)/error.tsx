@@ -6,7 +6,7 @@ function error({error}:{error:Error & {digest?:string}}) {
   return (
     <div>
       <h1>Something went wrong, please try again after sometimes!</h1>
-      
+      <p>{}</p>
     </div>
   )
 }

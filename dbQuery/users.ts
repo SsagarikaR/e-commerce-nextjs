@@ -1,4 +1,4 @@
-import { sequelize } from "@/config/db/db";
+import { sequelize } from "@/lib/db";
 import { QueryTypes } from "sequelize";
 
 
@@ -54,8 +54,8 @@ export const selectUserByEmail = async(email:string):Promise<user[]>=>{
 }
 
 export const createNewUser=async(name:string,email:string,contactNo:string,hashedPassword:string)=>{
-    return await sequelize.query(`INSERT INTO Users (name,email,contactNo,role,password) VALUES
-                (?,?,?,?,?)`,{
+    return await sequelize.query(`INSERT INTO Users (name,email,contactNo,password) VALUES
+                (?,?,?,?)`,{
                     replacements:[name,email,contactNo,hashedPassword],
                     type:QueryTypes.INSERT
                 })

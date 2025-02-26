@@ -3,8 +3,8 @@ import { useSearchParams } from 'next/navigation';
 import AddReview from '@/app/components/review/AddReview';
 
 const ProfilePage = () => {
-  const searchParams = useSearchParams(); // Access query parameters from URL
-  const pid = searchParams.get('pid'); // Get the `pid` query param
+  const searchParams = useSearchParams(); 
+  const pid = searchParams.get('pid'); 
 
   if (!pid) {
     return (

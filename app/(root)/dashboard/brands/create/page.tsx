@@ -1,4 +1,4 @@
-import AddCategories from '@/app/components/dashboard/AddCategories'
+import AddBrands from '@/app/components/dashboard/AddBrands'
 import React from 'react'
 
 function page() {
@@ -8,7 +8,7 @@ function page() {
             <div className='font-semibold text-3xl'>Products</div>
         </div>
         <div className='mx-auto xl:w-3/5 md:w-4/5 '>
-           <AddCategories/>
+           <AddBrands/>
         </div>
     </div>
   )

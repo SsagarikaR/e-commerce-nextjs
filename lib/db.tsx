@@ -2,14 +2,22 @@ import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
 dotenv.config();
 
-export const sequelize=new Sequelize(process.env.DBNAME!,process.env.DBUSER!,process.env.PASSWORD,{
-    host:'localhost',
-    dialect:'mysql'
+const { DBNAME, DBUSER, PASSWORD } = process.env;
+console.log(DBNAME, DBUSER, PASSWORD)
+
+if (!DBNAME || !DBUSER || !PASSWORD) {
+  throw new Error('Missing necessary database environment variables.');
+}
+
+export const sequelize = new Sequelize(DBNAME, DBUSER, PASSWORD, {
+  host: 'localhost',
+  dialect: 'mysql',
+  dialectModule: require('mysql2'),
 });
+
 
 try{
     sequelize.authenticate();
-    console.log(process.env.DBNAME!,process.env.USERNAME!,process.env.PASSWORD)
     console.log('Conncection has been established successfully.');
 }
 catch(error){

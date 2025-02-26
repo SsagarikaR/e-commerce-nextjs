@@ -10,10 +10,12 @@ function Navbar() {
         <div className="text-purple-500 cursor-pointer">
           <FontAwesomeIcon icon={faBackward} className="w-7 md:inline-block hidden" />
         </div>
-        <div className="text-purple-500 flex items-center justify-center sm:gap-2 cursor-pointer">
-          <FontAwesomeIcon icon={faBagShopping} className="sm:w-9 w-6" />
-          <div className="text-lg sm:text-3xl text-black font-serif font-semibold w-5">Shop Cart</div>
-        </div>
+        <Link href="/home">
+          <div className="text-purple-500 flex items-center justify-center sm:gap-2 cursor-pointer">
+            <FontAwesomeIcon icon={faBagShopping} className="sm:w-9 w-6" />
+            <div className="text-lg sm:text-3xl text-black font-serif font-semibold w-5">Shop Cart</div>
+          </div>
+        </Link>
       </div>
       <div className="sm:w-2/4 w-1/4 flex justify-center items-center gap-4 relative ml-2">
         <div className="flex border rounded-lg border-gray-600 p-1 items-center justify-between bg-white px-4 xl:w-4/5 ">
@@ -40,10 +42,10 @@ function Navbar() {
         <div className="absolute right-0 top-6 w-48 bg-white border border-gray-200 rounded-lg shadow-lg mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 hidden group-hover:block">
           <ul className="p-2">
             <li className="cursor-pointer text-slate-800 flex w-full items-center rounded-md p-3 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100 justify-center">
-              <Link href="">Dashboard</Link>
+              <Link href="/dashboard/products">Dashboard</Link>
             </li>
             <li className="cursor-pointer text-slate-800 flex w-full items-center rounded-md p-3 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100 justify-center">
-              <Link href="" className="flex gap-x-2 justify-center items-center">
+              <Link href="/wishlist" className="flex gap-x-2 justify-center items-center">
                 <FontAwesomeIcon icon={faHeart} className="w-4" />
                 {'WishList'}
               </Link>
@@ -52,7 +54,7 @@ function Navbar() {
               <Link href="/orders" className="flex gap-x-2 ">{'Orders'}</Link>
             </li>
             <li className="cursor-pointer md:hidden text-slate-800 flex w-full items-center rounded-md p-3 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100 justify-center">
-              <Link href="">Cart</Link>
+              <Link href="/cart">Cart</Link>
             </li>
             <li className="cursor-pointer text-slate-800 flex w-full items-center rounded-md p-3 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100 justify-center">
               <Link href="" className='underline'>Log Out</Link>
