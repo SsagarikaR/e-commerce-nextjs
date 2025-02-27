@@ -1,7 +1,7 @@
 import { sequelize } from "@/lib/db";
 import { DataTypes } from "sequelize";
 import { Categories } from "./category";
-// import { Brands } from "./";
+import { Brands } from "./brand";
 
 export const Produtcs=sequelize.define("Products",{
     productID:{

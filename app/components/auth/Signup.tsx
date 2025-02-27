@@ -48,7 +48,7 @@ function Signup() {
     <div className="relative w-[900px] h-[580px] bg-white rounded-3xl shadow-lg overflow-hidden">
       <div className="absolute top-0 right-0 w-[55%] h-full bg-white flex flex-col items-center text-gray-800 text-center z-10 p-10">
         <h1 className="text-4xl mb-4">Sign up</h1>
-        <form className="w-full">
+        <form className="w-full" >
           <div className="w-full">
             {inputField.map((input) => {
               return (

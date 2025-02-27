@@ -1,60 +1,89 @@
-import React from 'react'
+"use client"
+import React, { useState } from 'react'
 import Input from './Input';
 import Link from 'next/link';
+import { signinUserAction } from '@/actions/signinSchema';
+import { unAuthorizedPOSTRequest } from '@/services/apiReqServices/unAuthorizedRequest';
 
 function Signin() {
+  // Define a type for the form data, where keys are 'email' and 'password'
+  const [formData, setFormData] = useState<{
+    email: string;
+    password: string;
+  }>({
+    email: '',
+    password: '',
+  });
 
-    const inputField = [
-        {
-          id: "email",
-          field: "Email",
-          type: "text",
-        //   value: email,
-        //   setValue: setEmail,
-        //   error: emailError,
-        //   setError: setEmailError,
-        },
-        {
-          id: "password",
-          field: "Password",
-          type: "password",
-        //   value: password,
-        //   setValue: setPassword,
-        //   error: password_error,
-        //   setError: setPasswordError,
-        },]
-    return (
-        <div className="flex min-h-screen min-w-full justify-center items-center bg-gradient-to-r from-gray-200 to-blue-200">
+  const [errors, setErrors] = useState<{
+    email: string;
+    password: string;
+  }>({
+    email: '',
+    password: '',
+  });
+
+
+  const [successMsg, setSuccessMsg] = useState('');
+
+
+  const inputField = [
+    { id: "email", field: "Email", type: "text" },
+    { id: "password", field: "Password", type: "password" },
+  ];
+
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); // Prevent default form submission
+
+    const form = new FormData(e.target as HTMLFormElement);
+    console.log(e.target as HTMLFormElement);
+
+    const result = await signinUserAction(form); // Call server-side action
+    console.log(formData)
+    // Handle validation errors if any
+    if (result.errors) {
+      setErrors({
+        email: result.errors.email ? result.errors.email.join(' ') : '',
+        password: result.errors.password ? result.errors.password.join(' ') : '',
+      });
+      console.log(errors)
+      setSuccessMsg('');
+    } else if (result.success) {
+      unAuthorizedPOSTRequest("auth/signin",formData)
+      setSuccessMsg(result.success); 
+      setErrors({ email: '', password: '' }); // Clear any errors
+    }
+  };
+
+  return (
+    <div className="flex min-h-screen min-w-full justify-center items-center bg-gradient-to-r from-gray-200 to-blue-200">
       <div className="relative w-[900px] h-[580px] bg-white rounded-3xl shadow-lg overflow-hidden">
         <div className="absolute top-0 right-0 w-[55%] h-full bg-white flex flex-col items-center text-gray-800 text-center z-10 p-10">
           <h1 className="text-4xl mb-4">Sign in</h1>
-          <form className="w-full">
+          <form className="w-full" onSubmit={handleSubmit}>
             <div className="w-full">
               {inputField.map((input) => {
+                // Use 'keyof typeof formData' to ensure input.id matches keys in formData
                 return (
                   <Input
                     key={input.id}
                     field={input.field}
                     id={input.id}
                     type={input.type}
-                    // value={input.value}
-                    // setValue={input.setValue}
-                    // error={input.error}
-                    // setError={input.setError}
+                    value={formData[input.id as keyof typeof formData]} // Safe indexing
+                    onChange={(e) => {setFormData({ ...formData, [input.id]: e.target.value }); console.log(formData); console.log(e.target.value); console.log(input.id)}}
+                    error={errors[input.id as keyof typeof errors]} // Safe indexing for error
                   />
                 );
               })}
               <button
+                type="submit"
                 className="w-full h-[48px] bg-blue-400 rounded-lg shadow-md text-white font-semibold text-lg mt-4 cursor-pointer"
-                // onClick={(e) => {
-                //   e.preventDefault();
-                //   if (checkError()) {
-                //     loginUser(); // Proceed with login if no errors
-                //   }
-                // }}
               >
                 {`Sign IN`}
               </button>
+              {successMsg && <p className="text-green-500 mt-4">{successMsg}</p>}
             </div>
           </form>
         </div>
@@ -71,7 +100,7 @@ function Signin() {
         </div>
       </div>
     </div>
-    )
+  );
 }
 
-export default Signin
+export default Signin;

@@ -1,4 +1,4 @@
-import { createUserService} from "@/services/db/users";
+import { createUserService} from "@/services/apiServices/users";
 import { NextRequest,NextResponse } from "next/server";
 import { generateToken } from "@/lib/midlleware/auth";
 

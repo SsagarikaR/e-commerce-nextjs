@@ -1,22 +1,23 @@
-import React from 'react'
 
-function Input({field,id,type}:InputProps) {
+import React from 'react';
+
+
+
+function Input({ field, id, type, value, onChange, error }: InputProps) {
   return (
-    <div className={`relative mb-8 ${id === "password" ? "space-y-2" : ""}`}>
+    <div className={`relative mb-10 ${id === "password" ? "space-y-2" : ""}`}>
       <input
         className="w-[90%] p-3 bg-gray-200 border border-gray-400 rounded-lg text-gray-800 font-medium text-lg focus:outline-none"
         id={id}
-        // value={value}
-        // onChange={(e) => {
-        //   setValue(e.target.value);
-        //   checkError(e.target.value, id);
-        // }}
-        // type={type}
+        type={type}
         placeholder={`Enter your ${field}`}
+        name={id}
+        value={value}  // Bind the input value
+        onChange={onChange}  // Handle input change
       />
-      {/* {error && <div className="text-red-500 text-sm mt-1">{error}</div>} */}
+      {error && <div className="absolute left-7 text-red-500 text-sm mt-1">{error}</div>}  {/* Display error if exists */}
     </div>
-  )
+  );
 }
 
-export default Input
+export default Input;

@@ -1,15 +1,23 @@
-import { Metadata } from "next"
+import Category from "@/app/components/categories/Category";
+import { Metadata } from "next";
 
-export const metadata:Metadata={
-    title:'Categories page',
-    description:'Categories of the application'
-}
-function page() {
+
+
+// Metadata for the page
+export const metadata: Metadata = {
+  title: 'Categories page',
+  description: 'Categories of the application'
+};
+
+// Page component
+const Page = async() => {
+  
+
   return (
-    <div>
-      
+    <div className='min-w-full min-h-full'>
+      <Category /> 
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default Page;
