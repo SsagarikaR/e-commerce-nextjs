@@ -1,3 +1,4 @@
+import ProductDetailPage from "@/app/components/products/ProductDetail";
 
 
 async function page({params}:{params:{id:string}}) {
@@ -5,7 +6,7 @@ async function page({params}:{params:{id:string}}) {
     
     return (
       <div>
-        Hello{id}
+       <ProductDetailPage id={id}/>
       </div>
     )
 }

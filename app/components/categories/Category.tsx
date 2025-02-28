@@ -1,13 +1,14 @@
-import React from 'react'
+
 import CategoryCard from './CategoryCard'
-import { unAuthorizedGETRequest } from '@/services/apiReqServices/unAuthorizedRequest';
+import { unAuthorizedGETRequest } from '@/services/reqServices/unAuthorizedRequest';
 
 const getAllCategories=async()=>{
   const categories=await unAuthorizedGETRequest("categories")
   return categories
 }
 
-async function Category() { 
+async function Category() {
+   
   const categories:categories[]=await getAllCategories();
   console.log("Fetched categories:", categories); 
 
@@ -19,7 +20,7 @@ async function Category() {
           categories.map((item,key)=>(
             <CategoryCard 
             key={key}
-            cateoryID={item.cateoryID}
+            categoryID={item.categoryID}
             categoryName={item.categoryName}
             categoryThumbnail={item.categoryThumbnail}/>
           ))

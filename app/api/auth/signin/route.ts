@@ -1,6 +1,7 @@
 import { getUserService } from "@/services/apiServices/users";
 import { NextRequest,NextResponse } from "next/server";
 import { generateToken } from "@/lib/midlleware/auth";
+import { cookies } from "next/headers";
 
 // Controller to get a user by email and password
 export async function POST(req: NextRequest) {
@@ -17,7 +18,10 @@ export async function POST(req: NextRequest) {
             const user = result.user;
             const token = await generateToken(user.userID);
             user.token = token;
-    
+            const setCookie=await cookies();
+            const sevenDay=7* 24 * 60 * 60 * 1000
+            setCookie.set('token',user.token!,{expires:Date.now()+sevenDay})
+            console.log(setCookie.get('token'));
             return  NextResponse.json(user);
         }
        

@@ -6,10 +6,10 @@ import { deletePreferenceService,updatePreferenceService } from "@/services/apiS
 //delete prefrecnes
 export const DELETE = async (req:NextRequest,{params}:{params:{id:string}}) => {
     const id =params.id
-    const { isValid, decodedUser } = checkToken(req);
+    const { isValid, decodedUser } = await checkToken(req);
    
     if (!isValid) {
-      return NextResponse.json({ error: "Unauthorized. Invalid or missing token." }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized. Invalid or missing token." });
     }
     const userID= decodedUser.identifire;
   
@@ -28,7 +28,7 @@ export const DELETE = async (req:NextRequest,{params}:{params:{id:string}}) => {
   //update prefernces
 export const updatePreference = async (req:NextRequest, {params}:{params:{id:string}}) => {
     const { id} = params;
-    const { isValid, decodedUser } = checkToken(req);
+    const { isValid, decodedUser } =await checkToken(req);
    
     if (!isValid) {
       return NextResponse.json({ error: "Unauthorized. Invalid or missing token." }, { status: 401 });

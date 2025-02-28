@@ -8,7 +8,7 @@ import { checkToken } from "@/lib/midlleware/auth";
 export const GET= async (
     req: NextRequest,{params}:{params:{id:string}}
   ) => {
-    const { isValid, decodedUser } = checkToken(req);
+    const { isValid, decodedUser } =await checkToken(req);
     if (!isValid) {
       return NextResponse.json(
         { error: "Unauthorized. Invalid or missing token." },
@@ -17,12 +17,11 @@ export const GET= async (
     }
   
     const userID = decodedUser.identifire;
-    const {id}=params;
+    const {id}=await params;
     try {
       const result = await getWishListItemByIDService(userID, Number(id));
-      console.log(result, "Result bro");
       if (!result.success) {
-          return NextResponse.json({ message: result.message }, { status: 400 });
+          return NextResponse.json({ message: result.message });
       }
       return NextResponse.json(result.wishlistItem, { status: 200 });
     } catch (error) {

@@ -3,8 +3,8 @@ import { checkToken ,isAdmin} from "@/lib/midlleware/auth";
 import { getUserByIDService } from "@/services/apiServices/users";
 
 // Controller to retrieve a user by their ID
-export const getUserByID = async (req: NextRequest) => {
-    const { isValid, decodedUser } = checkToken(req);
+export const GET = async (req: NextRequest) => {
+    const { isValid, decodedUser } = await checkToken(req);
   
     if (!isValid) {
       return NextResponse.json({ error: "Unauthorized. Invalid or missing token." }, { status: 401 });

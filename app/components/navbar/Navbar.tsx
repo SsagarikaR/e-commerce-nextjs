@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 function Navbar() {
   return (
-    <nav className="flex h-20 bg-gray-200 p-1 lg:p-10 items-center justify-between font-serif shadow-xl fixed w-full">
+    <nav className="flex h-20 bg-gray-200 p-1 lg:p-10 items-center justify-between font-serif shadow-xl fixed w-full z-10">
       <div className="flex justify-center items-center sm:gap-10">
         <div className="text-purple-500 cursor-pointer">
           <FontAwesomeIcon icon={faBackward} className="w-7 md:inline-block hidden" />
@@ -19,7 +19,7 @@ function Navbar() {
       </div>
       <div className="sm:w-2/4 w-1/4 flex justify-center items-center gap-4 relative ml-2">
         <div className="flex border rounded-lg border-gray-600 p-1 items-center justify-between bg-white px-4 xl:w-4/5 ">
-          <input type="text" placeholder="Enter product name to search.." className="outline-none p-2 " />
+          <input type="text" placeholder="Enter product name to search.." className="outline-none p-2 w-11/12" />
           <FontAwesomeIcon icon={faSearch} className="w-8 ml-2 cursor-pointer" />
         </div>
 

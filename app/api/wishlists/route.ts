@@ -10,7 +10,7 @@ import { checkToken } from "@/lib/midlleware/auth";
 // Controller to add a product to the wishlist
 export const POST = async (req: NextRequest) => {
   const { productID } = await req.json();
-  const { isValid, decodedUser } = checkToken(req);
+  const { isValid, decodedUser } = await checkToken(req);
   if (!isValid) {
     return NextResponse.json(
       { error: "Unauthorized. Invalid or missing token." },
@@ -39,7 +39,7 @@ export const POST = async (req: NextRequest) => {
 
 // Controller to get all products in the wishlist
 export const GET = async (req: NextRequest) => {
-  const { isValid, decodedUser } = checkToken(req);
+  const { isValid, decodedUser } =await checkToken(req);
   if (!isValid) {
     return NextResponse.json(
       { error: "Unauthorized. Invalid or missing token." },
