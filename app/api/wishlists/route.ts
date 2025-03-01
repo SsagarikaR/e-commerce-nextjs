@@ -7,6 +7,7 @@ import {
 } from "@/services/apiServices/wishLists";
 import { checkToken } from "@/lib/midlleware/auth";
 
+
 // Controller to add a product to the wishlist
 export const POST = async (req: NextRequest) => {
   const { productID } = await req.json();
@@ -71,13 +72,21 @@ export const DELETE = async (
   req:NextRequest
 ) => {
   const { wishListID } =await req.json();
+  const { isValid, decodedUser } =await checkToken(req);
+  if (!isValid) {
+    return NextResponse.json(
+      { error: "Unauthorized. Invalid or missing token." },
+      { status: 401 }
+    );
+  }
+
 
   try {
     const result = await deleteFromWishListService(wishListID);
     if (!result.success) {
-      return NextResponse.json({ message: result.message });
+      return NextResponse.json({ message: result.message ,status:400});
     }
-    return NextResponse.json({ message: result.message });
+    return NextResponse.json({ message: result.message,status:200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Server error, please try again" });

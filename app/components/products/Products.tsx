@@ -1,10 +1,10 @@
 import Pagination from "../pagination/Pagination";
 import ProductCard from "./productCard";
-import { unAuthorizedGETRequest } from "@/services/reqServices/unAuthorizedRequest";
+import { unAuthorizedGetRequest } from "@/services/reqServices/unAuthorizedRequest";
 
 // Function to fetch paginated data
 const fetchPaginatedProducts = async (category: string | null, page: number) => {
-  const response = await unAuthorizedGETRequest(
+  const response = await unAuthorizedGetRequest(
     `products?categoryID=${category || ""}&page=${page}&limit=8`
   );
   // console.log(`products?categoryID=${category || ""}&page=${page}&limit=8`)

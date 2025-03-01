@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react';
 import { signinUserAction } from '@/actions/signinAction';
-import { unAuthorizedPOSTRequest } from '@/services/reqServices/unAuthorizedRequest';
+import { unAuthorizedPostRequest} from '@/services/reqServices/unAuthorizedRequest';
 import { redirect } from 'next/navigation'
 import Input from './Input';
 
@@ -45,7 +45,7 @@ function SignInForm() {
           });
           setSuccessMsg('');
         } else if (result.success) {
-          const response=await unAuthorizedPOSTRequest('auth/signin', formData);
+          const response=await unAuthorizedPostRequest('auth/signin', formData);
           // console.log(response);
           if(response){
             setSuccessMsg(result.success);

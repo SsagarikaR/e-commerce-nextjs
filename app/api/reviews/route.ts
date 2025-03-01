@@ -12,8 +12,8 @@ export const POST = async (req: NextRequest) => {
   const { isValid, decodedUser } = checkToken(req);
   if (!isValid) {
     return NextResponse.json(
-      { error: "Unauthorized. Invalid or missing token." },
-      { status: 401 }
+      { error: "Unauthorized. Invalid or missing token.",status:401 },
+     
     );
   }
 
@@ -22,13 +22,13 @@ export const POST = async (req: NextRequest) => {
 
   if (!userID) {
     return NextResponse.json({
-      message: "User not authenticated or missing.",
+      message: "User not authenticated or missing.",status:401
     });
   }
 
   if (!productID || !(rating >= 0 && rating <= 5) || !description) {
     return NextResponse.json({
-      message: "Please enter all the required fields.",
+      message: "Please enter all the required fields.",status:409
     });
   }
 
@@ -40,10 +40,10 @@ export const POST = async (req: NextRequest) => {
       description
     );
     if (!success) {
-      return NextResponse.json({ message: message });
+      return NextResponse.json({ message: message ,status:400});
     }
 
-    return NextResponse.json({ message: message });
+    return NextResponse.json({ message: message,status:201 });
   } catch (error) {
     console.error("Error adding review:", error);
     return NextResponse.json({
@@ -58,7 +58,7 @@ export const POST = async (req: NextRequest) => {
 export const GET = async (req: NextRequest) => {
   const url = new URL(req.url);
   const id = url.searchParams.get("pid");
-
+  console.log(id)
   if (!id) {
     return NextResponse.json({
       message: "Please enter the product id to fetch reviews for this product.",
@@ -69,6 +69,7 @@ export const GET = async (req: NextRequest) => {
     const { success, reviews, message } = await getReviewsOfProductService(
       Number(id)
     );
+    console.log(success, reviews, message)
     if (!success) {
       return NextResponse.json({ message: message });
     }

@@ -21,7 +21,6 @@ export async function POST(req: NextRequest) {
             const setCookie=await cookies();
             const sevenDay=7* 24 * 60 * 60 * 1000
             setCookie.set('token',user.token!,{expires:Date.now()+sevenDay})
-            console.log(setCookie.get('token'));
             return  NextResponse.json(user);
         }
        

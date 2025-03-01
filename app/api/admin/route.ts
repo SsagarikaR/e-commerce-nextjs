@@ -7,6 +7,7 @@ import {
 } from "@/services/apiServices/admins";
 import { checkToken,isAdmin } from "@/lib/midlleware/auth";
 
+
 // Create new admin
 export const POST = async (
   req: NextRequest
@@ -15,7 +16,7 @@ export const POST = async (
    const { isValid, decodedUser } = checkToken(req);
   
     if (!isValid) {
-      return NextResponse.json({ error: "Unauthorized. Invalid or missing token." });
+      return NextResponse.json({ error: "Unauthorized. Invalid or missing token." ,status:401});
     }
   
     console.log(decodedUser); 
@@ -31,47 +32,27 @@ export const POST = async (
     if (!userID) {
         return NextResponse.json({
         message: "Please enter user's ID to add the user as admin",
+        status:409
       });
     }
 
     const { success, message } = await createAdminService(userID);
     if (!success) {
-        return NextResponse.json({message: message });
+        return NextResponse.json({message: message ,status:400});
     }
 
-    return NextResponse.json({message: message });
+    return NextResponse.json({message: message ,status:200});
   } catch (error) {
     console.error("Error creating admin:", error);
     return NextResponse.json({
       error: "An error occurred while creating admin",
+      status:500
     });
   }
 };
 
-// // Admin login (find admin by ID)
-// export const adminLogin = async (
-//   req:NextRequest
-// ) => {
-//   const adminID = req.body.user.identifire;
 
-//   try {
-//     const admin = await selectAdminService(adminID);
-//     if (admin.length === 0) {
-//       return next({
-//         statusCode: 409,
-//         message: "You are not registered as an admin",
-//       });
-//     }
 
-//     return res.status(200).json(admin);
-//   } catch (error) {
-//     console.error("Error logging in admin:", error);
-//     return next({
-//       statusCode: 500,
-//       message: "An error occurred while finding admin",
-//     });
-//   }
-// };
 
 // Delete admin by userID
 export const DELETE = async (
@@ -107,6 +88,9 @@ export const DELETE = async (
     });
   }
 };
+
+
+
 
 // Update admin by userID
 export const updateAdmin = async (

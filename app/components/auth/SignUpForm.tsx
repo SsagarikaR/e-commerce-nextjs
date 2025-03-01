@@ -1,6 +1,6 @@
 "use client"
 import Input from './Input';
-import { unAuthorizedPOSTRequest } from '@/services/reqServices/unAuthorizedRequest';
+import {unAuthorizedPostRequest } from '@/services/reqServices/unAuthorizedRequest';
 import { useState } from 'react';
 import { signupUserAction } from '@/actions/signupAction';
 import { redirect } from 'next/navigation';
@@ -49,7 +49,7 @@ function SignUpForm() {
           });
           setSuccessMsg('');
         } else if (result.success) {
-          const response=await unAuthorizedPOSTRequest('auth/signup', formData);
+          const response=await unAuthorizedPostRequest('auth/signup', formData);
           // console.log(response);
           if(response){
             setSuccessMsg(result.success);

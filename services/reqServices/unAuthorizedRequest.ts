@@ -1,10 +1,8 @@
 import axios from "axios";
-import dotenv from "dotenv"
-dotenv.config();
 const port="http://localhost:3000/"
 
 // Fetch categories from the API
-export const unAuthorizedGETRequest = async (route:string) => {
+export const unAuthorizedGetRequest = async (route:string) => {
   try{
     const response = await axios.get(`${port}api/${route}`);
     console.log("API response data:",response.data); // Log the data here to check if it is correct
@@ -19,7 +17,7 @@ export const unAuthorizedGETRequest = async (route:string) => {
 
 
 // Fetch categories from the API
-export const unAuthorizedPOSTRequest = async (route:string,data:object) => {
+export const unAuthorizedPostRequest = async (route:string,data:object) => {
     try{
         console.log(process.env.ROUTE)
       const response = await axios.post(`${port}api/${route}`,data);

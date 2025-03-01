@@ -47,19 +47,19 @@ export const getProductsService = async (
   page: number,
   limit: number
 ) => {
-  const cacheKey = `products:${JSON.stringify(filters)}:page:${page}:limit:${limit}`;
+  // const cacheKey = `products:${JSON.stringify(filters)}:page:${page}:limit:${limit}`;
   
-  const cachedProducts = getCache(cacheKey);
-  if (cachedProducts) {
-    return cachedProducts;
-  }
+  // const cachedProducts = getCache(cacheKey);
+  // if (cachedProducts) {
+  //   return cachedProducts;
+  // }
 
   const products = await getProductWithCondition(filters, page, limit);
   if (products.length === 0) {
     throw new Error("No products found.");
   }
 
-  setCache(cacheKey, products);
+  // setCache(cacheKey, products);
   
   return products;
 };

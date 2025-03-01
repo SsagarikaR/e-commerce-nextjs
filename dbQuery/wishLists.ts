@@ -20,18 +20,12 @@ export const getWishListByUserID = async (userID: number) => {
     return await sequelize.query(
       `
         SELECT 
-          wl.wishListID, 
-          wl.userID,
-          wl.productID, 
-          p.productName, 
-          p.productThumbnail, 
-          p.productPrice,
-          br.brandID,
-          br.brandThumbnail
-        FROM WishLists wl
-        JOIN Products p ON wl.productID = p.productID
-        JOIN Brands br ON p.brandID = br.brandID
-        WHERE wl.userID = ? 
+        wl.*, p.*, br.*,u.*
+      FROM WishLists wl
+      JOIN Products p ON wl.productID = p.productID
+      JOIN Brands br ON p.brandID = br.brandID
+      JOIN Users u ON u.userID = wl.userID
+      WHERE wl.userID = ?
       `,
       {
         replacements: [userID],

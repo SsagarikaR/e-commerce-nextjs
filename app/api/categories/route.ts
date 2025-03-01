@@ -113,7 +113,7 @@ import { checkToken,isAdmin } from "@/lib/midlleware/auth";
     const { isValid, decodedUser } = checkToken(req);
 
     if (!isValid) {
-        return NextResponse.json({ error: "Unauthorized. Invalid or missing token." });
+        return NextResponse.json({ error: "Unauthorized. Invalid or missing token." ,status:401});
     }
   
     console.log(decodedUser); 
@@ -128,12 +128,12 @@ import { checkToken,isAdmin } from "@/lib/midlleware/auth";
       // Call service to delete the category
       const result = await deleteCategoryService(categoryID);
       if (result.success) {
-        return  NextResponse.json({ message: result.message });
+        return  NextResponse.json({ message: result.message ,status:200});
       } else {
-        return  NextResponse.json({ message: result.message });
+        return  NextResponse.json({ message: result.message,status:400 });
       }
     } catch (error) {
       console.error(error);
-      return  NextResponse.json({ message: "Error in deleting category. Please try again after some time!" });
+      return  NextResponse.json({ message: "Error in deleting category. Please try again after some time!",status:500 });
     }
   };

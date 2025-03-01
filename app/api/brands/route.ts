@@ -10,7 +10,7 @@ import {
 
 
 // Controller to create a new brand
-export const createBrands = async (req: NextRequest) => {
+export const POST = async (req: NextRequest) => {
   const { brandName, brandThumbnail } = await req.json();
   const { isValid, decodedUser } = checkToken(req);
   
@@ -49,7 +49,7 @@ export const createBrands = async (req: NextRequest) => {
 
 
 // Controller to get brands (by name or all brands)
-export const getBrands = async (req: NextRequest) => {
+export const GET = async (req: NextRequest) => {
     const url = new URL(req.url);
     const name = url.searchParams.get('name');
 
@@ -71,7 +71,7 @@ export const getBrands = async (req: NextRequest) => {
 
 
 // Controller to update an existing brand
-export const updateBrands = async (req: NextRequest) => {
+export const PATCH = async (req: NextRequest) => {
   const { brandID, brandName, brandThumbnail } = await req.json();
   const { isValid, decodedUser } = checkToken(req);
   
@@ -104,12 +104,12 @@ export const updateBrands = async (req: NextRequest) => {
 
 
 // Controller to delete an existing brand
-export const deleteBrands = async (req: NextRequest) => {
+export const DELETE = async (req: NextRequest) => {
   const { brandID } =await req.json();
   const { isValid, decodedUser } = checkToken(req);
   
       if (!isValid) {
-          return NextResponse.json({ error: "Unauthorized. Invalid or missing token." });
+          return NextResponse.json({ error: "Unauthorized. Invalid or missing token." ,status:401});
       }
     
       console.log(decodedUser); 
@@ -123,12 +123,12 @@ export const deleteBrands = async (req: NextRequest) => {
   try {
     const result = await deleteBrandService(brandID);
     if (result.success) {
-        return NextResponse.json({ message: result.message });
+        return NextResponse.json({ message: result.message,status:200 });
     } else {
-        return NextResponse.json({ message: result.message });
+        return NextResponse.json({ message: result.message,status:400  });
     }
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: "Please try again after some time!" });
+    return NextResponse.json({ error: "Please try again after some time!",status:500 });
   }
 };

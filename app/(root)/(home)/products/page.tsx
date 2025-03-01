@@ -1,8 +1,4 @@
-import Category from "@/app/components/categories/Category";
 import Products from "@/app/components/products/Products";
-
-
-
 
 
 const Page = async ({ searchParams }: { searchParams: { category?: string; page?: string } }) => {

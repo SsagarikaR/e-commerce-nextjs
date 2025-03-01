@@ -72,11 +72,11 @@ export const GET = async (req: NextRequest) => {
   const cacheKey = `products:${name}:${price}:${categoryID}:${id}:${currentPage}:${itemsPerPage}`;
 
   try {
-    const cachedProducts = cache.get(cacheKey);
-    if (cachedProducts) {
-      console.log("Returning cached products");
-      return NextResponse.json(cachedProducts);
-    }
+    // const cachedProducts = cache.get(cacheKey);
+    // if (cachedProducts) {
+    //   console.log("Returning cached products");
+    //   return NextResponse.json(cachedProducts);
+    // }
 
     const filters = {
       categoryID: categoryID ? String(categoryID) : undefined,
@@ -126,13 +126,13 @@ export const DELETE= async (req: NextRequest) => {
 
   try {
     const result = await deleteProductService(productID);
-    return NextResponse.json(result);
+    return NextResponse.json({ message:"Product deleted successfully",status:200 });
   } catch (error) {
     if (error instanceof Error) {
-      return NextResponse.json({ message: error.message });
+      return NextResponse.json({ message: error.message ,status:400});
     }
 
-    return NextResponse.json({ message: "An unknown error occurred." });
+    return NextResponse.json({ message: "An unknown error occurred.",status:500 });
   }
 };
 

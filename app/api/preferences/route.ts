@@ -5,7 +5,7 @@ import { createPreferenceService,fetchPreferencesService } from "@/services/apiS
 
 
 //create a new preference
-export const createPreference = async (req:NextRequest) => {
+export const POST = async (req:NextRequest) => {
  const { isValid, decodedUser } = checkToken(req);
    
      if (!isValid) {
@@ -31,7 +31,7 @@ export const createPreference = async (req:NextRequest) => {
 
 
 //fetch prefernces
-export const fetchPreferences = async (req:NextRequest) => {
+export const GET= async (req:NextRequest) => {
     const { isValid, decodedUser } = checkToken(req);
    
     if (!isValid) {

@@ -1,9 +1,9 @@
 
 import CategoryCard from './CategoryCard'
-import { unAuthorizedGETRequest } from '@/services/reqServices/unAuthorizedRequest';
+import { unAuthorizedGetRequest } from '@/services/reqServices/unAuthorizedRequest';
 
 const getAllCategories=async()=>{
-  const categories=await unAuthorizedGETRequest("categories")
+  const categories=await unAuthorizedGetRequest("categories")
   return categories
 }
 

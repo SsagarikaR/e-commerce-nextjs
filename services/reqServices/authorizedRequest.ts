@@ -1,26 +1,26 @@
 import axios from "axios";
-import dotenv from "dotenv"
-import { cookies } from "next/headers";
+import dotenv from "dotenv";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import cookie from "js-cookie";
 dotenv.config();
-const port="http://localhost:3000/"
+const port="http://localhost:3000/";
 
-const getAuthHeaders =async () => {
-    const getCookie=await cookies();
-    const token = getCookie.get("token");
-    // console.log(token?.value,"token");
-    return token;
-   
-  };
+const getAuthHeaders = () => {
+  const token = cookie.get("token");
+  console.log("Retrieved token:", token); // Log to check if token is retrieved
+  return token;
+};
+
   
 
 // Fetch categories from the API
-export const authorizedGETRequest = async (route:string) => {
+export const authorizedGetRequest = async (route:string) => {
   try{
-    const token=await getAuthHeaders();
+    const token= getAuthHeaders();
     console.log(token)
     const response = await axios.get(`${port}api/${route}`,
       {
-        headers:{ Authorization: `Bearer ${token?.value}` }
+        headers:{ Authorization: `Bearer ${token}` }
       }
     );
     console.log("API response data:",response.data); // Log the data here to check if it is correct
@@ -35,11 +35,12 @@ export const authorizedGETRequest = async (route:string) => {
 
 
 // Fetch categories from the API
-export const AuthorizedPOSTRequest = async (route:string,data:object) => {
+export const authorizedPostRequest = async (route:string,data:object) => {
     try{
+        const token= getAuthHeaders();
         console.log(process.env.ROUTE)
-        const response = await axios.patch(`${port}api/${route}`, data, {
-            headers:await { ...getAuthHeaders(), "Content-Type": "application/json" },
+        const response = await axios.post(`${port}api/${route}`, data, {
+            headers:{ Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
           });
       console.log("API response data:",response.data); // Log the data here to check if it is correct
       return response.data
@@ -48,3 +49,25 @@ export const AuthorizedPOSTRequest = async (route:string,data:object) => {
       throw new Error("Error in making get request please try again Please try again")
     }
   };
+
+
+
+// Fetch categories from the API
+export const authorizedDeleteRequest = async (route:string,data:object) => {
+  try{
+      const token= getAuthHeaders();
+      console.log(process.env.ROUTE)
+      const response = await axios.delete(`${port}api/${route}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json", 
+        },
+        data: data,
+      });
+    console.log("API response data:",response.data); // Log the data here to check if it is correct
+    return response.data
+  }
+  catch(error){
+    throw new Error("Error in making get request please try again Please try again")
+  }
+};
