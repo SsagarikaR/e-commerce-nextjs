@@ -1,5 +1,4 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import WishListCard from '../wishlist/WishListCard';
+import AddToCartBtn from './AddToCartBtn';
 import WishlistIcon from './WishlistIcon';
 import Link from 'next/link';
 
@@ -27,8 +26,7 @@ async function ProductCard({product}:{product:products}) {
           <div className="flex items-center justify-center gap-2 mt-2">
         </div>
         </div>
-        <button className="bg-purple-300  hover:bg-purple-400 w-full p-2 rounded-lg cursor-pointer"
-        >{`ADD TO CART`}</button>
+       <AddToCartBtn productID={product.productID}/>
     </div>
   )
 }

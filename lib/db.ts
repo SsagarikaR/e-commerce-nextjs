@@ -24,8 +24,9 @@ catch(error){
     console.log("Error connecting databse:",error);
 }
 
-sequelize.sync().then((data)=>{
+sequelize.sync({alter:true}).then((data)=>{
     console.log("databse synced successfully.");
 }).catch((error)=>{
     console.log("Error syncing databse:",error);
 })
+

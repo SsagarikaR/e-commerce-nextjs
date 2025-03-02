@@ -71,3 +71,24 @@ export const authorizedDeleteRequest = async (route:string,data:object) => {
     throw new Error("Error in making get request please try again Please try again")
   }
 };
+
+
+// PATCH request
+export const authorizedPatchRequest = async (
+  route: string,
+  data: object
+) => {
+  console.log(data);
+  const token= getAuthHeaders();
+  try {
+    const response = await axios.patch(`${port}api/${route}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json", 
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("PATCH request error:", error);
+  }
+};

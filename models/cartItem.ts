@@ -48,11 +48,13 @@ export const CartItems = sequelize.define(
     quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      defaultValue:"1"
     },
   },
   {
     timestamps: false,
   }
 );
+
 
 // console.log(CartItems===sequelize.model("CartItems"))

@@ -5,8 +5,8 @@ import { faBackward, faBagShopping, faCircleUser, faSearch, faCartShopping, faHe
 import Link from 'next/link';
 import { authorizedGetRequest } from '@/services/reqServices/authorizedRequest';
 import Cookies from 'js-cookie';
-
-export const token=await Cookies.get("token");
+import { useCartStore } from '@/store/cartStore';
+import Breadcrumb from './Breadcrumb';
 
 export const fetchUser = async () => {
   const response = await authorizedGetRequest("user");
@@ -15,46 +15,48 @@ export const fetchUser = async () => {
 }
 
 function Navbar() {
+  const { cartItems, fetchCartItems } = useCartStore();
   const [user, setUser] = useState<user>();
-  const [loading, setLoading] = useState(true); // To handle initial load state
+  const [loading, setLoading] = useState(true); 
 
   const token = Cookies.get("token");
 
   const fetchData = async () => {
     const response = await fetchUser();
     setUser(response);
-    setLoading(false); // Set loading to false after data is fetched
+    setLoading(false); 
   }
 
   useEffect(() => {
-    if (token) { // Only fetch data if token exists
+    if (token) {
       fetchData();
+      fetchCartItems(); // Ensure cart items are fetched when token is available
+      console.log(cartItems,"cart")
     } else {
-      setLoading(false); // If no token, stop loading
+      setLoading(false);
     }
   }, [token]);
 
   if (loading) {
-    // This will prevent hydration error by rendering an empty or loading state on the initial server render
-    return null; 
+    return null; // Return nothing during loading state
   }
 
   return (
-    <nav className="flex h-20 bg-gray-200 p-1 lg:p-10 items-center justify-between font-serif shadow-xl fixed w-full z-10">
+    <nav className="flex h-20 bg-gray-200 p-1 lg:p-10 items-center justify-between font-serif shadow-xl fixed w-full z-20">
       <div className="flex justify-center items-center sm:gap-10">
         <div className="text-purple-500 cursor-pointer">
           <FontAwesomeIcon icon={faBackward} className="w-7 h-7 md:inline-block hidden" />
         </div>
         <Link href="/home">
           <div className="text-purple-500 flex items-center justify-center sm:gap-2 cursor-pointer">
-            <FontAwesomeIcon icon={faBagShopping} className="sm:w-12 sm:h-12 w-6 h-6" />
+            <FontAwesomeIcon icon={faBagShopping} className="sm:w-12 sm:h-12 w-8 h-8" />
             <div className="text-lg sm:text-3xl text-black font-serif font-semibold w-5">Shop Cart</div>
           </div>
         </Link>
       </div>
       <div className="sm:w-2/4 w-1/4 flex justify-center items-center gap-4 relative ml-2">
         <div className="flex border rounded-lg border-gray-600 p-1 items-center justify-between bg-white px-4 xl:w-4/5 ">
-          <input type="text" placeholder="Enter product name to search.." className="outline-none p-2 w-11/12" />
+          <input type="text" placeholder="Enter product name to search.." className="outline-none p-2 sm:w-11/12" />
           <FontAwesomeIcon icon={faSearch} className="w-8 h-8 ml-2 cursor-pointer" />
         </div>
 
@@ -63,7 +65,7 @@ function Navbar() {
             <FontAwesomeIcon icon={faCartShopping} className="w-9 h-9 cursor-pointer" />
           </Link>
           <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-            {0}
+            {cartItems.length} {/* Show the actual cart length */}
           </span>
         </div>
       </div>
@@ -105,6 +107,7 @@ function Navbar() {
       ) : (
         <Link href="/signin">Sign In</Link>
       )}
+     
     </nav>
   );
 }

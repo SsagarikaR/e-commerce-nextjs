@@ -16,7 +16,7 @@ const Page = async ({ searchParams }: { searchParams: { category?: string; page?
  
 
   return (
-    <div className="pt-24">
+    <div className="pt-32">
       <Products
       category={category!}
       page={page!}

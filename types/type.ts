@@ -32,6 +32,26 @@ declare global {
     totalCount: number;
   }
 
+  interface cartItem extends products {
+    cartItemID: number;
+    productID: number;
+    userID: number;
+    handlingPrice: number;
+    platformFee: number;
+    deliveryCharge: number;
+    quantity: number;
+    totalPrice:number;
+    totalAmount:number;
+  }
+
+  interface CartStore {
+    cartItems: cartItem[];
+    addItemToCart: (productID: number, quantity: number) => void;
+    removeItemFromCart: (cartItemID: number) => void;
+    updateCartItemQuantity: (cartItemID: number, quantity: number) => void;
+    fetchCartItems: () => void; // Function to fetch cart items from the backend
+  }
+  
   interface prefernce{
     brandName:string
     brandThumbnail:string

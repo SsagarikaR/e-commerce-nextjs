@@ -3,7 +3,7 @@ import React from 'react'
 
 function page() {
   return (
-    <div className='pt-24 w-screen'>
+    <div className='pt-32 w-screen'>
      <Wishlist/> 
     </div>
   )

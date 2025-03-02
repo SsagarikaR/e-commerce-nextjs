@@ -4,7 +4,7 @@ import React from 'react'
 
 function page() {
   return (
-    <div className='min-w-full min-h-full'>
+    <div className='min-w-full min-h-full pt-10'>
       <Category/>
       <Preferences/>
     </div>

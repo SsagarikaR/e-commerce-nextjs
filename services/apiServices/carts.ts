@@ -27,6 +27,7 @@ import {
     }
   };
   
+
   // Service to get all cart items by user
   export const getCartItemsService = async (userID: number) => {
     try {
@@ -37,6 +38,8 @@ import {
       throw new Error("An error occurred while fetching the cart items");
     }
   };
+  
+
   
   // Service to delete an item from the cart
   export const deleteCartItemService = async (cartItemID: number) => {
@@ -53,6 +56,8 @@ import {
       throw new Error("An error occurred while deleting the cart item");
     }
   };
+
+
   
   // Service to update the quantity of an item in the cart
   export const updateCartItemQuantityService = async (quantity: number, cartItemID: number) => {
