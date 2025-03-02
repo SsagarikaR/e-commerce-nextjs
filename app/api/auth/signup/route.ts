@@ -17,10 +17,10 @@ export async function POST(req: NextRequest) {
             const setCookie=await cookies();
             const sevenDay=7* 24 * 60 * 60 * 1000
             setCookie.set('token',token!,{expires:Date.now()+sevenDay})
-            return  NextResponse.json({token:token});
+            return  NextResponse.json({token:token,result});
         } catch (error) {
             console.error(error);
-            return  NextResponse.json({error:"Error in signing up. Please try again!"});
+            return  NextResponse.json({error:`Error in signing up. Please try again! ${error}`});
 
         }
 }

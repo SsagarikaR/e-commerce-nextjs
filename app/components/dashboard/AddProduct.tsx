@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import useSWR, { mutate } from "swr"; // Import SWR
 import { useRouter } from "next/navigation"; // Added to handle redirection after submission
 import CloudinaryImageUpload from "./CloudinaryImageUpload";
-import { authorizedPostRequest } from "@/services/reqServices/authorizedRequest";
-import { unAuthorizedGetRequest } from "@/services/reqServices/unAuthorizedRequest";
+import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest";
+import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRequest";
 import { it } from "node:test";
 
 // Fetch product data using SWR
@@ -123,11 +123,11 @@ function AddProduct() {
               ---Select a brand---
             </option>{" "}
             {/* This will be the default disabled option */}
-            {brands?.map((item) => (
+            {(brands && brands.length>0)&&(brands?.map((item) => (
               <option key={item.brandID} value={item.brandID}>
                 {item.brandName}
               </option>
-            ))}
+            )))}
           </select>
         </div>
 
@@ -144,11 +144,11 @@ function AddProduct() {
               ---Select a category---
             </option>{" "}
             {/* This will be the default disabled option */}
-            {categories?.map((item) => (
+            {(categories && categories.length>0)&&(categories?.map((item) => (
               <option key={item.categoryID} value={item.categoryID}>
                 {item.categoryName}
               </option>
-            ))}
+            )))}
           </select>
         </div>
         {/* Product Stock */}

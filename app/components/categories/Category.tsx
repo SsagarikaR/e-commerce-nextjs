@@ -1,6 +1,6 @@
 
 import CategoryCard from './CategoryCard'
-import { unAuthorizedGetRequest } from '@/services/reqServices/unAuthorizedRequest';
+import { unAuthorizedGetRequest } from '@/services/apiReqServices/unAuthorizedRequest';
 
 const getAllCategories=async()=>{
   const categories=await unAuthorizedGetRequest("categories")
@@ -15,6 +15,7 @@ async function Category() {
   return (
     <div className='pt-24 px-20'>
       <div className='text-3xl font-serif font-semibold mb-2 text-gray-700'>Categories</div>
+      {(categories&& categories.length>0)?
       <div className='grid grid-cols-1 self-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10 '>
         {
           categories.map((item,key)=>(
@@ -26,6 +27,7 @@ async function Category() {
           ))
         }
       </div>
+      :<div>No product found</div>}
     </div>
   )
 }

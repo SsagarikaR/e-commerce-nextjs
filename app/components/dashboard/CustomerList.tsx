@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { authorizedGetRequest, authorizedPostRequest } from "@/services/reqServices/authorizedRequest"; // This is your POST request function
+import { authorizedGetRequest, authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest"; // This is your POST request function
 import useSWR, { mutate } from "swr";
 import Toast from '../toast/Toast';
 

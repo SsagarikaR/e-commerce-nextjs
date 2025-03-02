@@ -1,7 +1,7 @@
 import Products from "@/app/components/products/Products";
 
 
-const Page = async ({ searchParams }: { searchParams: { category?: string; page?: string } }) => {
+const Page = async ({ searchParams }: { searchParams: { category?: string; name?:string; page?: string } }) => {
   // Await searchParams to ensure we get its values before using them
   const params = await searchParams;
 
@@ -10,6 +10,8 @@ const Page = async ({ searchParams }: { searchParams: { category?: string; page?
 
   // Get category from query parameters
   const category = params.category || null;
+
+  const name=params.name||null;
 
   console.log("Category from query params:", category);
 
@@ -20,6 +22,7 @@ const Page = async ({ searchParams }: { searchParams: { category?: string; page?
       <Products
       category={category!}
       page={page!}
+      name={name!}
       />
     </div>
   );

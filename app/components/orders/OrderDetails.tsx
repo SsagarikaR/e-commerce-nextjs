@@ -7,7 +7,7 @@ import React from 'react'
 
 function OrderDetails({id}:{id:string}) {
   return (
-    <div className='flex pt-24 w-screen font-serif'>
+    <div className='flex pt-36 w-screen font-serif'>
         <div className='w-4/5 flex m-auto gap-x-10 h-[450px]'>
             <div className='flex flex-col w-3/5 shadow-lg pt-20 px-20 gap-24'>
             <div className='flex justify-between  p-3'>

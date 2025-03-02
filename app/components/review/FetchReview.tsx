@@ -6,7 +6,7 @@ import React from 'react';
 import Link from 'next/link';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import useSWR from 'swr'; // Import SWR
-import { authorizedGetRequest } from '@/services/reqServices/authorizedRequest'; // Import your axios function
+import { authorizedGetRequest } from '@/services/apiReqServices/authorizedRequest'; // Import your axios function
 
 // Fetch review data using SWR and axios
 const fetcher = async (url: string) => {

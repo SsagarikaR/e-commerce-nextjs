@@ -1,4 +1,4 @@
-FROM node:18-alpine AS base
+FROM node:20-alpine AS base
 
 # Create app directory
 WORKDIR /app
@@ -6,7 +6,7 @@ WORKDIR /app
 # Install dependencies only when needed
 FROM base AS deps
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm install
 
 # Development image, copy all the files and run in dev mode
 FROM base AS development

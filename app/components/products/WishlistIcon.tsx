@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as notWishList } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as wishList } from '@fortawesome/free-solid-svg-icons';
-import { authorizedDeleteRequest, authorizedGetRequest, authorizedPostRequest } from '@/services/reqServices/authorizedRequest';
+import { authorizedDeleteRequest, authorizedGetRequest, authorizedPostRequest } from '@/services/apiReqServices/authorizedRequest';
 
 
 

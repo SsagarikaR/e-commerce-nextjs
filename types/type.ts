@@ -7,6 +7,8 @@ declare global {
     password?: string;
     token?: string;
     role?: string;
+    message?:string;
+    error?:string;
   }
 
   interface categories {

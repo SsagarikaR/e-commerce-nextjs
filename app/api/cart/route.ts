@@ -39,7 +39,6 @@ export const POST = async (req: NextRequest) => {
 
 // Controller to get all items in the user's cart
 export const GET = async (req: NextRequest) => {
-  // CartItems.sync({alter:true})
     const { isValid, decodedUser } = checkToken(req);
     if (!isValid) {
       return NextResponse.json(

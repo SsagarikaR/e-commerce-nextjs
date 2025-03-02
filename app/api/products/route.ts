@@ -94,7 +94,7 @@ export const GET = async (req: NextRequest) => {
       itemsPerPage
     );
 
-    cache.set(cacheKey, products);
+    // cache.set(cacheKey, products);
 
     return NextResponse.json(products);
   } catch (error) {

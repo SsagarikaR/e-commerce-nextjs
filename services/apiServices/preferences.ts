@@ -1,7 +1,7 @@
 import { insertPrefernce, selectPrefernceByProductANDUser,
     fetchPreference, updatePreference, 
     deletePreference } from "@/dbQuery/preferences";
-    import { invalidateCache,getCache,setCache } from "@/helpers/cacheHelper";
+    import { invalidateCache,getCache,setCache } from "@/lib/helpers/cacheHelper";
   
   
   

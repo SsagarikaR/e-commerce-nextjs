@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { authorizedPostRequest, authorizedDeleteRequest, authorizedGetRequest, authorizedPatchRequest } from "@/services/reqServices/authorizedRequest";
+import { authorizedPostRequest, authorizedDeleteRequest, authorizedGetRequest, authorizedPatchRequest } from "@/services/apiReqServices/authorizedRequest";
 
 // Fetch cart items from the backend
 export const fetchCartItemsFromBackend = async () => {
@@ -24,6 +24,8 @@ export const useCartStore = create<CartStore>((set) => ({
     set({ cartItems }); // Update the state with the fetched data
   },
 
+
+  
   // Add an item to the cart
   addItemToCart: (productID, quantity) => {
     // Perform async request outside set
@@ -40,6 +42,8 @@ export const useCartStore = create<CartStore>((set) => ({
         console.error('Error adding item to cart:', error);
       });
   },
+
+
 
   // Remove an item from the cart
   removeItemFromCart: (cartItemID) => {

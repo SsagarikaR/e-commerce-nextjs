@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react';
 import { signinUserAction } from '@/actions/signinAction';
-import { unAuthorizedPostRequest} from '@/services/reqServices/unAuthorizedRequest';
+import { unAuthorizedPostRequest} from '@/services/apiReqServices/unAuthorizedRequest';
 import { redirect } from 'next/navigation'
 import Input from './Input';
 

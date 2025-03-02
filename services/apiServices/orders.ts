@@ -12,18 +12,19 @@ import { insertOrder,
 
 
 //create a new order   
-export const createOrderService = async (userID: number, totalPrice: number, items: Array<any>, address: string) => {
+export const createOrderService = async (userID: number, totalAmount: number, items: Array<any>, address: string,totalPrice:number) => {
   const t = await sequelize.transaction();
 
   try {
     const existingOrder = await selectOrderByUserID(userID, t);
 
     if (existingOrder.length > 0) {
-      return null; 
+      console.log("You already have a pending order")
+      return {success:false,message:"You already have a pending order."}
     }
 
-    const result = await insertOrder(userID, totalPrice, address, t);
-
+    const result = await insertOrder(userID, totalPrice, address,totalAmount, t);
+    console.log(result,"result");
     if (result) {
       for (const item of items) {
         await insertOrderItems(result.orderID, item.productId, item.quantity, item.price, t);
@@ -32,11 +33,11 @@ export const createOrderService = async (userID: number, totalPrice: number, ite
 
     await t.commit();
     
-    return result;
+    return {success:true,result}
   } catch (error) {
     // Rollback the transaction in case of any error
     await t.rollback();
-    console.log(error);
+    console.log(error,"error");
     throw new Error('Error while creating order and order items');
   }
 };
@@ -44,9 +45,10 @@ export const createOrderService = async (userID: number, totalPrice: number, ite
 
 
 
-export const fetchOrdersWithProductAndBrand = async (userID: number) => {
+export const fetchOrders = async (userID: number) => {
   try {
     const orders = await getUserOrderDetails(userID);
+    console.log(orders,"orders")
     return orders;
   } catch (error) {
     console.error('Error fetching orders with product and brand details:', error);

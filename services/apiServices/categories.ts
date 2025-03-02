@@ -6,7 +6,7 @@ import {
     selectCatgeoryByName,
     updateTheCatgeory,
   } from "@/dbQuery/categories";
-  import { invalidateCache,getCache,setCache } from "@/helpers/cacheHelper";
+  import { invalidateCache,getCache,setCache } from "@/lib/helpers/cacheHelper";
   
   
   

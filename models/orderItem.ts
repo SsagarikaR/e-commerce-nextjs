@@ -17,12 +17,14 @@ export const OrderItems = sequelize.define("OrderItems", {
         { 
             model: Orders,
             key: "orderID" 
-        } 
+        },
+        onDelete:"CASCADE"
     },
     productId:
     { 
         type: DataTypes.INTEGER, 
-        allowNull: false
+        allowNull: false,
+        onDelete:"CASCADE"
     },
     quantity:
     { 

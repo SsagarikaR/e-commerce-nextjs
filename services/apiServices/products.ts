@@ -1,5 +1,5 @@
 import { selectProductWithAllMatch, createNewProduct, getProductWithCondition, selectByProductID, deleteByProductID, updateProducts } from "@/dbQuery/products";
-import { invalidateCache,getCache,setCache } from "../../helpers/cacheHelper";
+import { invalidateCache,getCache,setCache } from "../../lib/helpers/cacheHelper";
 
 // Service to create a new product
 export const createProductService = async (

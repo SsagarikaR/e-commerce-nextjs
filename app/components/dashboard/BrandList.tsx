@@ -2,10 +2,10 @@
 import useSWR, { mutate } from "swr";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
-import { unAuthorizedGetRequest } from "@/services/reqServices/unAuthorizedRequest";
+import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRequest";
 import { useState } from "react";
 import ConfirmModal from "./ConfirmModal"; // Import the reusable ConfirmModal
-import { authorizedDeleteRequest } from "@/services/reqServices/authorizedRequest";
+import { authorizedDeleteRequest } from "@/services/apiReqServices/authorizedRequest";
 
 const fetcher = async (url: string) => {
   try {

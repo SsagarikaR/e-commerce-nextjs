@@ -1,9 +1,9 @@
 "use client"; // This is a client-side component
 import useSWR from 'swr'; // Import SWR
-import { unAuthorizedGetRequest } from "@/services/reqServices/unAuthorizedRequest";
+import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRequest";
 import WishlistIcon from "./WishlistIcon";
 import FetchReview from "../review/FetchReview";
-import { authorizedPostRequest } from '@/services/reqServices/authorizedRequest';
+import { authorizedPostRequest } from '@/services/apiReqServices/authorizedRequest';
 
 // Define the fetcher function
 const fetcher = async (url: string) => {

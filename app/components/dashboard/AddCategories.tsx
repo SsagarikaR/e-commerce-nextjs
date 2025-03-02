@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation"; // Added to handle redirection after submission
 import CloudinaryImageUpload from "./CloudinaryImageUpload"; // Assuming this is your Cloudinary image upload component
-import { authorizedPostRequest } from "@/services/reqServices/authorizedRequest"; // API request function
+import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest"; // API request function
 
 function AddCategories() {
   const [formData, setFormData] = useState({

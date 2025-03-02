@@ -3,23 +3,24 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackward, faBagShopping, faCircleUser, faSearch, faCartShopping, faHeart, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
-import { authorizedGetRequest } from '@/services/reqServices/authorizedRequest';
+import { authorizedGetRequest } from '@/services/apiReqServices/authorizedRequest';
 import Cookies from 'js-cookie';
 import { useCartStore } from '@/store/cartStore';
-import Breadcrumb from './Breadcrumb';
+import { useRouter } from 'next/navigation';
 
 export const fetchUser = async () => {
   const response = await authorizedGetRequest("user");
-  console.log(response);
+  // console.log(response);
   return response;
 }
 
 function Navbar() {
   const { cartItems, fetchCartItems } = useCartStore();
   const [user, setUser] = useState<user>();
-  const [loading, setLoading] = useState(true); 
-
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState(""); 
   const token = Cookies.get("token");
+  const router=useRouter();
 
   const fetchData = async () => {
     const response = await fetchUser();
@@ -31,7 +32,7 @@ function Navbar() {
     if (token) {
       fetchData();
       fetchCartItems(); // Ensure cart items are fetched when token is available
-      console.log(cartItems,"cart")
+      // console.log(cartItems,"cart")
     } else {
       setLoading(false);
     }
@@ -40,6 +41,12 @@ function Navbar() {
   if (loading) {
     return null; // Return nothing during loading state
   }
+
+  const handleLogout = () => {
+    Cookies.remove("token"); 
+    window.location.reload(); 
+  }
+
 
   return (
     <nav className="flex h-20 bg-gray-200 p-1 lg:p-10 items-center justify-between font-serif shadow-xl fixed w-full z-20">
@@ -56,8 +63,17 @@ function Navbar() {
       </div>
       <div className="sm:w-2/4 w-1/4 flex justify-center items-center gap-4 relative ml-2">
         <div className="flex border rounded-lg border-gray-600 p-1 items-center justify-between bg-white px-4 xl:w-4/5 ">
-          <input type="text" placeholder="Enter product name to search.." className="outline-none p-2 sm:w-11/12" />
-          <FontAwesomeIcon icon={faSearch} className="w-8 h-8 ml-2 cursor-pointer" />
+          <input type="text" 
+          placeholder="Enter product name to search.." 
+          className="outline-none p-2 sm:w-11/12" 
+          value={searchQuery}
+          onChange={(e)=>{
+            setSearchQuery(e.target.value);
+          }} />
+          <FontAwesomeIcon icon={faSearch} className="w-8 h-8 ml-2 cursor-pointer" 
+          onClick={()=>{
+            router.push(`/products?name=${searchQuery}`)
+          }}/>
         </div>
 
         <div className="relative text-purple-500 md:flex hidden justify-center items-center ">
@@ -71,12 +87,12 @@ function Navbar() {
       </div>
 
       {/* Profile Icon with Dropdown */}
-      {token ? (
+      {(token && user!==undefined && !user.message && !user.error) ? (
         <div className="relative flex justify-center items-center gap-x-2 group">
           <div className="text-purple-500 flex justify-center items-center cursor-pointer">
             <FontAwesomeIcon icon={faCircleUser} className="w-8 h-8" />
           </div>
-          <div className="text-2xl text-black font-semibold sm:inline-block hidden cursor-pointer">David</div>
+          <div className="text-2xl text-black font-semibold sm:inline-block hidden cursor-pointer">{user?.name}</div>
 
           {/* Dropdown Menu */}
           <div className="absolute right-0 top-6 w-48 bg-white border border-gray-200 rounded-lg shadow-lg mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 hidden group-hover:block">
@@ -99,13 +115,14 @@ function Navbar() {
                 <Link href="/cart">Cart</Link>
               </li>
               <li className="cursor-pointer text-slate-800 flex w-full items-center rounded-md p-3 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100 justify-center">
-                <Link href="" className="underline">Log Out</Link>
+                <Link href="" className="underline"
+                onClick={handleLogout}>Log Out</Link>
               </li>
             </ul>
           </div>
         </div>
       ) : (
-        <Link href="/signin">Sign In</Link>
+        <Link href="/signin" className='bg-purple-300 px-4 py-1 rounded-lg'>Sign In</Link>
       )}
      
     </nav>

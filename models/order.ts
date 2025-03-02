@@ -13,6 +13,7 @@ export const Orders = sequelize.define(
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      onDelete:"CASCADE"
     },
     status: {
       type: DataTypes.ENUM("Pending", "Success", "Cancelled"),

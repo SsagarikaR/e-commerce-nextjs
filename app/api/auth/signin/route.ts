@@ -3,8 +3,10 @@ import { NextRequest,NextResponse } from "next/server";
 import { generateToken } from "@/lib/midlleware/auth";
 import { cookies } from "next/headers";
 
+
 // Controller to get a user by email and password
 export async function POST(req: NextRequest) {
+    // await Users.sync({force:true});
     const { email, password } =await req.json();
 
     try {

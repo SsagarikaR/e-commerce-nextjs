@@ -1,18 +1,18 @@
 import { sequelize } from "@/lib/db";
 import { QueryTypes } from "sequelize";
 
-export const insertOrder = async (userID: number, totalPrice: number, address: string, t: any) => {
+export const insertOrder = async (userID: number, totalPrice: number, address: string, totalAmount:number,t: any) => {
   try {
     const [result] = await sequelize.query(
       `INSERT INTO Orders (userId, totalPrice, status, address,totalAmount) 
-      VALUES (:userId, :totalAmount, 'Pending', :address,sum(totalPrice+handlingPrice+platformFee+deliveryCharge))`,
+      VALUES (:userId, :totalPrice, 'Pending', :address,:totalAmount)`,
       {
-        replacements: { userId: userID, totalPrice, address },
+        replacements: { userId: userID, totalPrice, address,totalAmount },
         type: QueryTypes.INSERT,
         transaction: t, // Pass the transaction object here
       }
     );
-
+    console.log(result);
     return { orderID: result }; // Return orderID or the entire result depending on your table design
   } catch (error) {
     console.log('Error inserting order:', error);
@@ -38,6 +38,7 @@ export const insertOrderItems = async (
           transaction: t,
         }
       );
+      
     } catch (error) {
       console.log('Error inserting order item:', error);
       throw new Error('Error while inserting order item');
@@ -66,7 +67,7 @@ export const insertOrderItems = async (
   // First: Get orders (Order[] type)
  const getOrders = async (userID: number): Promise<order[]> => {
     const query = `
-      SELECT orderID, userId, totalAmount, status, address
+      SELECT *
       FROM Orders
       WHERE userId = :userID 
     `;
@@ -79,10 +80,10 @@ export const insertOrderItems = async (
     return result;
   };
   
-  // Second: Get order items for each order (OrderItem[] type)
+ 
   const getOrderItems = async (orderIDs: number[]): Promise<orderItem[]> => {
     const query = `
-    SELECT oi.orderId, oi.productId, oi.quantity, oi.price, p.productName, p.productThumbnail, p.productPrice, b.brandName
+    SELECT oi.*, p.productName, p.productThumbnail, p.productPrice, b.brandName
     FROM OrderItems oi
     JOIN Products p ON oi.productId = p.productID
     JOIN Brands b ON p.brandID = b.brandID
@@ -97,22 +98,22 @@ export const insertOrderItems = async (
     return result;
   };
   
-  // Combine order and items (OrderDetail[] type)
-  export const getUserOrderDetails = async (userID: number): Promise<OrderDetail[]> => {
-    const orders = await getOrders(userID);
-    console.log(orders);
-    const orderIDs = orders.map((order) => order.orderID);
-    console.log(orderIDs,"order id");
-    const orderItems = await getOrderItems(orderIDs);
-  
-    // Combine the results
-    const orderDetails: OrderDetail[] = orders.map((order) => ({
-      ...order,
-      items: orderItems.filter((item) => item.orderId === order.orderID),
-    }));
-  
-    return orderDetails;
-  };
+ // Combine order and items (OrderDetail[] type)
+ export const getUserOrderDetails = async (userID: number): Promise<OrderDetail[]> => {
+  const orders = await getOrders(userID);
+  console.log(orders);
+  const orderIDs = orders.map((order) => order.orderID);
+  console.log(orderIDs,"order id");
+  const orderItems = await getOrderItems(orderIDs);
+
+  // Combine the results
+  const orderDetails: OrderDetail[] = orders.map((order) => ({
+    ...order,
+    items: orderItems.filter((item) => item.orderId === order.orderID),
+  }));
+
+  return orderDetails;
+};
   
   export const selectOrdersWithProductAndBrand = async (userID: number) => {
     try {

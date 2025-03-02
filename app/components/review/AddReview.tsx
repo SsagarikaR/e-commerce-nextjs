@@ -3,9 +3,9 @@
 import React, { useState } from "react";
 import useSWR, { mutate } from "swr"; // Import SWR
 import { useRouter } from "next/navigation"; // Import useRouter for navigation
-import { authorizedGetRequest } from "@/services/reqServices/authorizedRequest";
-import { authorizedPostRequest } from "@/services/reqServices/authorizedRequest";
-import Toast from "../toast/Toast"; // Import Toast component
+import { authorizedGetRequest } from "@/services/apiReqServices/authorizedRequest";
+import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest";
+import Toast from "../toast/Toast"; 
 
 // Fetch product data using SWR
 const fetcher = async (url: string) => {

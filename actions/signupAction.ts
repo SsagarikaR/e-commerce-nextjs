@@ -1,11 +1,11 @@
 import { z } from "zod";
 
 const signupSchema = z.object({
-  full_name:z
-  .string({message: "Full name is required"})
-    .min(3, { message: "Full name must be minimum 3 characters long." })
-    .max(25, { message: "Full name must be maximum 25  characters long." }),
-    contact: z
+  name:z
+  .string({message: "Name is required"})
+    .min(3, { message: "Name must be minimum 3 characters long." })
+    .max(25, { message: "Name must be maximum 25  characters long." }),
+    contactNo: z
     .string({ message: "Contact no. is required." })
     .length(10, { message: "Contact no. must be 10 characters long." })
    ,
@@ -27,8 +27,8 @@ export async function signupUserAction(formData: FormData) {
   const unvalidatedData = {
     email: formData.get("email"),
     password: formData.get("password"),
-    contact: formData.get("contact"),
-    full_name: formData.get("full_name"),
+    contactNo: formData.get("contactNo"),
+    name: formData.get("name"),
   };
   console.log(unvalidatedData);
 
@@ -41,8 +41,8 @@ export async function signupUserAction(formData: FormData) {
       errors: {
         email: formFieldErrors?.email,
         password: formFieldErrors?.password,
-        contact: formFieldErrors?.contact,
-        full_name: formFieldErrors?.full_name,
+        contactNo: formFieldErrors?.contactNo,
+        name: formFieldErrors?.name,
       },
     };
   } else {

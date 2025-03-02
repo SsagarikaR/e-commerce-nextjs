@@ -4,9 +4,9 @@ import useSWR, { mutate } from "swr";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Pagination from "../pagination/Pagination"; // Assuming Pagination component is in the same folder
-import { unAuthorizedGetRequest } from "@/services/reqServices/unAuthorizedRequest";
+import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRequest";
 import { useState } from "react";
-import { authorizedDeleteRequest } from "@/services/reqServices/authorizedRequest";
+import { authorizedDeleteRequest } from "@/services/apiReqServices/authorizedRequest";
 import ConfirmModal from "./ConfirmModal"; // Import the Modal component
 
 const fetcher = async (url: string) => {
@@ -37,7 +37,12 @@ function ProductList({ page }: { page: number }) {
     return <div>Error: {error.message}</div>;
   }
 
-  const totalPages = Math.ceil(products[0].totalCount / 8);
+  let totalPages:number;
+
+  if(products.length>0){
+    totalPages = Math.ceil(products[0].totalCount / 8);
+  }
+  
   const currentPage = page;
 
   const handleDelete = async (productID: number) => {
@@ -107,7 +112,9 @@ function ProductList({ page }: { page: number }) {
               </tr>
             ))
           ) : (
-            <div>No products found</div>
+            <tr>
+              <td>No products found</td>
+            </tr>
           )}
         </tbody>
       </table>

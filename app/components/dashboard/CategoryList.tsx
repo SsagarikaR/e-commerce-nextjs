@@ -1,8 +1,8 @@
 "use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { unAuthorizedGetRequest } from "@/services/reqServices/unAuthorizedRequest";
-import { authorizedDeleteRequest } from "@/services/reqServices/authorizedRequest"; // Assuming this exists to handle authorized requests
+import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRequest";
+import { authorizedDeleteRequest } from "@/services/apiReqServices/authorizedRequest"; // Assuming this exists to handle authorized requests
 import useSWR, { mutate } from "swr";
 import { useState } from "react";
 import ConfirmModal from "./ConfirmModal"; // Import the reusable ConfirmModal

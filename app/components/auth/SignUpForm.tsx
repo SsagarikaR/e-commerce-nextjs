@@ -1,33 +1,37 @@
 "use client"
 import Input from './Input';
-import {unAuthorizedPostRequest } from '@/services/reqServices/unAuthorizedRequest';
+import {unAuthorizedPostRequest } from '@/services/apiReqServices/unAuthorizedRequest';
 import { useState } from 'react';
 import { signupUserAction } from '@/actions/signupAction';
 import { redirect } from 'next/navigation';
+import Toast from "../toast/Toast"; 
 
 function SignUpForm() {
+  const [toastVisible, setToastVisible] = useState(false); 
+    const [toastMessage, setToastMessage] = useState(""); 
+    const [toastType, setToastType] = useState<"success" | "error">("success"); 
     const [formData, setFormData] = useState<{
         email: string;
         password: string;
-        contact:string;
-        full_name:string;
+        contactNo:string;
+        name:string;
       }>({
         email: '',
         password: '',
-        contact:'',
-        full_name:''
+        contactNo:'',
+        name:''
       });
     
       const [errors, setErrors] = useState<{
         email: string;
         password: string;
-        contact:string;
-        full_name:string;
+        contactNo:string;
+        name:string;
       }>({
         email: '',
         password: '',
-        contact:'',
-        full_name:''
+        contactNo:'',
+        name:''
       });
     
       const [successMsg, setSuccessMsg] = useState('');
@@ -44,16 +48,21 @@ function SignUpForm() {
           setErrors({
             email: result.errors.email ? result.errors.email.join(' ') : '',
             password: result.errors.password ? result.errors.password.join(' ') : '',
-           contact: result.errors.contact ? result.errors.contact.join(' ') : '',
-            full_name: result.errors.full_name? result.errors.full_name.join(' ') : '',
+            contactNo: result.errors.contactNo ? result.errors.contactNo.join(' ') : '',
+            name: result.errors.name? result.errors.name.join(' ') : '',
           });
           setSuccessMsg('');
         } else if (result.success) {
           const response=await unAuthorizedPostRequest('auth/signup', formData);
-          // console.log(response);
-          if(response){
+          console.log("response","response",response)
+          if(response.message || response.error){
+            setToastMessage(response.message || response.error);
+            setToastType("error");
+            setToastVisible(true);
+          }
+          else{
             setSuccessMsg(result.success);
-            setErrors({ email: '', password: '',contact:'',full_name:'' });
+            setErrors({ email: '', password: '',contactNo:'',name:'' });
             redirect("/home")
           }
          
@@ -72,8 +81,8 @@ function SignUpForm() {
         const form = new FormData();
         form.set('email', formData.email);
         form.set('password', formData.password);
-        form.set('contact', formData.contact);
-        form.set('full_name', formData.full_name);
+        form.set('contactNo', formData.contactNo);
+        form.set('name', formData.name);
         form.set(name, value); 
     
         const result = await signupUserAction(form);
@@ -83,19 +92,19 @@ function SignUpForm() {
           setErrors({
             email: result.errors.email ? result.errors.email.join(' ') : '',
             password: result.errors.password ? result.errors.password.join(' ') : '',
-            contact: result.errors.contact ? result.errors.contact.join(' ') : '',
-            full_name: result.errors.full_name? result.errors.full_name.join(' ') : '',
+            contactNo: result.errors.contactNo ? result.errors.contactNo.join(' ') : '',
+            name: result.errors.name? result.errors.name.join(' ') : '',
           });
         } else {
-          setErrors({ email: '', password: '',contact:'',full_name:''  }); 
+          setErrors({ email: '', password: '',contactNo:'',name:''  }); 
         }
       };
 
  
     const inputField = [
         {
-          id: "full_name",
-          field: "Full name",
+          id: "name",
+          field: "Name",
           type: "text",
         },
         {
@@ -104,7 +113,7 @@ function SignUpForm() {
           type: "text",
         },
         {
-          id: "contact",
+          id: "contactNo",
           field: "Contact",
           type: "text",
         },
@@ -115,6 +124,7 @@ function SignUpForm() {
         },
       ];
   return (
+    <>
     <form className="w-full" onSubmit={handleSubmit}>
     <div className="w-full">
       {inputField.map((input) => {
@@ -138,6 +148,14 @@ function SignUpForm() {
       </button>
     </div>
   </form>
+   {toastVisible && (
+    <Toast
+      message={toastMessage}
+      type={toastType}
+       onClose={() => setToastVisible(false)}
+    />
+  )}
+  </>
   )
 }
 

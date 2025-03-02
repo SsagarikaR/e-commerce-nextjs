@@ -1,11 +1,12 @@
 import { NextRequest ,NextResponse} from "next/server";
 import { checkToken } from "@/lib/midlleware/auth";
 import { createOrderService ,
-    fetchOrdersWithProductAndBrand,
+    fetchOrders,
     updateOrderAddressService,
     deleteOrderService,
     getOrderStatusById} from "@/services/apiServices/orders";
 import { Orders } from "@/models/order";
+import { OrderItems } from "@/models/orderItem";
 
 export const POST = async (req: NextRequest) => {
    const { isValid, decodedUser } = checkToken(req);
@@ -17,21 +18,22 @@ export const POST = async (req: NextRequest) => {
       }
     
       const userID = decodedUser.identifire;
-  const { totalAmount, items, address } =await req.json();
+  const { totalAmount, items, address,totalPrice } =await req.json();
 
   try {
     // Validate the required fields
     console.log(req.body)
 
-    const result = await createOrderService(userID, totalAmount, items, address);
-    if (!result) {
-        return NextResponse.json({ message: 'Error while creating order. Please try again.' });
+    const result = await createOrderService(userID, totalAmount, items, address,totalPrice);
+    if (!result.success) {
+        return NextResponse.json({ message:result.message });
     }
 
-    return NextResponse.json({ message: 'Order created successfully', result });
+    return NextResponse.json({ message: 'Order created successfully',status:200 });
   } catch (error) {
+    console.log(error,"errors");
     return NextResponse.json({
-     error: 'Error in creating order, Please try again!',
+     error: `Error in creating order, Please try again! ${error}`,
     });
   }
 };
@@ -48,7 +50,8 @@ export const GET = async (req: NextRequest) => {
      
     const userID = decodedUser.identifire;
     try {
-      const orders = await fetchOrdersWithProductAndBrand(userID);
+      const orders = await fetchOrders(userID);
+      console.log("orders",orders)
   
       if (!orders || orders.length === 0) {
         return NextResponse.json({ message: 'No orders found for this user.' });

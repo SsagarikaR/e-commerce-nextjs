@@ -1,26 +1,34 @@
 import Pagination from "../pagination/Pagination";
 import ProductCard from "./productCard";
-import { unAuthorizedGetRequest } from "@/services/reqServices/unAuthorizedRequest";
+import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRequest";
 
-// Function to fetch paginated data
-const fetchPaginatedProducts = async (category: string | null, page: number) => {
-  const response = await unAuthorizedGetRequest(
-    `products?categoryID=${category || ""}&page=${page}&limit=8`
-  );
-  // console.log(`products?categoryID=${category || ""}&page=${page}&limit=8`)
-  // console.log(response)
+const fetchPaginatedProducts = async (category: string | null, name: string | null, page: number) => {
+  // Construct query parameters dynamically based on availability of `category` and `name`
+  const queryParams = new URLSearchParams();
+  if (category) queryParams.append("categoryID", category);
+  if (name) queryParams.append("name", name);
+  queryParams.append("page", String(page));
+  queryParams.append("limit", "8");
+
+  const response = await unAuthorizedGetRequest(`products?${queryParams.toString()}`);
+
+  console.log(`products?${queryParams.toString()}`);
+  console.log(response, "product");
   return response;
 };
 
+
 const Products = async({
   category,
-  page
+  page,
+  name
 }: {
    category:string,
-   page:number
+   page:number,
+   name:string
 }) => {
    // Fetch paginated data based on category and page
-   const response= await fetchPaginatedProducts(category, page);
+   const response= await fetchPaginatedProducts(category,name, page);
    let message;
    let products:products[];
    let totalPages;

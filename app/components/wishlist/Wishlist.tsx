@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react';
 import useSWR from 'swr';
-import { authorizedGetRequest } from '@/services/reqServices/authorizedRequest';
+import { authorizedGetRequest } from '@/services/apiReqServices/authorizedRequest';
 import WishListCard from './WishListCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
