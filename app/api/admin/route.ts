@@ -16,7 +16,7 @@ export const POST = async (
    const { isValid, decodedUser } = checkToken(req);
   
     if (!isValid) {
-      return NextResponse.json({ error: "Unauthorized. Invalid or missing token." ,status:401});
+      return NextResponse.json({ error: "Unauthorized. Invalid or missing token." },{status:401});
     }
   
     console.log(decodedUser); 
@@ -32,16 +32,15 @@ export const POST = async (
     if (!userID) {
         return NextResponse.json({
         message: "Please enter user's ID to add the user as admin",
-        status:409
-      });
+      },{status:409});
     }
 
     const { success, message } = await createAdminService(userID);
     if (!success) {
-        return NextResponse.json({message: message ,status:400});
+        return NextResponse.json({message: message });
     }
 
-    return NextResponse.json({message: message ,status:200});
+    return NextResponse.json({message: message },{status:200});
   } catch (error) {
     console.error("Error creating admin:", error);
     return NextResponse.json({
@@ -62,7 +61,7 @@ export const DELETE = async (
   const { isValid, decodedUser } = checkToken(req);
   
   if (!isValid) {
-    return NextResponse.json({ error: "Unauthorized. Invalid or missing token." });
+    return NextResponse.json({ error: "Unauthorized. Invalid or missing token." },{status:401});
   }
 
   console.log(decodedUser); 
@@ -117,7 +116,7 @@ export const updateAdmin = async (
         return NextResponse.json({ message });
     }
 
-    return NextResponse.json({ message });
+    return NextResponse.json({ message },{status:200});
   } catch (error) {
     console.error("Error updating admin:", error);
     return NextResponse.json({

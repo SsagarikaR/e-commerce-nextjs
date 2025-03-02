@@ -15,12 +15,12 @@ export const GET = async (req: NextRequest) => {
       const result = await getUserByIDService(id);
   
       if (!result.success) {
-        return NextResponse.json({ message: result.message });
+        return NextResponse.json({ message: result.message },{status:404});
       }
   
       return NextResponse.json(result.user);
     } catch (error) {
       console.log(error);
-      return NextResponse.json({ error: "An error occurred while fetching the user" });
+      return NextResponse.json({ error: "An error occurred while fetching the user" },{status:500});
     }
   };

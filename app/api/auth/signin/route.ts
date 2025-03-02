@@ -1,33 +1,38 @@
 import { getUserService } from "@/services/apiServices/users";
 import { NextRequest,NextResponse } from "next/server";
-import { generateToken } from "@/lib/midlleware/auth";
-import { cookies } from "next/headers";
 
 
-// Controller to get a user by email and password
 export async function POST(req: NextRequest) {
-    // await Users.sync({force:true});
-    const { email, password } =await req.json();
-
+    const { email, password } = await req.json();
+   if(!email || !password){
+    return NextResponse.json(
+        {message:"Email and password are required"},{status:400}
+    )
+   }
     try {
-        const result = await getUserService(email, password);
-
-        if (!result?.success) {
-            return  NextResponse.json({message: result?.message });
-        }
-
-        if(result.user){
-            const user = result.user;
-            const token = await generateToken(user.userID);
-            user.token = token;
-            const setCookie=await cookies();
-            const sevenDay=7* 24 * 60 * 60 * 1000
-            setCookie.set('token',user.token!,{expires:Date.now()+sevenDay})
-            return  NextResponse.json(user);
-        }
-       
+      const result = await getUserService(email, password);
+  
+      if (!result?.success) {
+        return NextResponse.json(
+          { message: result?.message },
+          { status: 401 }
+        );
+      }
+  
+      if (result.user) {
+        
+  
+        return NextResponse.json({user:result.user}, { status: 200 });
+      }
+  
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+  
     } catch (error) {
-        console.error(error);
-        return  NextResponse.json({error: "Error retrieving user . Please try again after someyimes" });
+      console.error(error);
+      return NextResponse.json(
+        { message: "Error retrieving user. Please try again later." },
+        { status: 500 }
+      );
     }
-};
+  }
+  

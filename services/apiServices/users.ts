@@ -8,6 +8,9 @@ import {
     updateUsersPassword,
     selectAllUsers
 } from "@/dbQuery/users";
+import { generateToken } from "@/lib/midlleware/auth";
+import { cookies } from "next/headers";
+
 
 // Service to create a new user
 export const createUserService = async (
@@ -43,10 +46,6 @@ export const createUserService = async (
 export const getUserService = async (email: string, password: string) => {
     const users:user[] = await selectUserByEmail(email);
 
-    if (users.length === 0) {
-        return { success: false, message: "User not found" };
-    }
-
     if(users[0].password){
         const isPasswordValid = await bcrypt.compare(password, users[0].password);
         if (!isPasswordValid) {
@@ -54,6 +53,12 @@ export const getUserService = async (email: string, password: string) => {
         }
         const user=users[0]
         delete user.password;
+                const token = await generateToken(user.userID);
+                user.token = token;
+          
+                const setCookie = await cookies();
+                const sevenDay = 7 * 24 * 60 * 60 * 1000;
+                setCookie.set('token', user.token!, { expires: Date.now() + sevenDay });
         return { success: true, user };
     }
    

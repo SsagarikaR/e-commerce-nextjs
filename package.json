@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest"
   },
   "dependencies": {
     "@cloudinary/url-gen": "^1.21.0",
@@ -20,6 +21,7 @@
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.5.1",
     "dotenv": "^16.4.7",
+    "expect.js": "^0.3.1",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.12.0",
@@ -32,23 +34,33 @@
     "react-dom": "^19.0.0",
     "sequelize": "^6.37.5",
     "swr": "^2.3.2",
+    "vite-plugin-magical-svg": "^1.5.0",
     "zod": "^3.24.2",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@mindfiredigital/eslint-plugin-hub": "^1.9.1",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.2.0",
     "@types/estree": "^1.0.6",
     "@types/js-cookie": "^3.0.6",
     "@types/json-schema": "^7.0.15",
     "@types/jsonwebtoken": "^9.0.9",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^20.17.22",
+    "@types/node-fetch": "^2.6.12",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/coverage-c8": "^0.33.0",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
+    "jsdom": "^26.0.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.0.7"
   }
 }
