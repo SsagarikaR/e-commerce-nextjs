@@ -1,11 +1,12 @@
 "use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {  faTrash } from "@fortawesome/free-solid-svg-icons";
 import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRequest";
 import { authorizedDeleteRequest } from "@/services/apiReqServices/authorizedRequest"; // Assuming this exists to handle authorized requests
 import useSWR, { mutate } from "swr";
 import { useState } from "react";
-import ConfirmModal from "./ConfirmModal"; // Import the reusable ConfirmModal
+import ConfirmModal from "../confirmModal.tsx/ConfirmModal"; // Import the reusable ConfirmModal
+import { dashboard_catgeory } from "@/constants";
 
 const fetcher = async (url: string) => {
   try {
@@ -56,8 +57,8 @@ function CategoryList() {
       <table className="border w-full border-collapse">
         <thead>
           <tr>
-            <th className="border-2 p-2">Category Name</th>
-            <th className="border-2 p-2">Action</th>
+            <th className="border-2 p-2">{dashboard_catgeory.CTAEGORY_NAME}</th>
+            <th className="border-2 p-2">{dashboard_catgeory.ACTION}</th>
           </tr>
         </thead>
         <tbody>
@@ -88,7 +89,7 @@ function CategoryList() {
           ) : (
             <tr>
               <td colSpan={2} className="text-center">
-                No categories found
+                {dashboard_catgeory.NO_CATEGORIES}
               </td>
             </tr>
           )}

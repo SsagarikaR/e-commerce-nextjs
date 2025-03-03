@@ -23,12 +23,13 @@ export const authorizedGetRequest = async (route:string) => {
         headers:{ Authorization: `Bearer ${token}` }
       }
     );
-    console.log("API response data:",response.data); // Log the data here to check if it is correct
+    console.log("API response data:",response); // Log the data here to check if it is correct
     return response.data
   }
   catch(error){
-    console.log(error)
-    throw new Error("Error in making get request Please try again")
+    // console.log(error)
+    return error;
+    // throw new Error("Error in making get request Please try again")
   }
 };
 
@@ -87,6 +88,7 @@ export const authorizedPatchRequest = async (
         "Content-Type": "application/json", 
       },
     });
+    console.log(response,"response of api")
     return response.data;
   } catch (error) {
     console.error("PATCH request error:", error);

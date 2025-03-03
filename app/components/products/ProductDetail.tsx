@@ -4,6 +4,7 @@ import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRe
 import WishlistIcon from "./WishlistIcon";
 import FetchReview from "../review/FetchReview";
 import { authorizedPostRequest } from '@/services/apiReqServices/authorizedRequest';
+import AddToCartBtn from './AddToCartBtn';
 
 // Define the fetcher function
 const fetcher = async (url: string) => {
@@ -19,7 +20,7 @@ function ProductDetailPage({ id }: { id: string }) {
   }
   addPrefernce();
 
-  const { data: product, error } = useSWR(`/products?id=${id}`, fetcher); // Use SWR for fetching product data
+  const { data: product, error } = useSWR<products[],Error>(`/products?id=${id}`, fetcher); // Use SWR for fetching product data
 
   // Loading state
   if (!product) {
@@ -34,7 +35,7 @@ function ProductDetailPage({ id }: { id: string }) {
   return (
     <div className="flex items-center justify-center ">
       {/* Render product details if product is available */}
-      <div className="flex p-20 gap-10 flex-col lg:flex-row ">
+      <div className="flex p-20 gap-10 flex-col lg:flex-row">
         <div className="mx-auto">
           <WishlistIcon productID={Number(id)} />
           <div className="">
@@ -57,14 +58,15 @@ function ProductDetailPage({ id }: { id: string }) {
             <div className=" border-b w-80 sm:w-100 md:w-150 lg:w-100 xl:w-[450px]"></div>
           </div>
           <div className="text-justify text-lg">{product[0].productDescription}</div>
-          <div className="flex flex-col gap-y-2">
-            <button className="bg-purple-300 hover:bg-purple-400 text-black p-3 text-xl font-semibold rounded-lg w-80 mx-auto">
+          <div className="flex flex-col gap-y-2 pb-6">
+            {/* <button className="bg-purple-300 hover:bg-purple-400 text-black p-3 text-xl font-semibold rounded-lg w-80 mx-auto">
               {`ADD TO CART`}
-            </button>
-            <div className="w-80 bg-orange-300 p-3 h-14 rounded-xl text-2xl font-semibold hover:bg-orange-400 flex justify-center items-center gap-x-2 cursor-pointer mx-auto">
+            </button> */}
+            <AddToCartBtn productID={product[0].productID}/>
+            {/* <div className="w-80 bg-orange-300 p-3 h-14 rounded-xl text-2xl font-semibold hover:bg-orange-400 flex justify-center items-center gap-x-2 cursor-pointer mx-auto">
               <button>Buy Now</button>
-            </div>
-          </div>
+            </div> */}
+          </div >
           <FetchReview id={product[0].productID} rating={product[0].rating}/>
         </div>
       </div>

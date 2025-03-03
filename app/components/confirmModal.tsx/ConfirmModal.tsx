@@ -1,4 +1,5 @@
 // components/Modal.tsx
+import { modal_btn } from "@/constants";
 import React from "react";
 
 interface ModalProps {
@@ -25,13 +26,13 @@ const ConfirmModal: React.FC<ModalProps> = ({
             className="bg-red-400 text-white px-4 py-2 rounded"
             onClick={onCancel}
           >
-            {`Cancel`}
+            {modal_btn.CANCEL}
           </button>
           <button
             className="bg-purple-400 text-white px-4 py-2 rounded"
             onClick={onConfirm}
           >
-            {`yes, confirm`}
+            {modal_btn.CONFIRM}
           </button>
         </div>
       </div>

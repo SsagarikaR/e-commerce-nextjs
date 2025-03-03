@@ -1,11 +1,12 @@
 "use client";
 import useSWR, { mutate } from "swr";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRequest";
 import { useState } from "react";
-import ConfirmModal from "./ConfirmModal"; // Import the reusable ConfirmModal
+import ConfirmModal from "../confirmModal.tsx/ConfirmModal"; // Import the reusable ConfirmModal
 import { authorizedDeleteRequest } from "@/services/apiReqServices/authorizedRequest";
+import { dashboard_brand } from "@/constants";
 
 const fetcher = async (url: string) => {
   try {
@@ -52,8 +53,8 @@ function BrandList() {
       <table className="border w-full border-collapse">
         <thead>
           <tr>
-            <th className="border-2 p-2">Brand Name</th>
-            <th className="border-2 p-2">Action</th>
+            <th className="border-2 p-2">{dashboard_brand.BRAND_NAME}</th>
+            <th className="border-2 p-2">{dashboard_brand.ACTION}</th>
           </tr>
         </thead>
         <tbody>
@@ -83,7 +84,7 @@ function BrandList() {
             ))
           ) : (
             <tr>
-            <td colSpan={2} className="text-center">No brands found</td>
+            <td colSpan={2} className="text-center">{dashboard_brand.NO_BRAND}</td>
           </tr>
           )}
         </tbody>

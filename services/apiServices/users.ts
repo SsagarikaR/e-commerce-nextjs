@@ -24,14 +24,18 @@ export const createUserService = async (
         return { success: false, message: "Username already taken" };
     }
 
+    console.log(existingUserByName)
+
     const existingUserByEmail = await selectUserByEmail(email);
     if (existingUserByEmail.length > 0) {
         return { success: false, message: "Email already registered" };
     }
+    console.log(existingUserByEmail,"email")
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log(hashedPassword,"hashed")
     const [result, metaData] = await createNewUser(name, email, contactNo, hashedPassword);
-
+    
     if (metaData === 0) {
         return { success: false, message: "Error creating user" };
     }
@@ -138,6 +142,6 @@ export const getAllUsersService = async () => {
       delete users[0].password;
       return { success: true, user: users[0] };
     } catch (error) {
-      throw new Error("An error occurred while fetching the user by ID");
+      throw new Error(`An error occurred while fetching the user by ID ${error}`);
     }
   };

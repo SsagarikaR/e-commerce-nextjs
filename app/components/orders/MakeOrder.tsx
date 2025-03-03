@@ -4,6 +4,7 @@ import useSWR, { mutate } from "swr"; // Import SWR
 import { useCartStore } from "@/store/cartStore";
 import { authorizedGetRequest, authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest";
 import Toast from "../toast/Toast"; 
+import { modal_btn, order, price_detail } from "@/constants";
 
 
 
@@ -145,23 +146,23 @@ function MakeOrderPage({id}:{id:string|null}) {
                     </div>
                     <div className='w-1/5 border p-4 flex flex-col gap-3 h-72'>
                 <div className='flex justify-between'>
-                    <p>Total price({cartItems.length} item)</p>
+                    <p>{price_detail.TOTAL_PRICE}({cartItems.length} item)</p>
                     <p>₹{cartItems[0].totalPrice}</p>
                 </div>
                 <div className='flex justify-between'>
-                    <p>Handling price</p>
+                    <p>{price_detail.HANDLING_PRICE}</p>
                     <p>₹{cartItems[0].handlingPrice}</p>
                 </div>
                 <div className='flex justify-between'>
-                    <p>Platform fee</p>
+                    <p>{price_detail.HANDLING_PRICE}</p>
                     <p>₹{cartItems[0].platformFee}</p>
                 </div>
                 <div className='flex justify-between'>
-                    <p>Delivery Charge</p>
+                    <p>{price_detail.DELIVERY_CHARGE}</p>
                     <p>₹{cartItems[0].deliveryCharge}</p>
                 </div>
                 <div className='flex justify-between font-semibold border-t pt-2'>
-                    <p>Total Amount</p>
+                    <p>{price_detail.TOTAL_AMOUNT}</p>
                     <p>₹{cartItems[0].totalAmount}</p>
                 </div>
             </div>
@@ -196,21 +197,21 @@ function MakeOrderPage({id}:{id:string|null}) {
             {isConfirmationVisible && (
                 <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 ">
                     <div className="bg-white dark:bg-gray-200 p-6 rounded-lg shadow-lg w-11/12 sm:w-1/3">
-                        <h3 className="text-2xl font-semibold text-center mb-4 dark:text-black">Confirm Your Order</h3>
-                        <p className="text-lg text-center mb-4 dark:text-black">Do you want to confirm the order with the address:</p>
+                        <h3 className="text-2xl font-semibold text-center mb-4 dark:text-black">{order.ORDER_MODAL_TITLE}</h3>
+                        <p className="text-lg text-center mb-4 dark:text-black">{order.ORDER_MODAL_DESC}</p>
                         <p className="text-lg text-center font-medium dark:text-black">{address}</p>
                         <div className="flex justify-center gap-15 mt-6 gap-2">
                             <button
                                 className="px-6 py-3 bg-red-400 cursor-pointer text-white font-semibold rounded-lg hover:bg-red-400 focus:outline-none"
                                 onClick={() => setConfirmationVisible(false)}
                             >
-                                No, Cancel
+                                {modal_btn.CANCEL}
                             </button>
                             <button
                                 className="px-6 py-3 bg-purple-400 cursor-pointer text-white font-semibold rounded-lg hover:bg-blue-400 focus:outline-none"
                                 onClick={handleSubmitOrder}
                             >
-                                Yes, Confirm
+                                {modal_btn.CONFIRM}
                             </button>
                         </div>
                     </div>

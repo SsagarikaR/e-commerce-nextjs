@@ -6,7 +6,8 @@ WORKDIR /app
 # Install dependencies only when needed
 FROM base AS deps
 COPY package.json package-lock.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
+
 
 # Development image, copy all the files and run in dev mode
 FROM base AS development

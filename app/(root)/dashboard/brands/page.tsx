@@ -4,7 +4,7 @@ import React from 'react'
 
 function page() {
   return (
-    <div className='w-full md:w-[86%] flex flex-col'>
+    <div className='w-full  flex flex-col'>
         <div className='w-full flex justify-between h-20 shadow-lg p-10 items-center'>
             <div className='font-semibold text-3xl'>Brands</div>
             <Link href="/dashboard/brands/create" className='bg-purple-400 px-10 py-2 text-lg font-semibold'>ADD+</Link>

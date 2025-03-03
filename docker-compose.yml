@@ -16,7 +16,7 @@ services:
       - DBUSER=sagarika
       - PASSWORD=Sagarika%40%71
       - DBNAME=eCommerce
-      - DB_PORT=3306
+      - DB_PORT=3307
     volumes:
       - .:/app
       - /app/node_modules
@@ -42,9 +42,9 @@ services:
       - mysql-data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "sagarika", "-pSagarika%40%71"]
-      interval: 10s
-      timeout: 10s
-      retries: 10
+      interval: 20s
+      timeout: 20s
+      retries: 20
     networks:
       - my_network
 

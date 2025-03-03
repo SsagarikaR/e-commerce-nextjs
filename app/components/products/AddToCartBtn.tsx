@@ -1,4 +1,5 @@
 "use client"
+import { product } from '@/constants';
 import { useCartStore } from '@/store/cartStore'
 import { useRouter } from 'next/navigation';
 
@@ -11,7 +12,7 @@ function AddToCartBtn({productID}:{productID:number}) {
         onClick={()=>{
             addItemToCart(productID,1)
             router.push("/cart")
-        }}>{`ADD TO CART`}</button>
+        }}>{product.ADD_TO_CART}</button>
 
   )
 }

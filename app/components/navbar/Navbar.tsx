@@ -7,6 +7,7 @@ import { authorizedGetRequest } from '@/services/apiReqServices/authorizedReques
 import Cookies from 'js-cookie';
 import { useCartStore } from '@/store/cartStore';
 import { useRouter } from 'next/navigation';
+import { navbar, shop_cart } from '@/constants';
 
 export const fetchUser = async () => {
   const response = await authorizedGetRequest("user");
@@ -24,7 +25,16 @@ function Navbar() {
 
   const fetchData = async () => {
     const response = await fetchUser();
-    setUser(response);
+    console.log(response)
+    if(!response.status){
+      setUser(response);
+      console.log(user);
+      
+    }
+    else{
+      console.log("response",response.response.data.message)
+    }
+   
     setLoading(false); 
   }
 
@@ -32,7 +42,6 @@ function Navbar() {
     if (token) {
       fetchData();
       fetchCartItems(); // Ensure cart items are fetched when token is available
-      // console.log(cartItems,"cart")
     } else {
       setLoading(false);
     }
@@ -57,7 +66,7 @@ function Navbar() {
         <Link href="/home">
           <div className="text-purple-500 flex items-center justify-center sm:gap-2 cursor-pointer">
             <FontAwesomeIcon icon={faBagShopping} className="sm:w-12 sm:h-12 w-8 h-8" />
-            <div className="text-lg sm:text-3xl text-black font-serif font-semibold w-5">Shop Cart</div>
+            <div className="text-lg sm:text-3xl text-black font-serif font-semibold w-5">{shop_cart}</div>
           </div>
         </Link>
       </div>
@@ -99,7 +108,7 @@ function Navbar() {
             <ul className="p-2">
               {(user && user.role === "Admin") && (
                 <li className="cursor-pointer text-slate-800 flex w-full items-center rounded-md p-3 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100 justify-center">
-                  <Link href="/dashboard/products">Dashboard</Link>
+                  <Link href="/dashboard/products">{navbar.DASHBOARD}</Link>
                 </li>
               )}
               <li className="cursor-pointer text-slate-800 flex w-full items-center rounded-md p-3 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100 justify-center">
@@ -112,11 +121,11 @@ function Navbar() {
                 <Link href="/orders" className="flex gap-x-2 ">{'Orders'}</Link>
               </li>
               <li className="cursor-pointer md:hidden text-slate-800 flex w-full items-center rounded-md p-3 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100 justify-center">
-                <Link href="/cart">Cart</Link>
+                <Link href="/cart">{navbar.CART}</Link>
               </li>
               <li className="cursor-pointer text-slate-800 flex w-full items-center rounded-md p-3 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100 justify-center">
                 <Link href="" className="underline"
-                onClick={handleLogout}>Log Out</Link>
+                onClick={handleLogout}>{navbar.LOG_OUT}</Link>
               </li>
             </ul>
           </div>

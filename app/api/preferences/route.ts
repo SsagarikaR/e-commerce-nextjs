@@ -1,6 +1,7 @@
 import { NextRequest,NextResponse } from "next/server";
 import { checkToken } from "@/lib/midlleware/auth";
 import { createPreferenceService,fetchPreferencesService } from "@/services/apiServices/preferences";  // Import service
+import { Preferences } from "@/models/preference";
 
 
 
@@ -32,6 +33,7 @@ export const POST = async (req:NextRequest) => {
 
 //fetch prefernces
 export const GET= async (req:NextRequest) => {
+  // await Preferences.sync({force:true});
     const { isValid, decodedUser } = checkToken(req);
    
     if (!isValid) {

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation"; // Added to handle redirection after submission
 import CloudinaryImageUpload from "./CloudinaryImageUpload"; // Assuming this is your Cloudinary image upload component
 import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest"; // API request function
+import { dashboard_catgeory } from "@/constants";
 
 function AddCategories() {
   const [formData, setFormData] = useState({
@@ -42,14 +43,14 @@ function AddCategories() {
 
   return (
     <div className="pt-10 w-full flex flex-col gap-4">
-      <div className="text-3xl font-semibold">Add a new Category</div>
+      <div className="text-3xl font-semibold">{dashboard_catgeory.ADD_CATGEORY}</div>
       <form
         className="border-2 p-4 w-full flex flex-col gap-6"
         onSubmit={handleSubmit}
       >
         {/* Category Name */}
         <div className="w-full flex pb-6 relative">
-          <label className="text-xl w-2/5">Enter category name</label>
+          <label className="text-xl w-2/5">{dashboard_catgeory.ENTER_CATGEORY_NAME}</label>
           <input
             type="text"
             name="categoryName"
@@ -62,14 +63,14 @@ function AddCategories() {
 
         {/* Category Thumbnail (Cloudinary Upload) */}
         <div className="w-full flex relative pb-6">
-          <label className="text-xl w-2/5">Category Thumbnail</label>
+          <label className="text-xl w-2/5">{dashboard_catgeory.ENTER_CATEGORY_THUMBNAIL}</label>
           <CloudinaryImageUpload seturl={handleImageUpload} />
         </div>
 
         {/* Display Uploaded Image Preview */}
         {formData.categoryThumbnail && (
           <div className="w-full flex pb-6">
-            <label className="text-xl w-2/5">Uploaded Image Preview</label>
+            <label className="text-xl w-2/5">{dashboard_catgeory.IMAGE_PREVIEW}</label>
             <div className="w-3/5">
               <img
                 src={formData.categoryThumbnail}
@@ -86,7 +87,7 @@ function AddCategories() {
             className="bg-purple-400 px-10 py-2 text-lg font-semibold text-black rounded-md"
             type="submit"
           >
-            Add Category
+           {dashboard_catgeory.ADD_CATGEORY_BTN}
           </button>
         </div>
       </form>

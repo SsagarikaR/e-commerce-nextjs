@@ -7,7 +7,8 @@ import Pagination from "../pagination/Pagination"; // Assuming Pagination compon
 import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRequest";
 import { useState } from "react";
 import { authorizedDeleteRequest } from "@/services/apiReqServices/authorizedRequest";
-import ConfirmModal from "./ConfirmModal"; // Import the Modal component
+import ConfirmModal from "../confirmModal.tsx/ConfirmModal"; // Import the Modal component
+import { dashboard_brand, dashboard_product } from "@/constants";
 
 const fetcher = async (url: string) => {
   try {
@@ -29,7 +30,7 @@ function ProductList({ page }: { page: number }) {
 
   // Handle loading state
   if (!products) {
-    return <div>Loading reviews...</div>;
+    return <div>Loading products...</div>;
   }
 
   // Handle error state
@@ -74,12 +75,12 @@ function ProductList({ page }: { page: number }) {
       <table className="border w-full border-collapse">
         <thead>
           <tr>
-            <th className="border-2 p-2">Product Name</th>
-            <th className="border-2 p-2">Price</th>
-            <th className="border-2 p-2">Brand</th>
-            <th className="border-2 p-2">Category</th>
-            <th className="border-2 p-2">Stock</th>
-            <th className="border-2 p-2">Action</th>
+            <th className="border-2 p-2">{dashboard_product.PRODUCT_NAME}</th>
+            <th className="border-2 p-2">{dashboard_product.PRICE}</th>
+            <th className="border-2 p-2">{dashboard_product.BRAND}</th>
+            <th className="border-2 p-2">{dashboard_product.CATEGORY}</th>
+            <th className="border-2 p-2">{dashboard_product.STOCK}</th>
+            <th className="border-2 p-2">{dashboard_product.ACTION}</th>
           </tr>
         </thead>
         <tbody>
@@ -113,7 +114,7 @@ function ProductList({ page }: { page: number }) {
             ))
           ) : (
             <tr>
-              <td>No products found</td>
+              <td>{dashboard_product.NO_PRODUCT}</td>
             </tr>
           )}
         </tbody>

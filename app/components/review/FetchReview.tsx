@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import useSWR from 'swr'; // Import SWR
 import { authorizedGetRequest } from '@/services/apiReqServices/authorizedRequest'; // Import your axios function
+import { review } from '@/constants';
 
 // Fetch review data using SWR and axios
 const fetcher = async (url: string) => {
@@ -36,7 +37,7 @@ function FetchReview({ id,rating }: { id: number,rating:number }) {
     <div className="full border-t pt-2 flex flex-col">
       <div className="flex flex-col w-full">
         <div className="flex w-full items-center justify-between">
-          <div className="text-xl font-semibold">Ratings & Reviews</div>
+          <div className="text-xl font-semibold">{review.RATING_REVIEWS}</div>
           <div className={`bg-green-500 flex items-center justify-center p-1 gap-x-2 rounded-3xl`}>
             <div className="text-white text-lg">{rating}</div>
             <div className="text-white">
@@ -44,7 +45,7 @@ function FetchReview({ id,rating }: { id: number,rating:number }) {
             </div>
           </div>
           <Link href={`/review?pid=${id}`} className="bg-purple-300 text-lg px-3 py-1 rounded-md hover:bg-purple-400">
-            Add review
+            {review.ADD_REVIEW}
           </Link>
         </div>
         <div>
@@ -67,7 +68,7 @@ function FetchReview({ id,rating }: { id: number,rating:number }) {
                 </div>
                 <div className="mt-3 mb-4">{review.description}</div>
               </div>
-            ))):<div>No review found</div>}
+            ))):<div>{review.NO_REVIEW}</div>}
           </div>
         </div>
       </div>

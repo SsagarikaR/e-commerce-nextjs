@@ -2,13 +2,18 @@
 import React from 'react'
 import CartCard from './CartCard'
 import { useCartStore } from '@/store/cartStore';
-import { useEffect ,useState} from 'react';
 import Link from 'next/link';
+import { useEffect } from 'react';
+import { price_detail } from '@/constants';
 
 
 function Cart() {
-      const { cartItems} = useCartStore();
+      const { cartItems,fetchCartItems} = useCartStore();
       console.log(cartItems,"cart items");
+
+       useEffect(() => {
+            fetchCartItems(); // Ensure cart items are fetched when token is available
+        }, []);
        
   return (
     <div className='w-screen pt-24 '>
@@ -27,23 +32,23 @@ function Cart() {
             </div>
             <div className='w-1/5 border p-4 flex flex-col gap-3 h-64'>
                 <div className='flex justify-between'>
-                    <p>Total price({cartItems.length} item)</p>
+                    <p>{price_detail.TOTAL_PRICE}({cartItems.length} item)</p>
                     <p>₹{cartItems[0].totalPrice}</p>
                 </div>
                 <div className='flex justify-between'>
-                    <p>Handling price</p>
+                    <p>{price_detail.HANDLING_PRICE}</p>
                     <p>₹{cartItems[0].handlingPrice}</p>
                 </div>
                 <div className='flex justify-between'>
-                    <p>Platform fee</p>
+                    <p>{price_detail.PLATFORM_FEE}</p>
                     <p>₹{cartItems[0].platformFee}</p>
                 </div>
                 <div className='flex justify-between'>
-                    <p>Delivery Charge</p>
+                    <p>{price_detail.DELIVERY_CHARGE}</p>
                     <p>₹{cartItems[0].deliveryCharge}</p>
                 </div>
                 <div className='flex justify-between font-semibold border-t pt-2'>
-                    <p>Total Amount</p>
+                    <p>{price_detail.TOTAL_AMOUNT}</p>
                     <p>₹{cartItems[0].totalAmount}</p>
                 </div>
             </div>

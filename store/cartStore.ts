@@ -5,6 +5,7 @@ import { authorizedPostRequest, authorizedDeleteRequest, authorizedGetRequest, a
 export const fetchCartItemsFromBackend = async () => {
   try {
     const response = await authorizedGetRequest('cart');
+    console.log(response,"cart response")
     return response; // Return the fetched cart items
   } catch (error) {
     console.error('Error fetching cart items:', error);

@@ -26,6 +26,7 @@ export const unAuthorizedPostRequest = async (route:string,data:object) => {
     }
     catch(error){
       console.log(error);
-      throw new Error("Error in making post request please try again Please try again")
+      return error;
+      // throw new Error("Error in making post request please try again Please try again")
     }
   };

@@ -6,6 +6,7 @@ import WishListCard from './WishListCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import Toast from '../toast/Toast';
+import { wishlist } from '@/constants';
 
 const fetcher = async (url: string) => {
   try {
@@ -54,13 +55,13 @@ function Wishlist() {
         </div>
       </div>}
       <div className='flex flex-col w-full sm:w-4/5 mx-auto'>
-        <div className='text-lg '>My Wishlist({wishlists.length || 0})</div>
+        <div className='text-lg '>{wishlist.MY_WISHLIST}({wishlists.length || 0})</div>
         {wishlists.length > 0 ? (
           wishlists.map((item: wishlist) => (
             <WishListCard key={item.wishListID} item={item} onDelete={handleDelete} onShowToast={handleShowToast} />
           ))
         ) : (
-          <div className='text-lg text-center'>No products found</div>
+          <div className='text-lg text-center'>{wishlist.NO_PRODUCT}</div>
         )}
       </div>
 

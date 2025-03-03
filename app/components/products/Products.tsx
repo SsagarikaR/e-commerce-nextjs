@@ -1,3 +1,4 @@
+import { product } from "@/constants";
 import Pagination from "../pagination/Pagination";
 import ProductCard from "./productCard";
 import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRequest";
@@ -61,7 +62,7 @@ const Products = async({
           </div>
         ) : (
           <div className="text-center w-400 mt-6 text-2xl font-medium text-red-800">
-            No items found
+            {product.NO_PRODUCT}
           </div>
         )}
       </div>)}

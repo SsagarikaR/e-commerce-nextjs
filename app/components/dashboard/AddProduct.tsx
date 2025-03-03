@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import useSWR, { mutate } from "swr"; // Import SWR
+import useSWR from "swr"; // Import SWR
 import { useRouter } from "next/navigation"; // Added to handle redirection after submission
 import CloudinaryImageUpload from "./CloudinaryImageUpload";
 import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest";
 import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRequest";
-import { it } from "node:test";
+import { dashboard_product } from "@/constants";
 
 // Fetch product data using SWR
 const fetcher = async (url: string) => {
@@ -69,14 +69,14 @@ function AddProduct() {
 
   return (
     <div className="pt-10 w-full flex flex-col gap-4">
-      <div className="text-3xl font-semibold">Add a new product</div>
+      <div className="text-3xl font-semibold">{dashboard_product.ADD_PRODUCT}</div>
       <form
         className="border-2 p-4 w-full flex flex-col gap-6 overflow-auto"
         onSubmit={handleSubmit}
       >
         {/* Product Name */}
         <div className="w-full flex pb-6 relative">
-          <label className="text-xl w-2/5">Enter product name</label>
+          <label className="text-xl w-2/5">{dashboard_product.ENTER_PRODUCT_NAME}</label>
           <input
             type="text"
             name="productName"
@@ -88,7 +88,7 @@ function AddProduct() {
 
         {/* Product Price */}
         <div className="w-full flex pb-6 relative">
-          <label className="text-xl w-2/5">Enter product price</label>
+          <label className="text-xl w-2/5">{dashboard_product.ENTER_PRODUCT_PRICE}</label>
           <input
             type="text"
             name="productPrice"
@@ -100,7 +100,7 @@ function AddProduct() {
 
         {/* Product Description */}
         <div className="w-full flex pb-6 relative">
-          <label className="text-xl w-2/5">Enter product description</label>
+          <label className="text-xl w-2/5">{dashboard_product.ENTER_PRODUCT_DESC}</label>
           <textarea
             name="productDescription"
             rows={4}
@@ -112,7 +112,7 @@ function AddProduct() {
 
         {/* Product Brand */}
         <div className="w-full flex pb-6 relative">
-          <label className="text-xl w-2/5">Enter product brand</label>
+          <label className="text-xl w-2/5">{dashboard_product.ENTER_PRODUCT_BARND}</label>
           <select
             name="brandID"
             onChange={handleChange}
@@ -120,7 +120,7 @@ function AddProduct() {
             className="border border-gray-400 px-4 py-2 w-3/5"
           >
             <option value="" disabled>
-              ---Select a brand---
+              ---{dashboard_product.SLECT_BRAND}---
             </option>{" "}
             {/* This will be the default disabled option */}
             {(brands && brands.length>0)&&(brands?.map((item) => (
@@ -133,7 +133,7 @@ function AddProduct() {
 
         {/* Product Category */}
         <div className="w-full flex pb-6 relative">
-          <label className="text-xl w-2/5">Enter product category</label>
+          <label className="text-xl w-2/5">{dashboard_product.ENTER_RPODUCT_CATGEORY}</label>
           <select
             name="categoryID"
             onChange={handleChange}
@@ -141,7 +141,7 @@ function AddProduct() {
             className="border border-gray-400 px-4 py-2 w-3/5"
           >
             <option value="" disabled>
-              ---Select a category---
+              ---{dashboard_product.SLECT_CATEGORY}---
             </option>{" "}
             {/* This will be the default disabled option */}
             {(categories && categories.length>0)&&(categories?.map((item) => (
@@ -153,7 +153,7 @@ function AddProduct() {
         </div>
         {/* Product Stock */}
         <div className="w-full flex pb-6 relative">
-          <label className="text-xl w-2/5">Enter product stock</label>
+          <label className="text-xl w-2/5">{dashboard_product.ENTER_PRODUCT_STOCK}</label>
           <input
             type="text"
             name="stock"
@@ -165,14 +165,14 @@ function AddProduct() {
 
         {/* Product Thumbnail (Cloudinary Upload) */}
         <div className="w-full flex relative pb-6">
-          <label className="text-xl w-2/5">Product Thumbnail</label>
+          <label className="text-xl w-2/5">{dashboard_product.ENTER_PRODUCT_THUMBNAIL}</label>
           <CloudinaryImageUpload seturl={handleImageUpload} />
         </div>
 
         {/* Display Uploaded Image Preview */}
         {formData.productThumbnail && (
           <div className="w-full flex pb-6">
-            <label className="text-xl w-2/5">Uploaded Image Preview</label>
+            <label className="text-xl w-2/5">{dashboard_product.IMAGE_PREVIEW}</label>
             <div className="w-3/5">
               <img
                 src={formData.productThumbnail}
@@ -189,7 +189,7 @@ function AddProduct() {
             className="bg-purple-400 px-10 py-2 text-lg font-semibold text-black rounded-md"
             type="submit"
           >
-            Add Product
+            {dashboard_product.ADD_PRODUCT_BTN}
           </button>
         </div>
       </form>

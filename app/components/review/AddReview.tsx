@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"; // Import useRouter for navigation
 import { authorizedGetRequest } from "@/services/apiReqServices/authorizedRequest";
 import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest";
 import Toast from "../toast/Toast"; 
+import { review } from "@/constants";
 
 // Fetch product data using SWR
 const fetcher = async (url: string) => {
@@ -27,9 +28,9 @@ const AddReview = ({ pid }: { pid: string }) => {
   // Form state and toast state
   const [rating, setRating] = useState<number | string>("");
   const [description, setDescription] = useState("");
-  const [toastVisible, setToastVisible] = useState(false); // State for showing/hiding the toast
-  const [toastMessage, setToastMessage] = useState(""); // The toast message
-  const [toastType, setToastType] = useState<"success" | "error">("success"); // Type of toast (success or error)
+  const [toastVisible, setToastVisible] = useState(false); 
+  const [toastMessage, setToastMessage] = useState(""); 
+  const [toastType, setToastType] = useState<"success" | "error">("success"); 
 
   // Handle loading and error states
   if (!product) {
@@ -78,7 +79,7 @@ const AddReview = ({ pid }: { pid: string }) => {
     <>
       <div className="w-full pt-16 flex flex-col justify-center items-center font-serif gap-2">
         <div className="w-11/12 flex items-center justify-between border px-10 py-4 text-gray-700 font-semibold">
-          <div className="text-2xl">Rating & Reviews</div>
+          <div className="text-2xl">{review.RATING_REVIEWS}</div>
           <div className="flex items-center justify-center gap-x-3">
             <div className="text-lg">{product[0].productName}</div>
             <img
@@ -90,7 +91,7 @@ const AddReview = ({ pid }: { pid: string }) => {
 
         <form className="w-11/12 gap-4 flex flex-col" onSubmit={handleSubmit}>
           <div className="flex flex-col border p-4 gap-y-2 text-gray-600">
-            <div className="text-lg font-semibold">Rate this product</div>
+            <div className="text-lg font-semibold">{review.RATE_PRODUCT}</div>
             <input
               type="number"
               value={rating}
@@ -113,9 +114,9 @@ const AddReview = ({ pid }: { pid: string }) => {
           </div>
 
           <div className="border text-gray-600">
-            <div className="p-4 text-lg font-semibold">Review this product</div>
+            <div className="p-4 text-lg font-semibold">{review.REVIEW_PRODUCT}</div>
             <div className="border">
-              <div className="pl-4">Description</div>
+              <div className="pl-4">{review.DESCRIPTION}</div>
               <textarea
                 rows={6}
                 value={description}
@@ -130,7 +131,7 @@ const AddReview = ({ pid }: { pid: string }) => {
               type="submit"
               className="bg-purple-300 px-4 py-2 rounded-md"
             >
-              SUBMIT
+             {review.SUBMIT}
             </button>
           </div>
         </form>

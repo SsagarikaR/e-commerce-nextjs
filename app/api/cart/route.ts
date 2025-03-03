@@ -6,7 +6,7 @@ import {
   deleteCartItemService,
   updateCartItemQuantityService,
 } from "@/services/apiServices/carts";
-import { CartItems } from "@/models/cartItem";
+
 
 // Controller to add an item to the user's cart
 export const POST = async (req: NextRequest) => {
@@ -51,6 +51,7 @@ export const GET = async (req: NextRequest) => {
 
   try {
     const result = await getCartItemsService(userID);
+    console.log(result,"result cat item")
     return NextResponse.json(result.cartItems);
   } catch (error) {
     console.error(error);

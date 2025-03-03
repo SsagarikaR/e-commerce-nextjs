@@ -3,6 +3,7 @@ import React from 'react'
 import OrderCard from './OrderCard'
 import useSWR from 'swr';
 import { authorizedGetRequest } from '@/services/apiReqServices/authorizedRequest';
+import { orders } from '@/constants';
 
 // Fetch product data using SWR
 const fetcher = async (url: string) => {
@@ -25,7 +26,7 @@ function Orders() {
         (order.map((item)=>(
           <OrderCard key={item.orderID} item={item}/>
         )))
-        :<div className='text-center text-3xl'>No orders yet.</div>
+        :<div className='text-center text-3xl'>{orders.NO_ORDER}</div>
       }
     </div>
   )

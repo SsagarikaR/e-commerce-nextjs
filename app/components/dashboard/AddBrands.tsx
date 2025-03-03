@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation"; // Added to handle redirection after submission
 import CloudinaryImageUpload from "./CloudinaryImageUpload"; // Assuming this is your Cloudinary image upload component
 import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest"; // API request function
+import { dashboard_brand } from "@/constants";
 
 function AddBrands() {
   const [formData, setFormData] = useState({
@@ -36,20 +37,19 @@ function AddBrands() {
       router.push("/dashboard/brands"); // Redirect to the brands list page
     } catch (error) {
       console.error("Error:", error);
-      // Handle the error (show error message to the user)
     }
   };
 
   return (
     <div className="pt-10 w-full flex flex-col gap-4">
-      <div className="text-3xl font-semibold">Add a new Brand</div>
+      <div className="text-3xl font-semibold">{dashboard_brand.ADD_BRAND}</div>
       <form
         className="border-2 p-4 w-full flex flex-col gap-6"
         onSubmit={handleSubmit}
       >
         {/* Brand Name */}
         <div className="w-full flex pb-6 relative">
-          <label className="text-xl w-2/5">Enter brand name</label>
+          <label className="text-xl w-2/5">{dashboard_brand.ENTER_BRAND_NAME}</label>
           <input
             type="text"
             name="brandName"
@@ -60,16 +60,16 @@ function AddBrands() {
           />
         </div>
 
-        {/* Category Thumbnail (Cloudinary Upload) */}
+        {/* Brand Thumbnail (Cloudinary Upload) */}
         <div className="w-full flex relative pb-6">
-          <label className="text-xl w-2/5">Brand Thumbnail</label>
+          <label className="text-xl w-2/5">{dashboard_brand.ENTER_BARND_THUMBNAIL}</label>
           <CloudinaryImageUpload seturl={handleImageUpload} />
         </div>
 
         {/* Display Uploaded Image Preview */}
         {formData.brandThumbnail && (
           <div className="w-full flex pb-6">
-            <label className="text-xl w-2/5">Uploaded Image Preview</label>
+            <label className="text-xl w-2/5">{dashboard_brand.IMAGE_PREVIEW}</label>
             <div className="w-3/5">
               <img
                 src={formData.brandThumbnail}
@@ -86,7 +86,7 @@ function AddBrands() {
             className="bg-purple-400 px-10 py-2 text-lg font-semibold text-black rounded-md"
             type="submit"
           >
-            Add Brand
+            {dashboard_brand.ADD_BRAND_BTN}
           </button>
         </div>
       </form>

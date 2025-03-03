@@ -6,6 +6,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { authorizedGetRequest, authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest"; // This is your POST request function
 import useSWR, { mutate } from "swr";
 import Toast from '../toast/Toast';
+import { dashboard_customer } from "@/constants";
 
 const fetcher = async (url: string) => {
     try {
@@ -18,9 +19,9 @@ const fetcher = async (url: string) => {
 
 function CustomerList() {
   const { data: customers, error } = useSWR<user[], Error>("users", fetcher); // Fetch customers using the fetcher function
-     const [toastVisible, setToastVisible] = useState(false); // State for showing/hiding the toast
-     const [toastMessage, setToastMessage] = useState(""); // The toast message
-     const [toastType, setToastType] = useState<"success" | "error">("success"); // Type of toast (success or error)
+  const [toastVisible, setToastVisible] = useState(false); // State for showing/hiding the toast
+  const [toastMessage, setToastMessage] = useState(""); // The toast message
+  const [toastType, setToastType] = useState<"success" | "error">("success"); // Type of toast (success or error)
    
   // Handle adding a user as admin
   const handleAddAdmin = async (userID:number) => {
@@ -55,10 +56,10 @@ function CustomerList() {
       <table className="border w-full border-collapse">
         <thead>
           <tr>
-            <th className="border-2 p-2">Customer Name</th>
-            <th className="border-2 p-2">Contact no.</th>
-            <th className="border-2 p-2">Email</th>
-            <th className="border-2 p-2">Add As Admin</th>
+            <th className="border-2 p-2">{dashboard_customer.CUSTOMER_NAME}</th>
+            <th className="border-2 p-2">{dashboard_customer.CONTACT_NO}</th>
+            <th className="border-2 p-2">{dashboard_customer.EMAIL}</th>
+            <th className="border-2 p-2">{dashboard_customer.ADD_AS_ADMIN}</th>
           </tr>
         </thead>
         <tbody>

@@ -1,3 +1,4 @@
+import { Users } from "@/models/user";
 import { getUserService } from "@/services/apiServices/users";
 import { NextRequest,NextResponse } from "next/server";
 
@@ -20,8 +21,6 @@ export async function POST(req: NextRequest) {
       }
   
       if (result.user) {
-        
-  
         return NextResponse.json({user:result.user}, { status: 200 });
       }
   

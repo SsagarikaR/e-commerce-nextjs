@@ -1,4 +1,5 @@
 
+import { category, product } from '@/constants';
 import CategoryCard from './CategoryCard'
 import { unAuthorizedGetRequest } from '@/services/apiReqServices/unAuthorizedRequest';
 
@@ -27,7 +28,7 @@ async function Category() {
           ))
         }
       </div>
-      :<div>No product found</div>}
+      :<div>{category.NO_CATGEORY}</div>}
     </div>
   )
 }

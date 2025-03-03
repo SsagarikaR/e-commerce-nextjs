@@ -55,15 +55,16 @@ function SignUpForm() {
         } else if (result.success) {
           const response=await unAuthorizedPostRequest('auth/signup', formData);
           console.log("response","response",response)
-          if(response.message || response.error){
-            setToastMessage(response.message || response.error);
-            setToastType("error");
-            setToastVisible(true);
-          }
-          else{
+          if(response.token){
             setSuccessMsg(result.success);
             setErrors({ email: '', password: '',contactNo:'',name:'' });
             redirect("/home")
+            
+          }
+          else{
+            setToastMessage(response.response.data.message || response.response.data.error);
+            setToastType("error");
+            setToastVisible(true);
           }
          
           
