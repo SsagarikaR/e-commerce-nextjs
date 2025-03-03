@@ -22,7 +22,7 @@ async function ProductCard({product}:{product:products}) {
             className="h-8 w-8 rounded-full border shadow-md"
             />
           </div>          
-          <div className='text-center' >₹{product.productPrice}</div>
+          <div className='text-center dark:text-white' >₹{product.productPrice}</div>
           <div className="flex items-center justify-center gap-2 mt-2">
         </div>
         </div>

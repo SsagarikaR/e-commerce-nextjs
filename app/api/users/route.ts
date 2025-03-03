@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
   const { isValid, decodedUser } = checkToken(req);
 
   if (!isValid) {
-    return NextResponse.json({ error: "Unauthorized. Invalid or missing token." });
+    return NextResponse.json({ error: "Unauthorized. Invalid or missing token." },{status:401});
   }
 
   console.log(decodedUser); 

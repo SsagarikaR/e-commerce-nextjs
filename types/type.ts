@@ -46,6 +46,32 @@ declare global {
     totalAmount:number;
   }
 
+
+  interface OrderItem {
+    orderItemID: number;
+    orderId: number;
+    productId: number;
+    productName: string;
+    productThumbnail: string;
+    price: number;
+    productPrice: number;
+    quantity: number;
+    brandName: string;
+  }
+  
+ 
+  
+  
+  interface OrderData extends user{
+    totalAmount: number;
+    items: OrderItem[];
+    address: string;
+    totalPrice: number;
+    status: string;
+    orderID: number;
+  }
+
+  
   interface CartStore {
     cartItems: cartItem[];
     addItemToCart: (productID: number, quantity: number) => void;

@@ -1,11 +1,10 @@
 import { NextRequest,NextResponse } from "next/server";
 import { checkToken ,isAdmin} from "@/lib/midlleware/auth";
 import { getUserByIDService } from "@/services/apiServices/users";
-import { Admins } from "@/models/admin";
 
 // Controller to retrieve a user by their ID
 export const GET = async (req: NextRequest) => {
-  // await Admins.sync({force:true});
+  
     const { isValid, decodedUser } = await checkToken(req);
   
     if (!isValid) {

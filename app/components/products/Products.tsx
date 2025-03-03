@@ -1,6 +1,6 @@
 import { product } from "@/constants";
 import Pagination from "../pagination/Pagination";
-import ProductCard from "./productCard";
+import ProductCard from "./ProductCard";
 import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRequest";
 
 const fetchPaginatedProducts = async (category: string | null, name: string | null, page: number) => {

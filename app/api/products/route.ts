@@ -6,9 +6,6 @@ import {
   updateProductService,
 } from "@/services/apiServices/products";
 import { checkToken,isAdmin } from "@/lib/midlleware/auth";
-import NodeCache from "node-cache";
-
-const cache = new NodeCache({ stdTTL: 3600, checkperiod: 600 });
 
 // Controller to create a product
 export const POST = async (req: NextRequest) => {
@@ -72,11 +69,6 @@ export const GET = async (req: NextRequest) => {
   const cacheKey = `products:${name}:${price}:${categoryID}:${id}:${currentPage}:${itemsPerPage}`;
 
   try {
-    // const cachedProducts = cache.get(cacheKey);
-    // if (cachedProducts) {
-    //   console.log("Returning cached products");
-    //   return NextResponse.json(cachedProducts);
-    // }
 
     const filters = {
       categoryID: categoryID ? String(categoryID) : undefined,
@@ -94,7 +86,6 @@ export const GET = async (req: NextRequest) => {
       itemsPerPage
     );
 
-    // cache.set(cacheKey, products);
 
     return NextResponse.json(products);
   } catch (error) {

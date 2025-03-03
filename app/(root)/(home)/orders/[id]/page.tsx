@@ -1,4 +1,4 @@
-import OrderDetails from '@/app/components/orders/OrderDetails'
+import OrderDetails from '@/app/components/orders/OrderDetails';
 import React from 'react'
 
 async function page({params}:{params:{id:string}}) {

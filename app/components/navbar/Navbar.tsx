@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBackward, faBagShopping, faCircleUser, faSearch, faCartShopping, faHeart, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faBackward, faBagShopping, faCircleUser, faSearch, faCartShopping, faHeart, faShoppingCart, faCircleHalfStroke } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { authorizedGetRequest } from '@/services/apiReqServices/authorizedRequest';
 import Cookies from 'js-cookie';
@@ -11,7 +11,6 @@ import { navbar, shop_cart } from '@/constants';
 
 export const fetchUser = async () => {
   const response = await authorizedGetRequest("user");
-  // console.log(response);
   return response;
 }
 
@@ -20,23 +19,19 @@ function Navbar() {
   const [user, setUser] = useState<user>();
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState(""); 
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const token = Cookies.get("token");
-  const router=useRouter();
+  const router = useRouter();
 
   const fetchData = async () => {
     const response = await fetchUser();
-    console.log(response)
-    if(!response.status){
+    if (!response.status) {
       setUser(response);
-      console.log(user);
-      
+    } else {
+      console.log("response", response.response.data.message);
     }
-    else{
-      console.log("response",response.response.data.message)
-    }
-   
     setLoading(false); 
-  }
+  };
 
   useEffect(() => {
     if (token) {
@@ -47,26 +42,50 @@ function Navbar() {
     }
   }, [token]);
 
-  if (loading) {
-    return null; // Return nothing during loading state
-  }
+  // Apply dark mode to the body based on the state
+  useEffect(() => {
+    if (isDarkMode) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  }, [isDarkMode]);
 
   const handleLogout = () => {
     Cookies.remove("token"); 
     window.location.reload(); 
+  };
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    localStorage.setItem('darkMode', (!isDarkMode).toString());  // Persist theme in localStorage
+  };
+
+  // Check if dark mode was set previously in localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('darkMode');
+    if (savedTheme === 'true') {
+      setIsDarkMode(true);
+    }
+  }, []);
+
+  if (loading) {
+    return null; // Return nothing during loading state
   }
 
-
   return (
-    <nav className="flex h-20 bg-gray-200 p-1 lg:p-10 items-center justify-between font-serif shadow-xl fixed w-full z-20">
+    <nav className="flex h-20 dark:bg-gray-700 bg-gray-200 p-1 lg:p-10 items-center justify-between font-serif shadow-xl fixed w-full z-20">
       <div className="flex justify-center items-center sm:gap-10">
+        <div className="text-black dark:text-white cursor-pointer">
+          <FontAwesomeIcon icon={faCircleHalfStroke} className='w-8 h-8' onClick={toggleDarkMode} />
+        </div>
         <div className="text-purple-500 cursor-pointer">
           <FontAwesomeIcon icon={faBackward} className="w-7 h-7 md:inline-block hidden" />
         </div>
         <Link href="/home">
           <div className="text-purple-500 flex items-center justify-center sm:gap-2 cursor-pointer">
             <FontAwesomeIcon icon={faBagShopping} className="sm:w-12 sm:h-12 w-8 h-8" />
-            <div className="text-lg sm:text-3xl text-black font-serif font-semibold w-5">{shop_cart}</div>
+            <div className="text-lg dark:text-white sm:text-3xl text-black font-serif font-semibold w-5">{shop_cart}</div>
           </div>
         </Link>
       </div>
@@ -76,13 +95,9 @@ function Navbar() {
           placeholder="Enter product name to search.." 
           className="outline-none p-2 sm:w-11/12" 
           value={searchQuery}
-          onChange={(e)=>{
-            setSearchQuery(e.target.value);
-          }} />
+          onChange={(e) => setSearchQuery(e.target.value)} />
           <FontAwesomeIcon icon={faSearch} className="w-8 h-8 ml-2 cursor-pointer" 
-          onClick={()=>{
-            router.push(`/products?name=${searchQuery}`)
-          }}/>
+          onClick={() => router.push(`/products?name=${searchQuery}`)} />
         </div>
 
         <div className="relative text-purple-500 md:flex hidden justify-center items-center ">
@@ -96,12 +111,12 @@ function Navbar() {
       </div>
 
       {/* Profile Icon with Dropdown */}
-      {(token && user!==undefined && !user.message && !user.error) ? (
+      {(token && user !== undefined && !user.message && !user.error) ? (
         <div className="relative flex justify-center items-center gap-x-2 group">
           <div className="text-purple-500 flex justify-center items-center cursor-pointer">
             <FontAwesomeIcon icon={faCircleUser} className="w-8 h-8" />
           </div>
-          <div className="text-2xl text-black font-semibold sm:inline-block hidden cursor-pointer">{user?.name}</div>
+          <div className="text-2xl text-black font-semibold sm:inline-block hidden cursor-pointer dark:text-white">{user?.name}</div>
 
           {/* Dropdown Menu */}
           <div className="absolute right-0 top-6 w-48 bg-white border border-gray-200 rounded-lg shadow-lg mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 hidden group-hover:block">
@@ -133,7 +148,6 @@ function Navbar() {
       ) : (
         <Link href="/signin" className='bg-purple-300 px-4 py-1 rounded-lg'>Sign In</Link>
       )}
-     
     </nav>
   );
 }

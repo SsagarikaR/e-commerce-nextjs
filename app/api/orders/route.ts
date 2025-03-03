@@ -3,10 +3,7 @@ import { checkToken } from "@/lib/midlleware/auth";
 import { createOrderService ,
     fetchOrders,
     updateOrderAddressService,
-    deleteOrderService,
-    getOrderStatusById} from "@/services/apiServices/orders";
-import { Orders } from "@/models/order";
-import { OrderItems } from "@/models/orderItem";
+    deleteOrderService,} from "@/services/apiServices/orders";
 
 export const POST = async (req: NextRequest) => {
    const { isValid, decodedUser } = checkToken(req);
@@ -22,7 +19,7 @@ export const POST = async (req: NextRequest) => {
 
   try {
     // Validate the required fields
-    console.log(req.body)
+    // console.log(req.body)
 
     const result = await createOrderService(userID, totalAmount, items, address,totalPrice);
     if (!result.success) {
@@ -51,7 +48,7 @@ export const GET = async (req: NextRequest) => {
     const userID = decodedUser.identifire;
     try {
       const orders = await fetchOrders(userID);
-      console.log("orders",orders)
+      // console.log("orders",orders)
   
       if (!orders || orders.length === 0) {
         return NextResponse.json({ message: 'No orders found for this user.' });
@@ -75,31 +72,31 @@ export const GET = async (req: NextRequest) => {
         );
     }
       
-    const { orderId, productId, newAddress } =await req.json();
-  
+    const { orderId, newAddress } =await req.json();
+    console.log(orderId, newAddress)
     try {
-      if (!orderId || !productId || !newAddress) {
-        return NextResponse.json({message: 'Please provide orderId, productId, and newAddress.' });
+      if (!orderId || !newAddress) {
+        return NextResponse.json({message: 'Please provide orderId,  and newAddress.' },{status:409});
       }
   
-      // Check if the order status is 'Cancelled'
-      const orderStatus = await getOrderStatusById(orderId);
+      // // Check if the order status is 'Cancelled'
+      // const orderStatus = await getOrderStatusById(orderId);
   
-      if (orderStatus === 'Cancelled') {
-        return NextResponse.json({message: 'You cannot update the address of a cancelled order.' });
-      }
+      // if (orderStatus === 'Cancelled') {
+      //   return NextResponse.json({message: 'You cannot update the address of a cancelled order.' },{status:403});
+      // }
   
-      const result = await updateOrderAddressService(orderId, productId, newAddress);
+      const result = await updateOrderAddressService(orderId,  newAddress);
   
       if (!result) {
-        return NextResponse.json({ message: 'Error updating product address. Please try again.' });
+        return NextResponse.json({ message: 'Error updating product address. Please try again.' },{status:500});
       }
   
-      return NextResponse.json({ message: 'Product address updated successfully' });
+      return NextResponse.json({ message: 'Product address updated successfully' },{status:200});
     } catch (error) {
         return NextResponse.json({
-        message: 'Error in updating product address, please try again!',
-      });
+        error: 'Error in updating product address, please try again!',
+      },{status:500});
     }
   };
   

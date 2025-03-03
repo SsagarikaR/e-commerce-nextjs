@@ -27,7 +27,7 @@ function WishListCard({ item, onDelete, onShowToast }: WishListCardProps) {
   };
 
   return (
-    <div className='flex shadow-lg items-center justify-between font-serif text-sm md:text-md lg:text-lg font-semibold text-gray-700 p-4'>
+    <div className='flex shadow-lg items-center justify-between font-serif text-sm md:text-md lg:text-lg font-semibold text-gray-700 p-4 bg-gray-300'>
       <div className='flex justify-center items-center gap-x-2'>
         <img src={item.productThumbnail} className='w-28 shadow-md p-2 cursor-pointer' alt={item.productName} />
         <div className='flex flex-col'>

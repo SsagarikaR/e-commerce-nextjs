@@ -26,11 +26,11 @@ function Cart() {
                     ))
                 }
                 </div>
-                <div className='flex justify-end p-2 px-10 border'>
+                <div className='flex justify-end p-2 px-10 border dark:border-white dark:bg-gray-300'>
                     <Link href="/checkout" className='bg-purple-300 hover:bg-purple-400 p-6 py-3 rounded-md'>Place Order</Link>
                 </div>
             </div>
-            <div className='w-1/5 border p-4 flex flex-col gap-3 h-64'>
+            <div className='w-1/5 border p-4 flex dark:border-white flex-col gap-3 h-64 dark:text-white'>
                 <div className='flex justify-between'>
                     <p>{price_detail.TOTAL_PRICE}({cartItems.length} item)</p>
                     <p>₹{cartItems[0].totalPrice}</p>

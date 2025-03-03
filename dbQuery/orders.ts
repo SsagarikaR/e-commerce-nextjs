@@ -12,7 +12,7 @@ export const insertOrder = async (userID: number, totalPrice: number, address: s
         transaction: t, // Pass the transaction object here
       }
     );
-    console.log(result);
+    // console.log(result);
     return { orderID: result }; // Return orderID or the entire result depending on your table design
   } catch (error) {
     console.log('Error inserting order:', error);
@@ -67,9 +67,10 @@ export const insertOrderItems = async (
   // First: Get orders (Order[] type)
  const getOrders = async (userID: number): Promise<order[]> => {
     const query = `
-      SELECT *
-      FROM Orders
-      WHERE userId = :userID 
+      SELECT o.*,u.*
+      FROM Orders o 
+      JOIN Users u ON u.userID=o.userID
+      WHERE o.userID=:userID
     `;
     
     const result:order[] = await sequelize.query(query, {
@@ -98,12 +99,14 @@ export const insertOrderItems = async (
     return result;
   };
   
+
+
  // Combine order and items (OrderDetail[] type)
  export const getUserOrderDetails = async (userID: number): Promise<OrderDetail[]> => {
   const orders = await getOrders(userID);
-  console.log(orders);
+  // console.log(orders);
   const orderIDs = orders.map((order) => order.orderID);
-  console.log(orderIDs,"order id");
+  // console.log(orderIDs,"order id");
   const orderItems = await getOrderItems(orderIDs);
 
   // Combine the results
@@ -115,6 +118,8 @@ export const insertOrderItems = async (
   return orderDetails;
 };
   
+
+
   export const selectOrdersWithProductAndBrand = async (userID: number) => {
     try {
       const query = `
@@ -131,7 +136,7 @@ export const insertOrderItems = async (
         replacements: { userID },
         type: QueryTypes.SELECT,
       });
-      console.log(result,"result")
+      // console.log(result,"result")
   
       return result;
     } catch (error) {
@@ -179,12 +184,12 @@ export const insertOrderItems = async (
 
 
 
- export const updateOrderAddressQuery = async (orderId: number, productId: number, newAddress: string) => {
+ export const updateOrderAddressQuery = async (orderId: number,  newAddress: string) => {
   try {
     const result = await sequelize.query(
       `UPDATE Orders SET address = :newAddress WHERE orderId = :orderId `,
       {
-        replacements: { orderId, productId, newAddress },
+        replacements: { orderId,  newAddress },
         type: QueryTypes.UPDATE,
       }
     );

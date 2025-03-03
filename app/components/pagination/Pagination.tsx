@@ -8,7 +8,7 @@ import Link from "next/link";
     totalPages,
   }: paginationProps) => {
     return (
-      <div className="flex justify-center mt-6">
+      <div className="flex justify-center mt-6 dark:text-white">
         {currentPage!==1 &&
         <Link href={category?
           `http://localhost:3000/products?category=${category || " "}&page=${currentPage-1}` 

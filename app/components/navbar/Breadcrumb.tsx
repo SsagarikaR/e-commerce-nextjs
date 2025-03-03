@@ -16,7 +16,7 @@ const Breadcrumb: React.FC = () => {
   console.log(pathSegments, "path segments");
 
   return (
-    <nav className="bg-gray-100 p-4 rounded-md pt-24 z-10 fixed w-screen flex">
+    <nav className="bg-gray-100 p-4 rounded-md pt-24 z-10 fixed w-screen flex dark:bg-gray-700 shadow-lg">
       <ol className="list-reset flex text-blue-600">
         {/* Hardcoded Home breadcrumb */}
         <li>

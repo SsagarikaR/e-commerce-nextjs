@@ -2,7 +2,6 @@ import { sequelize } from  '@/lib/db';
 import { insertOrder,
     insertOrderItems, 
     selectOrderByUserID,
-    selectOrdersWithProductAndBrand,
     updateOrderStatusQuery,
     deleteOrderQuery ,
     updateOrderAddressQuery,
@@ -19,12 +18,12 @@ export const createOrderService = async (userID: number, totalAmount: number, it
     const existingOrder = await selectOrderByUserID(userID, t);
 
     if (existingOrder.length > 0) {
-      console.log("You already have a pending order")
+      // console.log("You already have a pending order")
       return {success:false,message:"You already have a pending order."}
     }
 
     const result = await insertOrder(userID, totalPrice, address,totalAmount, t);
-    console.log(result,"result");
+    // console.log(result,"result");
     if (result) {
       for (const item of items) {
         await insertOrderItems(result.orderID, item.productId, item.quantity, item.price, t);
@@ -48,7 +47,7 @@ export const createOrderService = async (userID: number, totalAmount: number, it
 export const fetchOrders = async (userID: number) => {
   try {
     const orders = await getUserOrderDetails(userID);
-    console.log(orders,"orders")
+    // console.log(orders,"orders")
     return orders;
   } catch (error) {
     console.error('Error fetching orders with product and brand details:', error);
@@ -58,9 +57,9 @@ export const fetchOrders = async (userID: number) => {
 
 
 
-export const updateOrderAddressService = async (orderId: number, productId: number, newAddress: string) => {
+export const updateOrderAddressService = async (orderId: number, newAddress: string) => {
     try {
-      const result = await updateOrderAddressQuery(orderId, productId, newAddress);
+      const result = await updateOrderAddressQuery(orderId,  newAddress);
       return result;
     } catch (error) {
       console.error('Error in service:', error);

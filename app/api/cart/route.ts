@@ -6,6 +6,7 @@ import {
   deleteCartItemService,
   updateCartItemQuantityService,
 } from "@/services/apiServices/carts";
+import { CartItems } from "@/models/cartItem";
 
 
 // Controller to add an item to the user's cart
@@ -39,6 +40,7 @@ export const POST = async (req: NextRequest) => {
 
 // Controller to get all items in the user's cart
 export const GET = async (req: NextRequest) => {
+  // await CartItems.sync({force:true});
     const { isValid, decodedUser } = checkToken(req);
     if (!isValid) {
       return NextResponse.json(
