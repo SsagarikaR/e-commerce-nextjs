@@ -2,7 +2,7 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
 import hub from '@mindfiredigital/eslint-plugin-hub';
-import globals from 'globals';
+import { vitest } from "vitest";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -16,7 +16,9 @@ const eslintConfig = {
     ...compat.extends("next/core-web-vitals", "next/typescript"),
   ],
   languageOptions: {
-    globals: globals.builtin,
+    globals: {
+      ...vitest.environments.env.globals
+  },
     parserOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
@@ -24,6 +26,7 @@ const eslintConfig = {
   },
   plugins: {
     hub: hub,
+    vitest
   },
   rules: {
     'hub/vars-camelcase': 'error',
