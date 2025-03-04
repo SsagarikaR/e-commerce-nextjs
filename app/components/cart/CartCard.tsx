@@ -3,9 +3,9 @@ import { useCartStore } from "@/store/cartStore"
 function CartCard({item}:{item:cartItem}) {
     const {removeItemFromCart,updateCartItemQuantity}=useCartStore();
   return (
-    <div className='border flex justify-between items-center px-10 py-5  dark:bg-gray-300'>
+    <div className='border flex justify-between items-center px-10 py-5  dark:bg-gray-300 sm:text-base text-sm'>
         <div className='flex  justify-center items-center gap-3 '>
-            <img src={item.productThumbnail} className='w-36 shadow-md p-2'/>
+            <img src={item.productThumbnail} className='md:w-36 w-28 shadow-md p-2'/>
             <div>
                 <div>{item.productName}</div>
                 <div>₹{item.productPrice}</div>

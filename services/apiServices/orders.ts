@@ -1,4 +1,4 @@
-import { sequelize } from  '@/lib/db';
+import { sequelize } from  '@/lib/Database/db';
 import { insertOrder,
     insertOrderItems, 
     selectOrderByUserID,

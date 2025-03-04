@@ -8,16 +8,8 @@ import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRe
 import { useState } from "react";
 import { authorizedDeleteRequest } from "@/services/apiReqServices/authorizedRequest";
 import ConfirmModal from "../confirmModal.tsx/ConfirmModal"; // Import the Modal component
-import { dashboard_brand, dashboard_product } from "@/constants";
-
-const fetcher = async (url: string) => {
-  try {
-    const response = await unAuthorizedGetRequest(url); // Use your custom axios request
-    return response;
-  } catch (error) {
-    throw new Error("Failed to fetch reviews");
-  }
-};
+import {  dashboard_product } from "@/constants";
+import { fetcher } from "@/lib/helpers/unAuthorizedGetFetcher";
 
 function ProductList({ page }: { page: number }) {
   const { data: products, error } = useSWR<products[], Error>(

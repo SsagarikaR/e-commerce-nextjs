@@ -7,15 +7,7 @@ import useSWR, { mutate } from "swr";
 import { useState } from "react";
 import ConfirmModal from "../confirmModal.tsx/ConfirmModal"; // Import the reusable ConfirmModal
 import { dashboard_catgeory } from "@/constants";
-
-const fetcher = async (url: string) => {
-  try {
-    const response = await unAuthorizedGetRequest(url); // Use your custom axios request
-    return response;
-  } catch (error) {
-    throw new Error("Failed to fetch categories");
-  }
-};
+import { fetcher } from "@/lib/helpers/unAuthorizedGetFetcher";
 
 function CategoryList() {
   const { data: categories, error } = useSWR<categories[], Error>("categories", fetcher);

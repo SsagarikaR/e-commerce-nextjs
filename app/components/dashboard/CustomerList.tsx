@@ -3,19 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { authorizedGetRequest, authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest"; // This is your POST request function
+import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest"; // This is your POST request function
 import useSWR, { mutate } from "swr";
 import Toast from '../toast/Toast';
 import { dashboard_customer } from "@/constants";
+import { fetcher } from "@/lib/helpers/authorizedGetFetcher";
 
-const fetcher = async (url: string) => {
-    try {
-      const response = await authorizedGetRequest(url); // Use your custom axios request
-      return response;
-    } catch (error) {
-      throw new Error("Failed to fetch reviews");
-    }
-};
+
 
 function CustomerList() {
   const { data: customers, error } = useSWR<user[], Error>("users", fetcher); // Fetch customers using the fetcher function

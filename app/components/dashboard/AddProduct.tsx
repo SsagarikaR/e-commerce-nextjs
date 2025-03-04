@@ -4,18 +4,9 @@ import useSWR from "swr"; // Import SWR
 import { useRouter } from "next/navigation"; // Added to handle redirection after submission
 import CloudinaryImageUpload from "./CloudinaryImageUpload";
 import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest";
-import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRequest";
 import { dashboard_product } from "@/constants";
+import { fetcher } from "@/lib/helpers/unAuthorizedGetFetcher";
 
-// Fetch product data using SWR
-const fetcher = async (url: string) => {
-  try {
-    const response = await unAuthorizedGetRequest(url);
-    return response;
-  } catch (error) {
-    throw new Error("Failed to fetch product");
-  }
-};
 
 function AddProduct() {
   const { data: brands } = useSWR<brands[], Error>(`brands`, fetcher);

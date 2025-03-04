@@ -2,19 +2,10 @@
 import React from 'react'
 import useSWR from 'swr';
 import PreferenceCard from './PreferenceCard'
-import { authorizedGetRequest } from '@/services/apiReqServices/authorizedRequest';
-
-const fetcher = async (url: string) => {
-    try {
-      const response = await authorizedGetRequest(url); // Use your custom axios request
-      return response;
-    } catch (error) {
-      throw new Error("Failed to fetch reviews");
-    }
-};
+import { fetcher } from '@/lib/helpers/authorizedGetFetcher';
 
 function Preferences() {
-  const { data: preferences, error } = useSWR<prefernce[], Error>("preferences", fetcher); // Fetch customers using the fetcher function
+  const { data: preferences, error } = useSWR<prefernce[], Error>("preferences", fetcher); 
   console.log(preferences,"preference")
 
   return (

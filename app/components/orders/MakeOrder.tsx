@@ -1,22 +1,14 @@
 "use client"
 import { useState, useEffect } from "react";
-import useSWR, { mutate } from "swr"; // Import SWR
+import useSWR from "swr"; // Import SWR
 import { useCartStore } from "@/store/cartStore";
-import { authorizedGetRequest, authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest";
+import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest";
 import Toast from "../toast/Toast"; 
 import { modal_btn, order, price_detail } from "@/constants";
+import {useRouter} from "next/navigation";
+import { fetcher } from "@/lib/helpers/authorizedGetFetcher";
 
 
-
-// Fetch product data using SWR
-const fetcher = async (url: string) => {
-  try {
-    const response = await authorizedGetRequest(url);
-    return response;
-  } catch (error) {
-    throw new Error("Failed to fetch product");
-  }
-};
 
 function MakeOrderPage({id}:{id:string|null}) { 
     const [product,setProduct] =useState<products[]>();
@@ -28,6 +20,7 @@ function MakeOrderPage({id}:{id:string|null}) {
     const [toastMessage, setToastMessage] = useState(""); 
     const [toastType, setToastType] = useState<"success" | "error">("success"); 
     const {cartItems}=useCartStore();
+    const router=useRouter();
 
 
    useEffect(()=>{
@@ -35,7 +28,7 @@ function MakeOrderPage({id}:{id:string|null}) {
             const fetchProductDetails = async () => {
                 const { data, error } = useSWR<products[], Error>(
                     `/products?id=${id}`,
-                    fetcher
+                   fetcher
                   );  
                if(product){
                 setProduct(data);
@@ -46,7 +39,7 @@ function MakeOrderPage({id}:{id:string|null}) {
         } else {
             // If the user is ordering from the cart, calculate the total price from the cart
             if (cartItems && cartItems.length > 0) {
-              setTotalPrice(cartItems[0].totalAmount)
+              setTotalPrice(cartItems[0].totalPrice)
               setTotalAmount(cartItems[0].totalAmount)
             } else {
                 setTotalPrice(0);  
@@ -92,6 +85,7 @@ function MakeOrderPage({id}:{id:string|null}) {
         setToastMessage(response.message);
         setToastType("success");
         setToastVisible(true);
+        router.push("/orders")
     }
     else{
         setToastMessage(response.message);
@@ -208,7 +202,7 @@ function MakeOrderPage({id}:{id:string|null}) {
                                 {modal_btn.CANCEL}
                             </button>
                             <button
-                                className="px-6 py-3 bg-purple-400 cursor-pointer text-white font-semibold rounded-lg hover:bg-blue-400 focus:outline-none"
+                                className="px-6 py-3 bg-purple-400 cursor-pointer text-white font-semibold rounded-lg hover:bg-purple-400 focus:outline-none"
                                 onClick={handleSubmitOrder}
                             >
                                 {modal_btn.CONFIRM}

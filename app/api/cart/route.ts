@@ -6,7 +6,7 @@ import {
   deleteCartItemService,
   updateCartItemQuantityService,
 } from "@/services/apiServices/carts";
-import { CartItems } from "@/models/cartItem";
+import { CartItems } from "@/lib/Database/models/cartItem";
 
 
 // Controller to add an item to the user's cart

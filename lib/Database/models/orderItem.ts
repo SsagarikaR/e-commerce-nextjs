@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import {sequelize} from "@/lib/db";
+import {sequelize} from "@/lib/Database/db";
 import {Orders} from "./order";
 
 export const OrderItems = sequelize.define("OrderItems", {

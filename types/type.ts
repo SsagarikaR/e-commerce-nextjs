@@ -69,6 +69,9 @@ declare global {
     totalPrice: number;
     status: string;
     orderID: number;
+    handlingPrice:number;
+    platformFee:number;
+    deliveryCharge:number;
   }
 
   

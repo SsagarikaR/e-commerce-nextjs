@@ -1,4 +1,3 @@
-// components/Modal.tsx
 import { modal_btn } from "@/constants";
 import React from "react";
 

@@ -76,11 +76,11 @@ function Navbar() {
   return (
     <nav className="flex h-20 dark:bg-gray-700 bg-gray-200 p-1 lg:p-10 items-center justify-between font-serif shadow-xl fixed w-full z-20">
       <div className="flex justify-center items-center sm:gap-10">
-        <div className="text-black dark:text-white cursor-pointer">
-          <FontAwesomeIcon icon={faCircleHalfStroke} className='w-8 h-8' onClick={toggleDarkMode} />
+        <div className="text-black dark:text-white cursor-pointer justify-center flex items-center">
+          <FontAwesomeIcon icon={faCircleHalfStroke} className='md:w-8 md:h-8 w-6 h-6 p-2' onClick={toggleDarkMode} />
         </div>
         <div className="text-purple-500 cursor-pointer">
-          <FontAwesomeIcon icon={faBackward} className="w-7 h-7 md:inline-block hidden" />
+          <FontAwesomeIcon icon={faBackward} className="w-7 h-7 md:inline-block hidden" onClick={()=>{router.back()}}/>
         </div>
         <Link href="/home">
           <div className="text-purple-500 flex items-center justify-center sm:gap-2 cursor-pointer">

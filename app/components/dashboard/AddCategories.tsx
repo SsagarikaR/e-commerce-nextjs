@@ -37,7 +37,6 @@ function AddCategories() {
       router.push("/dashboard/categories"); // Redirect to the categories list page
     } catch (error) {
       console.error("Error:", error);
-      // Handle the error (show error message to the user)
     }
   };
 

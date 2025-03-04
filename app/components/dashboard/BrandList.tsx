@@ -7,15 +7,7 @@ import { useState } from "react";
 import ConfirmModal from "../confirmModal.tsx/ConfirmModal"; // Import the reusable ConfirmModal
 import { authorizedDeleteRequest } from "@/services/apiReqServices/authorizedRequest";
 import { dashboard_brand } from "@/constants";
-
-const fetcher = async (url: string) => {
-  try {
-    const response = await unAuthorizedGetRequest(url); // Use your custom axios request
-    return response;
-  } catch (error) {
-    throw new Error("Failed to fetch reviews");
-  }
-};
+import { fetcher } from "@/lib/helpers/unAuthorizedGetFetcher";
 
 function BrandList() {
   const { data: brands, error } = useSWR<brands[], Error>(`brands`, fetcher);

@@ -1,6 +1,6 @@
-import eslintconfig from"../eslint.config.mjs";
+import eslintconfig from"../../../eslint.config.mjs";
 import { DataTypes } from "sequelize";
-import { sequelize } from "@/lib/db";
+import { sequelize } from "@/lib/Database/db";
 
 export const Users=sequelize.define("Users",{
     userID:{

@@ -24,7 +24,7 @@ const AddReview = ({ pid }: { pid: string }) => {
     `/products?id=${pid}`,
     fetcher
   );
-
+  console.log(product)
   // Form state and toast state
   const [rating, setRating] = useState<number | string>("");
   const [description, setDescription] = useState("");
@@ -78,7 +78,7 @@ const AddReview = ({ pid }: { pid: string }) => {
   return (
     <>
       <div className="w-full pt-16 flex flex-col justify-center items-center font-serif gap-2">
-        <div className="w-11/12 flex items-center justify-between border px-10 py-4 text-gray-700 font-semibold">
+        <div className="w-11/12 flex items-center justify-between border px-10 py-4 text-gray-700 font-semibold dark:bg-gray-300">
           <div className="text-2xl">{review.RATING_REVIEWS}</div>
           <div className="flex items-center justify-center gap-x-3">
             <div className="text-lg">{product[0].productName}</div>
@@ -89,8 +89,8 @@ const AddReview = ({ pid }: { pid: string }) => {
           </div>
         </div>
 
-        <form className="w-11/12 gap-4 flex flex-col" onSubmit={handleSubmit}>
-          <div className="flex flex-col border p-4 gap-y-2 text-gray-600">
+        <form className="w-11/12 gap-4 flex flex-col " onSubmit={handleSubmit}>
+          <div className="flex flex-col border p-4 gap-y-2 text-gray-600 dark:bg-gray-300">
             <div className="text-lg font-semibold">{review.RATE_PRODUCT}</div>
             <input
               type="number"
@@ -107,13 +107,11 @@ const AddReview = ({ pid }: { pid: string }) => {
                 // Update the state with the new value
                 setRating(value);
               }}
-              min={0}
-              max={1}
               className="border outline-none w-44 p-3"
             />
           </div>
 
-          <div className="border text-gray-600">
+          <div className="border text-gray-600 dark:bg-gray-300">
             <div className="p-4 text-lg font-semibold">{review.REVIEW_PRODUCT}</div>
             <div className="border">
               <div className="pl-4">{review.DESCRIPTION}</div>

@@ -17,7 +17,7 @@ function Cart() {
        
   return (
     <div className='w-screen pt-24 '>
-        {(cartItems && cartItems.length>0)?<div className='w-4/5 flex m-auto gap-x-6' >
+        {(cartItems && cartItems.length>0)?<div className='w-full sm:p-0 p-1 sm:w-11/12 xl:w-4/5 flex m-auto gap-x-6' >
             <div className='flex flex-col max-h-[800px] w-4/5 border'>
                 <div className='flex flex-col max-h-[900px] overflow-auto'>
                 {
@@ -30,7 +30,7 @@ function Cart() {
                     <Link href="/checkout" className='bg-purple-300 hover:bg-purple-400 p-6 py-3 rounded-md'>Place Order</Link>
                 </div>
             </div>
-            <div className='w-1/5 border p-4 flex dark:border-white flex-col gap-3 h-64 dark:text-white'>
+            <div className=' sm:text-base text-sm lg:w-1/5 border p-4 flex dark:border-white flex-col gap-3 h-64  dark:bg-gray-300 '>
                 <div className='flex justify-between'>
                     <p>{price_detail.TOTAL_PRICE}({cartItems.length} item)</p>
                     <p>₹{cartItems[0].totalPrice}</p>
@@ -52,7 +52,7 @@ function Cart() {
                     <p>₹{cartItems[0].totalAmount}</p>
                 </div>
             </div>
-        </div>:<div className='text-2xl text-center font-semibold'>No items found</div>}
+        </div>:<div className='text-2xl text-center font-semibold dark:text-white'>No items found</div>}
     </div>
   )
 }

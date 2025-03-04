@@ -44,10 +44,10 @@ const Products = async({
    const currentPage=page;
   return (
    
-     <div className="flex w-screen justify-center items-center ">
+     <div className="flex w-screen justify-center items-center dark:text-white">
       {message?(<div className="text-2xl">{message}</div>):(
      
-      <div className="flex ">
+      <div className="flex text-black">
         {products! && products.length > 0 ? (
           <div className="flex flex-col p-5 w-full">
             <div className="flex w-full">
@@ -61,7 +61,7 @@ const Products = async({
             <Pagination category={category} currentPage={currentPage} totalPages={totalPages!} />
           </div>
         ) : (
-          <div className="text-center w-400 mt-6 text-2xl font-medium text-red-800">
+          <div className="text-2xl text-center font-semibold  ">
             {product.NO_PRODUCT}
           </div>
         )}

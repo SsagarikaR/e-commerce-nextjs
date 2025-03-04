@@ -1,14 +1,14 @@
+import { sequelize } from "@/lib/Database/db";
 import { DataTypes } from "sequelize";
-import { sequelize } from "@/lib/db";
 import { Produtcs } from "./product";
 import { Users } from "./user";
 
-export const Reviews=sequelize.define("Reviews",{
-    reviewID:{
+export const WishLists=sequelize.define("WishLists",{
+    wishListID:{
         type:DataTypes.INTEGER,
+        allowNull:false,
         primaryKey:true,
-        autoIncrement:true,
-        allowNull:false
+        autoIncrement:true
     },
     productID:{
         type:DataTypes.INTEGER,
@@ -16,7 +16,8 @@ export const Reviews=sequelize.define("Reviews",{
         references:{
             model:Produtcs,
             key:"productID"
-        }
+        },
+        onDelete:'CASCADE'
     },
     userID:{
         type:DataTypes.INTEGER,
@@ -24,16 +25,10 @@ export const Reviews=sequelize.define("Reviews",{
         references:{
             model:Users,
             key:"userID"
-        }
-    },
-    rating:{
-        type:DataTypes.INTEGER,
-        allowNull:false
-    },
-    description:{
-        type:DataTypes.TEXT,
-        allowNull:false
+        },
+        onDelete:'CASCADE'
     }
-},{
+},
+{
     timestamps:false
-});
+})

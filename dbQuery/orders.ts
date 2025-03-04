@@ -1,4 +1,4 @@
-import { sequelize } from "@/lib/db";
+import { sequelize } from "@/lib/Database/db";
 import { QueryTypes } from "sequelize";
 
 export const insertOrder = async (userID: number, totalPrice: number, address: string, totalAmount:number,t: any) => {
