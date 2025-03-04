@@ -32,7 +32,7 @@ const Breadcrumb: React.FC = () => {
 
           return (
             <li key={index}>
-              <Link href={path} className="hover:text-blue-800 capitalize">
+              <Link href={path} className="hover:text-purple-800 capitalize">
                 {segment}
               </Link>
               {index !== pathSegments.length - 1 && <span className="mx-2">/</span>}

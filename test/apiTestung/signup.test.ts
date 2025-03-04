@@ -3,8 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import * as UserService from "@/services/apiServices/users"; // Import UserService methods
 import { POST } from '@/app/api/auth/signup/route'; // Adjust the path to your signup route handler
 import * as AuthModule from "@/lib/midlleware/auth"; // Import the entire auth module
-import bcrypt from 'bcrypt';
-import { cookies } from 'next/headers'; // Mock cookies function
 
 vi.mock('next/headers', () => ({
   cookies: () => ({
@@ -63,6 +61,8 @@ describe('/api/auth/signup Tests', () => {
 });
 
 
+
+
   it('should return 400 if required fields are missing', async () => {
     const req = new NextRequest('http://localhost:3000/api/auth/signup', {
       method: 'POST',
@@ -81,6 +81,9 @@ describe('/api/auth/signup Tests', () => {
     }
   });
 
+
+
+  
   it('should return 400 if email is already registered', async () => {
     // Mock createUserService to return a failure message when the email already exists
     vi.spyOn(UserService, 'createUserService').mockResolvedValue({
@@ -104,6 +107,8 @@ describe('/api/auth/signup Tests', () => {
       throw new Error('Response is undefined');
     }
   });
+
+
 
   it('should return 500 if there is an error in the signup process', async () => {
     // Simulate an error thrown by the service

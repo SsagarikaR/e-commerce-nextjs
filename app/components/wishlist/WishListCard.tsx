@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { authorizedDeleteRequest } from '@/services/apiReqServices/authorizedRequest'; // Ensure the correct API request service
+import { authorizedDeleteRequest } from '@/services/apiReqServices/authorizedRequest';
 
 interface WishListCardProps {
   item: wishlist;

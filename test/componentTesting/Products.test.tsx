@@ -16,8 +16,8 @@ describe('Products Component', () => {
 
   it('renders products when they are available', async () => {
     const mockProducts = [
-      { productID: '1', name: 'Product 1', price: 10, categoryID: 'electronics', totalCount: 16 },
-      { productID: '2', name: 'Product 2', price: 20, categoryID: 'electronics', totalCount: 16 },
+      { productID: '1', name: 'Product 1', price: 10, categoryID: '2' },
+      { productID: '2', name: 'Product 2', price: 20, categoryID: '3' },
     ];
 
     // Ensure unAuthorizedGetRequest is recognized as a mock function

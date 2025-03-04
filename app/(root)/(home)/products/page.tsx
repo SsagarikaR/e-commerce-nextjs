@@ -1,6 +1,10 @@
 import Products from "@/app/components/products/Products";
+import { Metadata } from "next";
 
-
+export const metadata:Metadata={
+  title:"Shop Cart-prodcuts",
+  description:"This is the product page of shop cart"
+}
 const Page = async ({ searchParams }: { searchParams: { category?: string; name?:string; page?: string } }) => {
   // Await searchParams to ensure we get its values before using them
   const params = await searchParams;
