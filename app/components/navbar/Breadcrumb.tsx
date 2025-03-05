@@ -1,11 +1,11 @@
 'use client';
 
-import { usePathname } from 'next/navigation'; // Correct import for Next.js 13
+import { usePathname } from 'next/navigation'; 
 import Link from 'next/link';
 import { useMemo } from 'react';
 
 const Breadcrumb: React.FC = () => {
-  const pathname = usePathname(); // Get the current pathname
+  const pathname = usePathname();
 
   // Split pathname into segments, ignoring empty segments
   const pathSegments = useMemo(() => {

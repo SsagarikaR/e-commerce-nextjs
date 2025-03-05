@@ -67,19 +67,72 @@ describe('Products Component', () => {
 
   it('updates products when pagination is clicked', async () => {
     const mockPage1Products = [
-      { productID: '1', name: 'Product 1', price: 10 },
-      { productID: '2', name: 'Product 2', price: 20 },
+      { productID: '1',
+        productName: 'Product 1',
+        productPrice: 10 ,
+        productDescription:'Oxidised Silver-Plated American Diamond studded Oval Shaped Drop Earrings Jewellery For Girls and Women 18 colours 4.6store rating (926) · ₹179 to ₹6,199 People also buy from',
+        stock:10,
+        rating:10,
+        totalCount:8,
+        categoryID:6,
+        categoryName:'ear ring',
+        categoryThumbnail:'	https://res.cloudinary.com/dxhujahj5/image/upload/v1741082837/yagglzccanuzi8kfsttk.webp',
+        brandID:6,
+        brandName:'ear ring',
+        brandThumbnail:'	https://res.cloudinary.com/dxhujahj5/image/upload/v1741082837/yagglzccanuzi8kfsttk.webp',
+      },
+      {  
+        productID: '2',
+        productName: 'Product 3',
+        productPrice: 10 ,
+        productDescription:'Oxidised Silver-Plated American Diamond studded Oval Shaped Drop Earrings Jewellery For Girls and Women 18 colours 4.6store rating (926) · ₹179 to ₹6,199 People also buy from',
+        stock:10,
+        rating:10,
+        totalCount:8,
+        categoryID:1,
+        categoryName:'ear ring',
+        categoryThumbnail:'	https://res.cloudinary.com/dxhujahj5/image/upload/v1741082837/yagglzccanuzi8kfsttk.webp',
+        brandID:8,
+        brandName:'ear ring',
+        brandThumbnail:'	https://res.cloudinary.com/dxhujahj5/image/upload/v1741082837/yagglzccanuzi8kfsttk.webp',
+      },
     ];
 
     const mockPage2Products = [
-      { productID: '3', name: 'Product 3', price: 30 },
-      { productID: '4', name: 'Product 4', price: 40 },
+      { productID: '3',
+        productName: 'Product 1',
+        productPrice: 10 ,
+        productDescription:'Oxidised Silver-Plated American Diamond studded Oval Shaped Drop Earrings Jewellery For Girls and Women 18 colours 4.6store rating (926) · ₹179 to ₹6,199 People also buy from',
+        stock:10,
+        rating:10,
+        totalCount:8,
+        categoryID:1,
+        categoryName:'ear ring',
+        categoryThumbnail:'	https://res.cloudinary.com/dxhujahj5/image/upload/v1741082837/yagglzccanuzi8kfsttk.webp',
+        brandID:6,
+        brandName:'ear ring',
+        brandThumbnail:'	https://res.cloudinary.com/dxhujahj5/image/upload/v1741082837/yagglzccanuzi8kfsttk.webp',
+ },
+      { productID: '4',
+        productName: 'Product 3',
+        productPrice: 10 ,
+        productDescription:'Oxidised Silver-Plated American Diamond studded Oval Shaped Drop Earrings Jewellery For Girls and Women 18 colours 4.6store rating (926) · ₹179 to ₹6,199 People also buy from',
+        stock:10,
+        rating:10,
+        totalCount:8,
+        categoryID:1,
+        categoryName:'ear ring',
+        categoryThumbnail:'	https://res.cloudinary.com/dxhujahj5/image/upload/v1741082837/yagglzccanuzi8kfsttk.webp',
+        brandID:8,
+        brandName:'ear ring',
+        brandThumbnail:'	https://res.cloudinary.com/dxhujahj5/image/upload/v1741082837/yagglzccanuzi8kfsttk.webp',
+ },
     ];
 
     (unAuthorizedGetRequest as vi.Mock).mockImplementationOnce(() => Promise.resolve(mockPage1Products));
     (unAuthorizedGetRequest as vi.Mock).mockImplementationOnce(() => Promise.resolve(mockPage2Products));
 
-    render(<Products category="electronics" page={1} name="" />);
+    render(<Products category="1" page={1} name="" />);
 
     await waitFor(() => {
       expect(screen.getByText('Product 1')).toBeInTheDocument();
