@@ -1,7 +1,6 @@
 "use client";
-import { CldUploadWidget } from 'next-cloudinary';
-import { useState } from 'react';
-
+import { CldUploadWidget } from "next-cloudinary";
+import { useState } from "react";
 
 function CloudinaryImageUpload({ seturl }: cloudinaryImageUploadProps) {
   return (
@@ -14,9 +13,9 @@ function CloudinaryImageUpload({ seturl }: cloudinaryImageUploadProps) {
     >
       {({ open }) => (
         // Add type="button" to prevent the form from submitting when clicking this button
-        <button 
-          type="button" 
-          className="bg-purple-300 p-2 rounded-lg hover:bg-purple-400" 
+        <button
+          type="button"
+          className="bg-purple-300 p-2 rounded-lg hover:bg-purple-400"
           onClick={() => open()}
         >
           Upload

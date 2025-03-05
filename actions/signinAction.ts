@@ -10,7 +10,10 @@ const signinSchema = z.object({
     .max(32, { message: "Password must be maximum 32 characters long." })
     .regex(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/,
-      { message: "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character." }
+      {
+        message:
+          "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.",
+      }
     ),
 });
 

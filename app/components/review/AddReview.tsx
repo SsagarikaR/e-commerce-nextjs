@@ -5,7 +5,7 @@ import useSWR, { mutate } from "swr"; // Import SWR
 import { useRouter } from "next/navigation"; // Import useRouter for navigation
 import { authorizedGetRequest } from "@/services/apiReqServices/authorizedRequest";
 import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest";
-import Toast from "../toast/Toast"; 
+import Toast from "../toast/Toast";
 import { review } from "@/constants";
 
 // Fetch product data using SWR
@@ -24,13 +24,13 @@ const AddReview = ({ pid }: { pid: string }) => {
     `/products?id=${pid}`,
     fetcher
   );
-  console.log(product)
+  console.log(product);
   // Form state and toast state
   const [rating, setRating] = useState<number | string>("");
   const [description, setDescription] = useState("");
-  const [toastVisible, setToastVisible] = useState(false); 
-  const [toastMessage, setToastMessage] = useState(""); 
-  const [toastType, setToastType] = useState<"success" | "error">("success"); 
+  const [toastVisible, setToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState<"success" | "error">("success");
 
   // Handle loading and error states
   if (!product) {
@@ -43,8 +43,6 @@ const AddReview = ({ pid }: { pid: string }) => {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-   
 
     const reviewData = {
       productID: pid,
@@ -112,7 +110,9 @@ const AddReview = ({ pid }: { pid: string }) => {
           </div>
 
           <div className="border text-gray-600 dark:bg-gray-300">
-            <div className="p-4 text-lg font-semibold">{review.REVIEW_PRODUCT}</div>
+            <div className="p-4 text-lg font-semibold">
+              {review.REVIEW_PRODUCT}
+            </div>
             <div className="border">
               <div className="pl-4">{review.DESCRIPTION}</div>
               <textarea
@@ -129,7 +129,7 @@ const AddReview = ({ pid }: { pid: string }) => {
               type="submit"
               className="bg-purple-300 px-4 py-2 rounded-md"
             >
-             {review.SUBMIT}
+              {review.SUBMIT}
             </button>
           </div>
         </form>
@@ -140,7 +140,7 @@ const AddReview = ({ pid }: { pid: string }) => {
         <Toast
           message={toastMessage}
           type={toastType}
-           onClose={() => setToastVisible(false)}
+          onClose={() => setToastVisible(false)}
         />
       )}
     </>

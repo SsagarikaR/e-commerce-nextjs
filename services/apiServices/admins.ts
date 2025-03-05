@@ -30,10 +30,6 @@ export const createAdminService = async (userID: number) => {
   }
 };
 
-
-
-
-
 // Service function to get an admin by userID
 export const selectAdminService = async (userID: number) => {
   try {
@@ -43,10 +39,6 @@ export const selectAdminService = async (userID: number) => {
     throw new Error("Error while fetching admin details.");
   }
 };
-
-
-
-
 
 // Service function to delete admin by userID
 export const deleteAdminService = async (userID: number) => {
@@ -66,11 +58,6 @@ export const deleteAdminService = async (userID: number) => {
     throw new Error("An error occurred while deleting the admin.");
   }
 };
-
-
-
-
-
 
 // Service function to update admin by userID
 export const updateAdminService = async (userID: number, newUserID: number) => {

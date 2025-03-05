@@ -1,13 +1,13 @@
-import Signin from '@/app/components/auth/Signin'
-import Signup from '@/app/components/auth/Signup'
-import React from 'react'
+import Signin from "@/app/components/auth/Signin";
+import Signup from "@/app/components/auth/Signup";
+import React from "react";
 
 function page() {
   return (
     <div>
-      <Signin/>
+      <Signin />
     </div>
-  )
+  );
 }
 
-export default page
+export default page;

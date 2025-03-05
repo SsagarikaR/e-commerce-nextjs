@@ -1,14 +1,13 @@
 import { z } from "zod";
 
 const signupSchema = z.object({
-  name:z
-  .string({message: "Name is required"})
+  name: z
+    .string({ message: "Name is required" })
     .min(3, { message: "Name must be minimum 3 characters long." })
     .max(25, { message: "Name must be maximum 25  characters long." }),
-    contactNo: z
+  contactNo: z
     .string({ message: "Contact no. is required." })
-    .length(10, { message: "Contact no. must be 10 characters long." })
-   ,
+    .length(10, { message: "Contact no. must be 10 characters long." }),
   email: z
     .string({ message: "Email is required" })
     .email({ message: "Invalid email address" }),
@@ -18,7 +17,10 @@ const signupSchema = z.object({
     .max(32, { message: "Password must be maximum 32 characters long." })
     .regex(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/,
-      { message: "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character." }
+      {
+        message:
+          "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.",
+      }
     ),
 });
 

@@ -1,5 +1,16 @@
-import { selectProductWithAllMatch, createNewProduct, getProductWithCondition, selectByProductID, deleteByProductID, updateProducts } from "@/dbQuery/products";
-import { invalidateCache,getCache,setCache } from "../../lib/helpers/cacheHelper";
+import {
+  selectProductWithAllMatch,
+  createNewProduct,
+  getProductWithCondition,
+  selectByProductID,
+  deleteByProductID,
+  updateProducts,
+} from "@/dbQuery/products";
+import {
+  invalidateCache,
+  getCache,
+  setCache,
+} from "../../lib/helpers/cacheHelper";
 
 // Service to create a new product
 export const createProductService = async (
@@ -12,7 +23,13 @@ export const createProductService = async (
   stock: number
 ) => {
   // Check if product already exists
-  const isProductExist = await selectProductWithAllMatch(productName, productDescription, productPrice, categoryID, brandID);
+  const isProductExist = await selectProductWithAllMatch(
+    productName,
+    productDescription,
+    productPrice,
+    categoryID,
+    brandID
+  );
   if (isProductExist.length > 0) {
     throw new Error("This product already exists.");
   }
@@ -29,8 +46,8 @@ export const createProductService = async (
 
   if (metaData > 0) {
     // After product creation, clear the cache for affected product lists
-    const cacheKey = `products:${JSON.stringify({ categoryID })}:page:1:limit:20`; 
-    invalidateCache(cacheKey); 
+    const cacheKey = `products:${JSON.stringify({ categoryID })}:page:1:limit:20`;
+    invalidateCache(cacheKey);
 
     return { success: true, message: "Successfully added the product." };
   } else {
@@ -38,17 +55,19 @@ export const createProductService = async (
   }
 };
 
-
-
-
 // Service to fetch products with condition (filters), including caching logic
 export const getProductsService = async (
-  filters: { categoryID?: string | number, name?: string, id?: string | number, price?: "low-to-high" | "high-to-low" },
+  filters: {
+    categoryID?: string | number;
+    name?: string;
+    id?: string | number;
+    price?: "low-to-high" | "high-to-low";
+  },
   page: number,
   limit: number
 ) => {
   // const cacheKey = `products:${JSON.stringify(filters)}:page:${page}:limit:${limit}`;
-  
+
   // const cachedProducts = getCache(cacheKey);
   // if (cachedProducts) {
   //   return cachedProducts;
@@ -60,12 +79,9 @@ export const getProductsService = async (
   }
 
   // setCache(cacheKey, products);
-  
+
   return products;
 };
-
-
-
 
 // Service to delete a product
 export const deleteProductService = async (productID: number) => {
@@ -79,13 +95,10 @@ export const deleteProductService = async (productID: number) => {
 
   // After deleting, invalidate the cache for affected product lists
   const cacheKey = `products:${JSON.stringify({ id: productID })}:page:1:limit:20`;
-  invalidateCache(cacheKey); 
+  invalidateCache(cacheKey);
 
   return { success: true, message: "Successfully deleted the product" };
 };
-
-
-
 
 // Service to update a product
 export const updateProductService = async (
@@ -101,10 +114,17 @@ export const updateProductService = async (
     throw new Error("This product doesn't exist.");
   }
 
-  await updateProducts(productName, productDescription, productThumbnail, productPrice, categoryID, productID);
+  await updateProducts(
+    productName,
+    productDescription,
+    productThumbnail,
+    productPrice,
+    categoryID,
+    productID
+  );
 
-  const cacheKey = `products:${JSON.stringify({ categoryID })}:page:1:limit:20`; 
-  invalidateCache(cacheKey); 
+  const cacheKey = `products:${JSON.stringify({ categoryID })}:page:1:limit:20`;
+  invalidateCache(cacheKey);
 
   return { success: true, message: "Successfully updated the product." };
 };

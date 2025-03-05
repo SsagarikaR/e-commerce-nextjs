@@ -1,19 +1,19 @@
-'use client';
-
-import { usePathname } from 'next/navigation'; 
-import Link from 'next/link';
-import { useMemo } from 'react';
+"use client";
+import React from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { useMemo } from "react";
 
 const Breadcrumb: React.FC = () => {
   const pathname = usePathname();
 
   // Always call useMemo unconditionally
   const pathSegments = useMemo(() => {
-    return pathname?.split('/').filter(Boolean) || [];
+    return pathname?.split("/").filter(Boolean) || [];
   }, [pathname]);
 
   // If the path is `/home`, don't show breadcrumbs
-  if (pathname === '/home') {
+  if (pathname === "/home") {
     return null;
   }
 
@@ -31,19 +31,22 @@ const Breadcrumb: React.FC = () => {
         </li>
 
         {/* Generate breadcrumbs dynamically */}
-        {pathSegments.length > 0 && pathSegments.map((segment, index) => {
-          // Build the path from the root
-          const path = '/' + pathSegments.slice(0, index + 1).join('/');
+        {pathSegments.length > 0 &&
+          pathSegments.map((segment, index) => {
+            // Build the path from the root
+            const path = "/" + pathSegments.slice(0, index + 1).join("/");
 
-          return (
-            <li key={index}>
-              <Link href={path} className="hover:text-purple-800 capitalize">
-                {segment}
-              </Link>
-              {index !== pathSegments.length - 1 && <span className="mx-2">/</span>}
-            </li>
-          );
-        })}
+            return (
+              <li key={index}>
+                <Link href={path} className="hover:text-purple-800 capitalize">
+                  {segment}
+                </Link>
+                {index !== pathSegments.length - 1 && (
+                  <span className="mx-2">/</span>
+                )}
+              </li>
+            );
+          })}
       </ol>
     </nav>
   );

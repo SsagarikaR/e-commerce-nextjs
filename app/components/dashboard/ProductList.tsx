@@ -1,5 +1,6 @@
 // components/ProductList.tsx
 "use client";
+import React from "react";
 import useSWR, { mutate } from "swr";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,7 +8,7 @@ import Pagination from "../pagination/Pagination"; // Assuming Pagination compon
 import { useState } from "react";
 import { authorizedDeleteRequest } from "@/services/apiReqServices/authorizedRequest";
 import ConfirmModal from "../confirmModal.tsx/ConfirmModal"; // Import the Modal component
-import {  dashboard_product } from "@/constants";
+import { dashboard_product } from "@/constants";
 import { fetcher } from "@/lib/helpers/unAuthorizedGetFetcher";
 
 function ProductList({ page }: { page: number }) {
@@ -29,12 +30,12 @@ function ProductList({ page }: { page: number }) {
     return <div>Error: {error.message}</div>;
   }
 
-  let totalPages:number;
+  let totalPages: number;
 
-  if(products.length>0){
+  if (products.length > 0) {
     totalPages = Math.ceil(products[0].totalCount / 8);
   }
-  
+
   const currentPage = page;
 
   const handleDelete = async (productID: number) => {

@@ -1,20 +1,25 @@
-"use client"
-import AdminSidebar from '@/app/components/navbar/AdminSidebar';
-import React, { ReactNode, useState } from 'react'
+"use client";
+import AdminSidebar from "@/app/components/navbar/AdminSidebar";
+import React, { ReactNode, useState } from "react";
 
-function layout({children}:{children:ReactNode}) {
-  const [isNavOpen,setNavOpen]=useState(false);
+function layout({ children }: { children: ReactNode }) {
+  const [isNavOpen, setNavOpen] = useState(false);
 
   return (
-    <div className={`w-screen flex font-serif min-h-screen ${isNavOpen&&"bg-gray-200"}`}>
-      <AdminSidebar isNavOpen={isNavOpen} setNavOpen={setNavOpen}/>
-      <div className={`md:w-[86%] w-full `} onClick={()=>{
-        setNavOpen(false)
-      }}>
-      {children}
+    <div
+      className={`w-screen flex font-serif min-h-screen ${isNavOpen && "bg-gray-200"}`}
+    >
+      <AdminSidebar isNavOpen={isNavOpen} setNavOpen={setNavOpen} />
+      <div
+        className={`md:w-[86%] w-full `}
+        onClick={() => {
+          setNavOpen(false);
+        }}
+      >
+        {children}
       </div>
     </div>
-  )
+  );
 }
 
 export default layout;

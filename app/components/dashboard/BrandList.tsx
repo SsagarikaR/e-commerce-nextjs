@@ -2,8 +2,7 @@
 import useSWR, { mutate } from "swr";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRequest";
-import { useState } from "react";
+import React, { useState } from "react";
 import ConfirmModal from "../confirmModal.tsx/ConfirmModal"; // Import the reusable ConfirmModal
 import { authorizedDeleteRequest } from "@/services/apiReqServices/authorizedRequest";
 import { dashboard_brand } from "@/constants";
@@ -17,19 +16,21 @@ function BrandList() {
 
   // Handle delete brand
   const handleDelete = async (brandID: number) => {
-    setBrandToDelete(brandID); 
-    setShowModal(true); 
+    setBrandToDelete(brandID);
+    setShowModal(true);
   };
 
   // Confirm delete and make the API call
   const confirmDelete = async () => {
     try {
-      const response = await authorizedDeleteRequest(`brands`,{brandID:brandToDelete});
+      const response = await authorizedDeleteRequest(`brands`, {
+        brandID: brandToDelete,
+      });
 
       if (response.status === 200) {
         // If successful, refetch the brand list
         mutate("brands");
-        setShowModal(false); 
+        setShowModal(false);
       } else {
         console.error("Failed to delete brand");
       }
@@ -76,8 +77,10 @@ function BrandList() {
             ))
           ) : (
             <tr>
-            <td colSpan={2} className="text-center">{dashboard_brand.NO_BRAND}</td>
-          </tr>
+              <td colSpan={2} className="text-center">
+                {dashboard_brand.NO_BRAND}
+              </td>
+            </tr>
           )}
         </tbody>
       </table>
