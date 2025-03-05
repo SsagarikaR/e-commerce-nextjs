@@ -43,7 +43,7 @@ function SignUpForm() {
         const form = new FormData(e.target as HTMLFormElement);
         const result = await signupUserAction(form);
     
-        // Handle validation errors
+        // Handle validation errorsy
         if (result.errors) {
           setErrors({
             email: result.errors.email ? result.errors.email.join(' ') : '',

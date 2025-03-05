@@ -6,6 +6,11 @@ import {
   updateProductService,
 } from "@/services/apiServices/products";
 import { checkToken,isAdmin } from "@/lib/midlleware/auth";
+import { Reviews } from "@/lib/Database/models/review";
+import { CartItems } from "@/lib/Database/models/cartItem";
+import { orders } from "@/constants";
+import { Orders } from "@/lib/Database/models/order";
+import { OrderItems } from "@/lib/Database/models/orderItem";
 
 // Controller to create a product
 export const POST = async (req: NextRequest) => {

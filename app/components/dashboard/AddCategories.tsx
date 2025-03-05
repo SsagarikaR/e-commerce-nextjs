@@ -1,44 +1,72 @@
 "use client";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation"; // Added to handle redirection after submission
-import CloudinaryImageUpload from "./CloudinaryImageUpload"; // Assuming this is your Cloudinary image upload component
-import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest"; // API request function
+import { useRouter } from "next/navigation"; 
+import CloudinaryImageUpload from "./CloudinaryImageUpload"; 
+import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest"; 
 import { dashboard_catgeory } from "@/constants";
+import { addCategoryAction } from "@/actions/addCategoryAction";
 
 function AddCategories() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    categoryName: string;
+    categoryThumbnail: string;
+    }>({
     categoryName: "",
-    categoryThumbnail: "", // This will store the Cloudinary image URL for the category thumbnail
+    categoryThumbnail: "", 
   });
 
-  const router = useRouter(); // Used for redirection after successful submission
+  const [errors, setErrors] = useState<{
+    categoryName: string;
+    categoryThumbnail: string;
+    }>({
+      categoryName: "",
+      categoryThumbnail: "",
+    });
+
+  const router = useRouter(); 
 
   // Handle form input change
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle image URL from Cloudinary upload
   const handleImageUpload = (url: string) => {
-    setFormData((prev) => ({ ...prev, categoryThumbnail: url })); // Store the Cloudinary URL in the form data
+    setFormData((prev) => ({ ...prev, categoryThumbnail: url })); 
   };
 
   // Handle form submit
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
+    const form=new FormData(e.target as HTMLFormElement)
+    form.append("categoryThumbnail", formData.categoryThumbnail); // Cloudinary image URL
+    const result=await addCategoryAction(form);
+    console.log(result,"result")
+    console.log(form,"send form data")
+
+    if (result.errors) {
+      // If there are errors, you can set the errors in the state
+      setErrors((prev) => ({
+        categoryName: result.errors.categoryName ?result.errors.categoryName[0]: "",
+        categoryThumbnail: result.errors.categoryThumbnail ?result.errors.categoryThumbnail[0]: "" 
+      }));
+
+      return; // If there are errors, stop form submission
+    }
+
 
     try {
-      // Sending data to the backend API to create a category
       const response = await authorizedPostRequest("categories", formData);
       console.log(response);
-      router.push("/dashboard/categories"); // Redirect to the categories list page
+      router.push("/dashboard/categories"); 
     } catch (error) {
       console.error("Error:", error);
     }
   };
+
+  
 
   return (
     <div className="pt-10 w-full flex flex-col gap-4">
@@ -56,14 +84,15 @@ function AddCategories() {
             value={formData.categoryName}
             onChange={handleChange}
             className="border border-gray-400 px-4 py-2 w-3/5"
-            required
           />
+          {errors.categoryName && <p className="text-red-500 text-sm">{errors.categoryName}</p>}
         </div>
 
         {/* Category Thumbnail (Cloudinary Upload) */}
         <div className="w-full flex relative pb-6">
           <label className="text-xl w-2/5">{dashboard_catgeory.ENTER_CATEGORY_THUMBNAIL}</label>
           <CloudinaryImageUpload seturl={handleImageUpload} />
+          {errors.categoryThumbnail && <p className="text-red-500 text-sm">{errors.categoryThumbnail}</p>}
         </div>
 
         {/* Display Uploaded Image Preview */}

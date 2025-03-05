@@ -1,10 +1,9 @@
 // components/ProductList.tsx
 "use client";
 import useSWR, { mutate } from "swr";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Pagination from "../pagination/Pagination"; // Assuming Pagination component is in the same folder
-import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRequest";
 import { useState } from "react";
 import { authorizedDeleteRequest } from "@/services/apiReqServices/authorizedRequest";
 import ConfirmModal from "../confirmModal.tsx/ConfirmModal"; // Import the Modal component
@@ -63,8 +62,8 @@ function ProductList({ page }: { page: number }) {
   };
 
   return (
-    <div className="w-full mt-10 text-lg text-gray-700">
-      <table className="border w-full border-collapse">
+    <div className="w-full  mt-10  text-lg text-gray-700 h-[700px] xl:h-[800px] overflow-auto">
+      <table className="border w-full border-collapse ">
         <thead>
           <tr>
             <th className="border-2 p-2">{dashboard_product.PRODUCT_NAME}</th>
@@ -83,7 +82,7 @@ function ProductList({ page }: { page: number }) {
                   <div className="flex space-x-2 ">
                     <img
                       src={product.productThumbnail}
-                      className="w-16 border-gray-200 border shadow-md p-2"
+                      className="md:w-16 md:h-16 h-12 w-12 border-gray-200 border shadow-md p-2"
                     />
                     <div>{product.productName}</div>
                   </div>

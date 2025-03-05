@@ -1,9 +1,10 @@
 "use client"
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBagShopping, faBars } from '@fortawesome/free-solid-svg-icons'
+import { faBagShopping, faBars,  faXmark } from '@fortawesome/free-solid-svg-icons'
 import { usePathname } from 'next/navigation'
 import React from 'react'
+import Cookies from 'js-cookie'
 import { admin_sidebar, shop_cart } from '@/constants'
 
 function AdminSidebar({isNavOpen,setNavOpen}:{
@@ -14,12 +15,18 @@ function AdminSidebar({isNavOpen,setNavOpen}:{
 
   return (
     <>
-    <div className='fixed top-6 md:hidden cursor-pointer' onClick={()=>{
+    {!isNavOpen?
+    <div className='fixed top-7 md:hidden cursor-pointer z-10' onClick={()=>{
         setNavOpen(true)
       }}>
       <FontAwesomeIcon icon={faBars} className='w-8 h-8 '
       />
     </div>
+    :<div className='fixed top-1 md:hidden cursor-pointer z-10 left-52' onClick={()=>{
+      setNavOpen(false)
+    }}>
+    <FontAwesomeIcon icon={faXmark} className='w-8 h-8 '
+    /></div>}
     <div className={`${isNavOpen?"flex fixed":"hidden"} md:flex  w-[250px]  flex-col font-serif p-2 items-center text-xl font-semibold text-gray-700 h-screen shadow-2xl gap-8 justify-between bg-white`}>
       <div>
         <div className="flex items-center gap-2 pb-10 pt-2">
@@ -68,7 +75,7 @@ function AdminSidebar({isNavOpen,setNavOpen}:{
           </div>
         </div>
       </div>
-      <div className="pb-10 text-2xl text-purple-500 cursor-pointer underline">
+      <div className="pb-10 text-2xl text-purple-500 cursor-pointer underline" onClick={()=>{Cookies.remove("token");  window.location.reload(); }}>
         {admin_sidebar.LOG_OUT}
       </div>
     </div>

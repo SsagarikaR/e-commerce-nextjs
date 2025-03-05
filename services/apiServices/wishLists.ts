@@ -27,7 +27,7 @@ import {
   export const getWishListByUserService = async (userID: number) => {
     const wishlist = await getWishListByUserID(userID);
     if (wishlist.length === 0) {
-      return { success: false, message: "No items in wishlist." };
+      return { success: false, message: "This product doesn't exista in wishlist." };
     }
     return { success: true, wishlist };
   };

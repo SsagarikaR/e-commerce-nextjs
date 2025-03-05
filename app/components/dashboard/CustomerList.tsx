@@ -21,19 +21,11 @@ function CustomerList() {
   const handleAddAdmin = async (userID:number) => {
     try {
       const response = await authorizedPostRequest("admin", { userID }); // Send POST request to add the user as an admin
-
-      if (response.status === 200) {
-        // If successful, refetch the customers' data
+      console.log(response);
         setToastMessage(response.message);
         setToastType("success");
         setToastVisible(true);
         mutate("users"); 
-      } else {
-        console.error("Failed to add admin:", response?.message);
-        setToastMessage(response.message);
-        setToastType("error");
-        setToastVisible(true);
-      }
     } catch (error) {
         setToastMessage("An error occurred while submitting the review.");
         setToastType("error");
@@ -46,7 +38,7 @@ function CustomerList() {
   if (!customers) return <div>Loading...</div>;
 
   return (
-    <div className="w-full mt-10 text-lg text-gray-700">
+    <div className="w-full mt-10 text-lg text-gray-700 h-[800px] overflow-auto">
       <table className="border w-full border-collapse">
         <thead>
           <tr>

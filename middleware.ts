@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server';
 import Cookies from 'js-cookie';
 
 // List of routes that should be protected
-const protectedRoutes = ['/dashboard', '/orders','/cart','/wishlist','/preferences','/orders'];
+const protectedRoutes = ['/dashboard', '/orders','/cart','/wishlist','/preferences','/orders','/dashboard/customers','/dashboard/products','/dashboard/brands','/dashboard/categories'];
 
 export function middleware(req: NextRequest) {
   // Check the path of the current request

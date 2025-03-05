@@ -45,7 +45,7 @@ function CategoryList() {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="w-full mt-10 text-lg text-gray-700">
+    <div className="w-full mt-10 text-lg text-gray-700  h-[700px] overflow-auto">
       <table className="border w-full border-collapse">
         <thead>
           <tr>

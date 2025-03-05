@@ -11,11 +11,11 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=${NODE_ENV:-development}
-      - IS_DOCKER=true 
+      - DB_HOST=mysql-db
       - DATABASE_URL=mysql://sagarika:Sagarika%40%71@mysql-db:3307/eCommerce
-      - DBUSER=sagarika
+      - DB_USER=sagarika
       - PASSWORD=Sagarika%40%71
-      - DBNAME=eCommerce
+      - DB_NAME=eCommerce
       - DB_PORT=3307
     volumes:
       - .:/app

@@ -6,6 +6,7 @@ import CloudinaryImageUpload from "./CloudinaryImageUpload";
 import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest";
 import { dashboard_product } from "@/constants";
 import { fetcher } from "@/lib/helpers/unAuthorizedGetFetcher";
+import { addProductAction } from "@/actions/addProductAction";
 
 
 function AddProduct() {
@@ -22,7 +23,17 @@ function AddProduct() {
     brandID: "",
     categoryID: "",
     stock: "",
-    productThumbnail: "", // This will store the Cloudinary image URL
+    productThumbnail: "",
+  });
+
+  const [errors, setErrors] = useState({
+    productName: "",
+    productPrice: "",
+    productDescription: "",
+    brandID: "",
+    categoryID: "",
+    stock: "",
+    productThumbnail: "", 
   });
 
   const router = useRouter(); // Used for redirection after successful submission
@@ -35,28 +46,90 @@ function AddProduct() {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    handleValidationOnChange();
   };
 
   // Handle image URL from Cloudinary upload
   const handleImageUpload = (url: string) => {
-    setFormData((prev) => ({ ...prev, productThumbnail: url })); // Store the Cloudinary URL in the form data
+    setFormData((prev) => ({ ...prev, productThumbnail: url })); 
+    handleValidationOnChange();
   };
 
-  // Handle form submit
+  // Handle input changes and validate immediately
+    const handleValidationOnChange = async () => {
+  
+      const form = new FormData();
+      form.set("productName", formData.productName);
+      form.set("productThmbnail", formData.productThumbnail);
+      form.set("productPrice", formData.productPrice);
+      form.set("productDescription", formData.productDescription);
+      form.set("categoryID", formData.categoryID);
+      form.set("brandID", formData.brandID);
+      form.set("stock", formData.stock);
+
+
+      const result = await addProductAction(form);
+      //  console.log(result)
+      if (result.errors) {
+        setErrors((prev) => ({
+          productName: result.errors.productName ?result.errors.productName[0]: "",
+         productThumbnail: result.errors.productThumbnail ?result.errors.productThumbnail[0]: "" ,
+         productPrice: result.errors.productPrice ?result.errors.productPrice[0]: "",
+         productDescription: result.errors.productDescription ?result.errors.productDescription[0]: "" ,
+         categoryID: result.errors.categoryID?result.errors.categoryID[0]: "",
+         brandID: result.errors.brandID ?result.errors.brandID[0]: "" ,
+        stock: result.errors.stock ?result.errors.stock[0]: "",
+        }));
+      } else {
+        setErrors({
+          productName: "",
+          productPrice: "",
+          productDescription: "",
+          brandID: "",
+          categoryID: "",
+          stock: "",
+          productThumbnail: "", 
+        });
+      }
+    };
+
+
+
+  // Handle form submit (validate fields if there is no error then submit)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+        const form=new FormData(e.target as HTMLFormElement)
+        form.append("productThumbnail", formData.productThumbnail);
+        const result=await addProductAction(form);
+        console.log(result,"result")
+        console.log(formData,"send form data")
+    
+        if (result.errors) {
+          setErrors((prev) => ({
+            productName: result.errors.productName ?result.errors.productName[0]: "",
+           productThumbnail: result.errors.productThumbnail ?result.errors.productThumbnail[0]: "" ,
+           productPrice: result.errors.productPrice ?result.errors.productPrice[0]: "",
+           productDescription: result.errors.productDescription ?result.errors.productDescription[0]: "" ,
+           categoryID: result.errors.categoryID?result.errors.categoryID[0]: "",
+           brandID: result.errors.brandID ?result.errors.brandID[0]: "" ,
+          stock: result.errors.stock ?result.errors.stock[0]: "",
+          }));
+    
+          return; 
+        }
 
     try {
       // Sending data to the backend API
       const response = await authorizedPostRequest("products", formData);
       console.log(response);
         router.push("/dashboard/products");
-        // Handle the error (show error message to the user)
     } catch (error) {
       console.error("Error:", error);
-      // Handle the error (show error message to the user)
     }
   };
+
+
 
   return (
     <div className="pt-10 w-full flex flex-col gap-4">
@@ -72,9 +145,10 @@ function AddProduct() {
             type="text"
             name="productName"
             value={formData.productName}
-            onChange={handleChange}
+            onChange={(e)=>{handleChange(e); }}
             className="border border-gray-400 px-4 py-2 w-3/5"
           />
+          {errors.productName && <p className="text-red-500 text-sm absolute bottom-0 pl-[40%]">{errors.productName}</p>}
         </div>
 
         {/* Product Price */}
@@ -84,9 +158,10 @@ function AddProduct() {
             type="text"
             name="productPrice"
             value={formData.productPrice}
-            onChange={handleChange}
+            onChange={(e)=>{handleChange(e); }}
             className="border border-gray-400 px-4 py-2 w-3/5"
           />
+          {errors.productPrice && <p className="text-red-500 text-sm absolute bottom-0 pl-[40%]">{errors.productPrice}</p>}
         </div>
 
         {/* Product Description */}
@@ -96,9 +171,11 @@ function AddProduct() {
             name="productDescription"
             rows={4}
             value={formData.productDescription}
-            onChange={handleChange}
+            onChange={(e)=>{handleChange(e); }}
             className="border border-gray-400 px-4 py-2 w-3/5"
           ></textarea>
+          {errors.productDescription && <p className="text-red-500 text-sm absolute bottom-0 pl-[40%]">{errors.productDescription}</p>}
+
         </div>
 
         {/* Product Brand */}
@@ -106,7 +183,7 @@ function AddProduct() {
           <label className="text-xl w-2/5">{dashboard_product.ENTER_PRODUCT_BARND}</label>
           <select
             name="brandID"
-            onChange={handleChange}
+            onChange={(e)=>{handleChange(e); }}
             value={formData.brandID}
             className="border border-gray-400 px-4 py-2 w-3/5"
           >
@@ -120,6 +197,8 @@ function AddProduct() {
               </option>
             )))}
           </select>
+          {errors.brandID && <p className="text-red-500 text-sm absolute bottom-0 pl-[40%]">{errors.brandID}</p>}
+
         </div>
 
         {/* Product Category */}
@@ -127,7 +206,7 @@ function AddProduct() {
           <label className="text-xl w-2/5">{dashboard_product.ENTER_RPODUCT_CATGEORY}</label>
           <select
             name="categoryID"
-            onChange={handleChange}
+            onChange={(e)=>{handleChange(e); }}
             value={formData.categoryID}
             className="border border-gray-400 px-4 py-2 w-3/5"
           >
@@ -141,6 +220,8 @@ function AddProduct() {
               </option>
             )))}
           </select>
+          {errors.categoryID && <p className="text-red-500 text-sm absolute bottom-0 pl-[40%]">{errors.categoryID}</p>}
+
         </div>
         {/* Product Stock */}
         <div className="w-full flex pb-6 relative">
@@ -149,15 +230,17 @@ function AddProduct() {
             type="text"
             name="stock"
             value={formData.stock}
-            onChange={handleChange}
+            onChange={(e)=>{handleChange(e); }}
             className="border border-gray-400 px-4 py-2 w-3/5"
           />
+          {errors.stock && <p className="text-red-500 text-sm absolute bottom-0 pl-[40%]">{errors.stock}</p>}
         </div>
 
         {/* Product Thumbnail (Cloudinary Upload) */}
         <div className="w-full flex relative pb-6">
           <label className="text-xl w-2/5">{dashboard_product.ENTER_PRODUCT_THUMBNAIL}</label>
           <CloudinaryImageUpload seturl={handleImageUpload} />
+          {errors.productThumbnail && <p className="text-red-500 text-sm absolute bottom-0 pl-[40%]">{errors.productThumbnail}</p>}
         </div>
 
         {/* Display Uploaded Image Preview */}

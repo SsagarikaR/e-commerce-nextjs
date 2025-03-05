@@ -21,14 +21,14 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "typeRoots": ["node_modules/@types"],  // Ensure the types directory is correctly referenced
-    "types": ["node", "estree", "json-schema","vitest"]  // Explicitly include necessary types
+    "typeRoots": ["node_modules/@types"],
+    "types": ["node", "estree", "json-schema"]
   },
   "include": [
-    "next-env.d.ts", 
-    "**/*.ts", 
-    "**/*.tsx", 
-    ".next/types/**/*.ts", 
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
     "app/api/wishlists",
     "vitest.config.ts"
   ],

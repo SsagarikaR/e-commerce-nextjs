@@ -1,6 +1,7 @@
 import { Users } from "@/lib/Database/models/user";
 import { getUserService } from "@/services/apiServices/users";
 import { NextRequest,NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 
 export async function POST(req: NextRequest) {
@@ -21,7 +22,11 @@ export async function POST(req: NextRequest) {
       }
   
       if (result.user) {
+        const setCookie = await cookies();
+        const sevenDay = 7 * 24 * 60 * 60 * 1000;
+        setCookie.set('token', result.user.token!, { expires: Date.now() + sevenDay });
         return NextResponse.json({user:result.user}, { status: 200 });
+       
       }
   
       return NextResponse.json({ message: "User not found" }, { status: 404 });

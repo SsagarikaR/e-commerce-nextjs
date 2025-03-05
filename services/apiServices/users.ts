@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+// import bcrypt from "bcrypt";
 import {
     selectUserByName,
     selectUserByEmail,
@@ -8,6 +8,7 @@ import {
     updateUsersPassword,
     selectAllUsers
 } from "@/dbQuery/users";
+import bcrypt from "bcryptjs";
 import { generateToken } from "@/lib/midlleware/auth";
 import { cookies } from "next/headers";
 
@@ -32,9 +33,9 @@ export const createUserService = async (
     }
     console.log(existingUserByEmail,"email")
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hashSync(password, 10);
     console.log(hashedPassword,"hashed")
-    const [result, metaData] = await createNewUser(name, email, contactNo, hashedPassword);
+    const [result, metaData] = await createNewUser(name, email, contactNo,hashedPassword);
     
     if (metaData === 0) {
         return { success: false, message: "Error creating user" };
@@ -51,19 +52,15 @@ export const getUserService = async (email: string, password: string) => {
     const users:user[] = await selectUserByEmail(email);
 
     if(users[0].password){
-        const isPasswordValid = await bcrypt.compare(password, users[0].password);
-        if (!isPasswordValid) {
-            return { success: false, message: "Invalid password" };
-        }
+        // const isPasswordValid = await bcrypt.compareSync(password, users[0].password);
+        // if (!isPasswordValid) {
+        //     return { success: false, message: "Invalid password" };
+        // }
         const user=users[0]
         delete user.password;
                 const token = await generateToken(user.userID);
                 user.token = token;
-          
-                const setCookie = await cookies();
-                const sevenDay = 7 * 24 * 60 * 60 * 1000;
-                setCookie.set('token', user.token!, { expires: Date.now() + sevenDay });
-        return { success: true, user };
+               return { success: true, user };
     }
    
 };

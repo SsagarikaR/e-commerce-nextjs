@@ -4,12 +4,22 @@ import { useRouter } from "next/navigation"; // Added to handle redirection afte
 import CloudinaryImageUpload from "./CloudinaryImageUpload"; // Assuming this is your Cloudinary image upload component
 import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest"; // API request function
 import { dashboard_brand } from "@/constants";
+import { addBrandAction } from "@/actions/addBrandAction";
 
 function AddBrands() {
   const [formData, setFormData] = useState({
     brandName: "",
     brandThumbnail: "", 
   });
+
+   const [errors, setErrors] = useState<{
+        brandName: string;
+        brandThumbnail: string;
+      }>({
+        brandName: "",
+        brandThumbnail: "",
+      });
+  
 
   const router = useRouter(); // Used for redirection after successful submission
 
@@ -29,6 +39,22 @@ function AddBrands() {
   // Handle form submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+     const form=new FormData(e.target as HTMLFormElement)
+        form.append("barndThumbnail", formData.brandThumbnail); // Cloudinary image URL
+        const result=await addBrandAction(form);
+        console.log(result,"result")
+        console.log(form,"send form data")
+    
+        if (result.errors) {
+          // If there are errors, you can set the errors in the state
+          setErrors((prev) => ({
+            brandName: result.errors.brandName ?result.errors.brandName[0]: "",
+            brandThumbnail: result.errors.brandThumbnail ?result.errors.brandThumbnail[0]: "" 
+          }));
+    
+          return; // If there are errors, stop form submission
+        }
 
     try {
       // Sending data to the backend API to create a brand
@@ -58,12 +84,14 @@ function AddBrands() {
             className="border border-gray-400 px-4 py-2 w-3/5"
             required
           />
+          {errors.brandName && <p className="text-red-500 text-sm">{errors.brandName}</p>}
         </div>
 
         {/* Brand Thumbnail (Cloudinary Upload) */}
         <div className="w-full flex relative pb-6">
           <label className="text-xl w-2/5">{dashboard_brand.ENTER_BARND_THUMBNAIL}</label>
           <CloudinaryImageUpload seturl={handleImageUpload} />
+          {errors.brandThumbnail && <p className="text-red-500 text-sm">{errors.brandThumbnail}</p>}
         </div>
 
         {/* Display Uploaded Image Preview */}

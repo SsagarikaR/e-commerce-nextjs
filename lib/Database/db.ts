@@ -2,20 +2,17 @@ import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
 dotenv.config();
 
-const { DBNAME, DBUSER, PASSWORD ,IS_DOCKER} = process.env;
-console.log(DBNAME, DBUSER, PASSWORD)
+const { DB_NAME, DB_USER, PASSWORD ,DB_HOST} = process.env;
+console.log(DB_NAME, DB_USER, PASSWORD)
 
-if (!DBNAME || !DBUSER || !PASSWORD) {
+if (!DB_NAME || !DB_USER || !PASSWORD || !DB_HOST) {
   throw new Error('Missing necessary database environment variables.');
 }
 
-const isDocker = IS_DOCKER === 'true';  // Check if IS_DOCKER is true
 
-// Set host based on environment
-const host = isDocker ? 'mysql-db' : 'localhost'; // Use 'mysql-db' for Docker and 'localhost' for local development
 
-export const sequelize = new Sequelize(DBNAME, DBUSER, PASSWORD, {
-  host: host, // Dynamically choose the host
+export const sequelize = new Sequelize(DB_NAME, DB_USER, PASSWORD, {
+  host: DB_HOST, // Dynamically choose the host
   dialect: 'mysql',
   dialectModule: require('mysql2'),
 });
