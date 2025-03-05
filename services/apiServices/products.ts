@@ -6,11 +6,7 @@ import {
   deleteByProductID,
   updateProducts,
 } from "@/dbQuery/products";
-import {
-  invalidateCache,
-  getCache,
-  setCache,
-} from "../../lib/helpers/cacheHelper";
+import { invalidateCache } from "../../lib/helpers/cacheHelper";
 
 // Service to create a new product
 export const createProductService = async (
@@ -66,19 +62,10 @@ export const getProductsService = async (
   page: number,
   limit: number
 ) => {
-  // const cacheKey = `products:${JSON.stringify(filters)}:page:${page}:limit:${limit}`;
-
-  // const cachedProducts = getCache(cacheKey);
-  // if (cachedProducts) {
-  //   return cachedProducts;
-  // }
-
   const products = await getProductWithCondition(filters, page, limit);
   if (products.length === 0) {
     throw new Error("No products found.");
   }
-
-  // setCache(cacheKey, products);
 
   return products;
 };

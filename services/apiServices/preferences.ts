@@ -84,6 +84,7 @@ export const updatePreferenceService = async (
 
     return { message: "Preference updated successfully", result };
   } catch (error) {
+    console.error(error);
     throw new Error("Error while updating preferences. Please try again.");
   }
 };
@@ -103,6 +104,7 @@ export const deletePreferenceService = async (
 
     return { message: "Preference deleted successfully", result };
   } catch (error) {
+    console.error(error);
     throw new Error("Error while deleting preferences. Please try again.");
   }
 };

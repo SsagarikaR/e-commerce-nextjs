@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { GET } from "@/app/api/user/route"; // Adjust the path to your actual route handler
 import * as AuthModule from "@/lib/midlleware/auth"; // Import the auth module for token checking
 import * as UserService from "@/services/apiServices/users"; // Import the user service for fetching user by ID

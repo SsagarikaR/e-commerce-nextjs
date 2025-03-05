@@ -10,7 +10,6 @@ import {
 } from "@/dbQuery/users";
 import bcrypt from "bcryptjs";
 import { generateToken } from "@/lib/midlleware/auth";
-import { cookies } from "next/headers";
 
 // Service to create a new user
 export const createUserService = async (
@@ -53,10 +52,13 @@ export const getUserService = async (email: string, password: string) => {
   const users: user[] = await selectUserByEmail(email);
 
   if (users[0].password) {
-    // const isPasswordValid = await bcrypt.compareSync(password, users[0].password);
-    // if (!isPasswordValid) {
-    //     return { success: false, message: "Invalid password" };
-    // }
+    const isPasswordValid = await bcrypt.compareSync(
+      password,
+      users[0].password
+    );
+    if (!isPasswordValid) {
+      return { success: false, message: "Invalid password" };
+    }
     const user = users[0];
     delete user.password;
     const token = await generateToken(user.userID);
@@ -110,6 +112,7 @@ export const getAllUsersService = async () => {
     }
     return { success: true, users };
   } catch (error) {
+    console.error(error);
     throw new Error("An error occurred while fetching users");
   }
 };

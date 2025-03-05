@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
-import Cookies from "js-cookie";
 
 // List of routes that should be protected
 const protectedRoutes = [

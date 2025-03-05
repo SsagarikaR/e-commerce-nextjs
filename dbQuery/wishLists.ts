@@ -1,5 +1,5 @@
 import { sequelize } from "@/lib/Database/db";
-import { DataTypes, QueryTypes } from "sequelize";
+import { QueryTypes } from "sequelize";
 
 export const selectByUserAndProduct = async (
   userID: number,

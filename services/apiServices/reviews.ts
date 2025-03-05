@@ -41,6 +41,7 @@ export const addReviewService = async (
 
     return { success: true, message: "Thank you for adding a review!" };
   } catch (error) {
+    console.error(error);
     await t.rollback();
     throw new Error("An error occurred while adding the review.");
   }
@@ -55,6 +56,7 @@ export const getReviewsOfProductService = async (productID: number) => {
     }
     return { success: true, reviews };
   } catch (error) {
+    console.error(error);
     throw new Error("An error occurred while fetching reviews.");
   }
 };
@@ -75,6 +77,7 @@ export const updateReviewService = async (
     await updateReview(userID, reviewID, rating, description);
     return { success: true, message: "Review updated successfully!" };
   } catch (error) {
+    console.error(error);
     throw new Error("An error occurred while updating the review.");
   }
 };
@@ -90,6 +93,7 @@ export const deleteReviewService = async (userID: number, reviewID: number) => {
     await deleteReview(userID, reviewID);
     return { success: true, message: "Review deleted successfully!" };
   } catch (error) {
+    console.error(error);
     throw new Error("An error occurred while deleting the review.");
   }
 };

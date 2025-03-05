@@ -1,6 +1,5 @@
 import axios from "axios";
 import dotenv from "dotenv";
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import cookie from "js-cookie";
 dotenv.config();
 const port = "http://localhost:3000/";
@@ -42,6 +41,7 @@ export const authorizedPostRequest = async (route: string, data: object) => {
     console.log("API response data:", response.data); // Log the data here to check if it is correct
     return response.data;
   } catch (error) {
+    console.error(error);
     throw new Error(
       "Error in making get request please try again Please try again"
     );
@@ -63,6 +63,7 @@ export const authorizedDeleteRequest = async (route: string, data: object) => {
     console.log("API response data:", response.data); // Log the data here to check if it is correct
     return response.data;
   } catch (error) {
+    console.error(error);
     throw new Error(
       "Error in making get request please try again Please try again"
     );

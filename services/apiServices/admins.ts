@@ -51,7 +51,7 @@ export const deleteAdminService = async (userID: number) => {
 
     // Delete the admin
     const result = await deleteAdminByID(userID);
-
+    console.log(result);
     return { success: true, message: "Admin deleted successfully" };
   } catch (error) {
     console.error("Error deleting admin:", error);
@@ -70,6 +70,7 @@ export const updateAdminService = async (userID: number, newUserID: number) => {
 
     // Update the admin
     const result = await updateAdminByID(userID, newUserID);
+    console.log(result);
     if (result[0] === 0) {
       return { success: false, message: "Failed to update admin" };
     }

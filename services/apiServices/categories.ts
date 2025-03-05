@@ -25,6 +25,7 @@ export const createCategoryService = async (
       categoryName,
       categoryThumbnail
     );
+    console.log(result);
     if (metaData !== 0) {
       // Invalidate cache for all categories to ensure the list is updated
       invalidateCache("categories:all");

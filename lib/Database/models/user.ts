@@ -1,4 +1,3 @@
-import eslintconfig from "../../../eslint.config.mjs";
 import { DataTypes } from "sequelize";
 import { sequelize } from "@/lib/Database/db";
 

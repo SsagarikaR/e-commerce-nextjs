@@ -1,9 +1,7 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import * as UserService from "@/services/apiServices/users"; // Import UserService methods
 import { POST } from "@/app/api/auth/signin/route"; // Adjust the path to your route handler
-import * as AuthModule from "@/lib/midlleware/auth"; // Import the entire auth module
-import bcrypt from "bcrypt";
 
 vi.mock("next/headers", () => ({
   cookies: () => ({

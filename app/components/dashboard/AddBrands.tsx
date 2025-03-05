@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { useRouter } from "next/navigation"; // Import useRouter for navigation
 import CloudinaryImageUpload from "./CloudinaryImageUpload";

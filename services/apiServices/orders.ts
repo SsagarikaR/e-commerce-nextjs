@@ -14,7 +14,7 @@ import {
 export const createOrderService = async (
   userID: number,
   totalAmount: number,
-  items: Array<any>,
+  items: orderItem[],
   address: string,
   totalPrice: number
 ) => {
