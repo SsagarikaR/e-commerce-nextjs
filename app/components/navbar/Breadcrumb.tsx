@@ -7,20 +7,25 @@ import { useMemo } from 'react';
 const Breadcrumb: React.FC = () => {
   const pathname = usePathname();
 
-  // Split pathname into segments, ignoring empty segments
+  // Always call useMemo unconditionally
   const pathSegments = useMemo(() => {
     return pathname?.split('/').filter(Boolean) || [];
   }, [pathname]);
+
+  // If the path is `/home`, don't show breadcrumbs
+  if (pathname === '/home') {
+    return null;
+  }
 
   // Logging path segments for debugging
   console.log(pathSegments, "path segments");
 
   return (
-    <nav className="bg-gray-100 p-4 rounded-md pt-24 z-10 fixed w-screen flex dark:bg-gray-700 shadow-lg font-semibold">
+    <nav className="p-4 rounded-md pt-24 z-10 fixed w-screen flex dark:bg-gray-700 font-semibold">
       <ol className="list-reset flex text-purple-600">
-        {/* Hardcoded Home breadcrumb */}
         <li>
           <Link href="/" className="hover:text-purple-800 capitalize">
+            Home
           </Link>
           <span className="mx-2">/</span>
         </li>

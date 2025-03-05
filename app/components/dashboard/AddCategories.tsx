@@ -5,6 +5,7 @@ import CloudinaryImageUpload from "./CloudinaryImageUpload";
 import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest"; 
 import { dashboard_catgeory } from "@/constants";
 import { addCategoryAction } from "@/actions/addCategoryAction";
+import Input from "./Input";
 
 function AddCategories() {
   const [formData, setFormData] = useState<{
@@ -41,7 +42,7 @@ function AddCategories() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const form=new FormData(e.target as HTMLFormElement)
-    form.append("categoryThumbnail", formData.categoryThumbnail); // Cloudinary image URL
+    form.append("categoryThumbnail", formData.categoryThumbnail); 
     const result=await addCategoryAction(form);
     console.log(result,"result")
     console.log(form,"send form data")
@@ -66,6 +67,15 @@ function AddCategories() {
     }
   };
 
+  const inputFields=[
+    {
+      id:"catgeoryName",
+      field:"category name",
+      value:formData.categoryName,
+      error:errors.categoryName,
+    }
+  ]
+
   
 
   return (
@@ -76,17 +86,18 @@ function AddCategories() {
         onSubmit={handleSubmit}
       >
         {/* Category Name */}
-        <div className="w-full flex pb-6 relative">
-          <label className="text-xl w-2/5">{dashboard_catgeory.ENTER_CATGEORY_NAME}</label>
-          <input
-            type="text"
-            name="categoryName"
-            value={formData.categoryName}
+        {
+          inputFields.map((item)=>(
+            <Input                                                                  
+            key={item.id}
+            id={item.id}
+            value={item.value}
+            field={item.field}
             onChange={handleChange}
-            className="border border-gray-400 px-4 py-2 w-3/5"
-          />
-          {errors.categoryName && <p className="text-red-500 text-sm">{errors.categoryName}</p>}
-        </div>
+            errors={item.error}/>
+          ))
+        }
+
 
         {/* Category Thumbnail (Cloudinary Upload) */}
         <div className="w-full flex relative pb-6">

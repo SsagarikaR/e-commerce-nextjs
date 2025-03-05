@@ -1,12 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import useSWR from "swr"; // Import SWR
-import { useRouter } from "next/navigation"; // Added to handle redirection after submission
+import useSWR from "swr"; 
+import { useRouter } from "next/navigation"; 
 import CloudinaryImageUpload from "./CloudinaryImageUpload";
 import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest";
 import { dashboard_product } from "@/constants";
 import { fetcher } from "@/lib/helpers/unAuthorizedGetFetcher";
 import { addProductAction } from "@/actions/addProductAction";
+import Input from "./Input";
 
 
 function AddProduct() {
@@ -129,6 +130,28 @@ function AddProduct() {
     }
   };
 
+  const inputFields=[
+    {
+      id:"productName",
+      field:"product name",
+      value:formData.productName,
+      error:errors.productName,
+    },
+    {
+      id:"productPrice",
+      field:"product price",
+      value:formData.productPrice,
+      error:errors.productPrice,
+    },
+    {
+      id:"stock",
+      field:"product stock",
+      value:formData.stock,
+      error:errors.stock,
+    },
+
+  ]
+
 
 
   return (
@@ -138,31 +161,17 @@ function AddProduct() {
         className="border-2 p-4 w-full flex flex-col gap-6 overflow-auto h-[800px] "
         onSubmit={handleSubmit}
       >
-        {/* Product Name */}
-        <div className="w-full flex pb-6 relative">
-          <label className="text-xl w-2/5">{dashboard_product.ENTER_PRODUCT_NAME}</label>
-          <input
-            type="text"
-            name="productName"
-            value={formData.productName}
-            onChange={(e)=>{handleChange(e); }}
-            className="border border-gray-400 px-4 py-2 w-3/5"
-          />
-          {errors.productName && <p className="text-red-500 text-sm absolute bottom-0 pl-[40%]">{errors.productName}</p>}
-        </div>
-
-        {/* Product Price */}
-        <div className="w-full flex pb-6 relative">
-          <label className="text-xl w-2/5">{dashboard_product.ENTER_PRODUCT_PRICE}</label>
-          <input
-            type="text"
-            name="productPrice"
-            value={formData.productPrice}
-            onChange={(e)=>{handleChange(e); }}
-            className="border border-gray-400 px-4 py-2 w-3/5"
-          />
-          {errors.productPrice && <p className="text-red-500 text-sm absolute bottom-0 pl-[40%]">{errors.productPrice}</p>}
-        </div>
+        {
+          inputFields.map((item)=>(
+            <Input 
+            key={item.id}
+            id={item.id}
+            value={item.value}
+            field={item.field}
+            onChange={handleChange}
+            errors={item.error}/>
+          ))
+        }
 
         {/* Product Description */}
         <div className="w-full flex pb-6 relative">
@@ -222,18 +231,6 @@ function AddProduct() {
           </select>
           {errors.categoryID && <p className="text-red-500 text-sm absolute bottom-0 pl-[40%]">{errors.categoryID}</p>}
 
-        </div>
-        {/* Product Stock */}
-        <div className="w-full flex pb-6 relative">
-          <label className="text-xl w-2/5">{dashboard_product.ENTER_PRODUCT_STOCK}</label>
-          <input
-            type="text"
-            name="stock"
-            value={formData.stock}
-            onChange={(e)=>{handleChange(e); }}
-            className="border border-gray-400 px-4 py-2 w-3/5"
-          />
-          {errors.stock && <p className="text-red-500 text-sm absolute bottom-0 pl-[40%]">{errors.stock}</p>}
         </div>
 
         {/* Product Thumbnail (Cloudinary Upload) */}

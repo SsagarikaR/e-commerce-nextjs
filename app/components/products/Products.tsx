@@ -44,7 +44,7 @@ const Products = async({
    const currentPage=page;
   return (
    
-     <div className="flex w-screen justify-center items-center dark:text-white">
+     <div className="flex w-screen justify-center items-center dark:text-white dark:bg-gray-700">
       {message?(<div className="text-2xl">{message}</div>):(
      
       <div className="flex text-black">

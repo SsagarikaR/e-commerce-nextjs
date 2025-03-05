@@ -13,7 +13,7 @@ const compat = new FlatCompat({
 
 const eslintConfig = {
   extends: [
-    ...compat.extends("next/core-web-vitals", "next/typescript"),
+    ...compat.extends("next/core-web-vitals", "next/typescript", "prettier"),
   ],
   languageOptions: {
     globals: {
@@ -29,6 +29,8 @@ const eslintConfig = {
     vitest
   },
   rules: {
+    semi:["error"],
+    quotes:["error","double"],
     'hub/vars-camelcase': 'error',
     'hub/class-pascalcase': 'error',
     'hub/file-kebabcase': 'error',

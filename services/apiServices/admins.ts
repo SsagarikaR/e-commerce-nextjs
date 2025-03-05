@@ -30,6 +30,10 @@ export const createAdminService = async (userID: number) => {
   }
 };
 
+
+
+
+
 // Service function to get an admin by userID
 export const selectAdminService = async (userID: number) => {
   try {
@@ -40,11 +44,15 @@ export const selectAdminService = async (userID: number) => {
   }
 };
 
+
+
+
+
 // Service function to delete admin by userID
 export const deleteAdminService = async (userID: number) => {
   try {
     // Check if the admin exists
-    const admin = await selectAdminService(userID);
+    const admin = await selectAdmin(userID);
     if (admin.length === 0) {
       return { success: false, message: "Admin not found" };
     }
@@ -58,6 +66,11 @@ export const deleteAdminService = async (userID: number) => {
     throw new Error("An error occurred while deleting the admin.");
   }
 };
+
+
+
+
+
 
 // Service function to update admin by userID
 export const updateAdminService = async (userID: number, newUserID: number) => {

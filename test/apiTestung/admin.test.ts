@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { NextRequest, NextResponse } from 'next/server';
-import { POST, DELETE, updateAdmin } from '@/app/api/admin/route'; // Adjust the path as needed
+import { POST, DELETE,  PATCH } from '@/app/api/admin/route'; // Adjust the path as needed
 import * as AuthModule from '@/lib/midlleware/auth'; // Importing auth functions
 import * as AdminService from '@/services/apiServices/admins'; // Importing the admin service functions
 
@@ -86,6 +86,11 @@ describe('/api/admin Tests', () => {
       throw new Error('Response is undefined');
     }
   });
+
+
+
+
+
 
   // Test for DELETE route (Deleting admin)
   it('should return 200 when deleting an admin successfully', async () => {
@@ -186,7 +191,12 @@ describe('/api/admin Tests', () => {
     }
   });
 
-  // Test for PUT route (Updating admin)
+
+
+
+
+
+  // Test for PATCH route (Updating admin)
   it('should return 200 when updating an admin successfully', async () => {
     const mockDecodedUser = { identifire: 1 };
     const mockUpdateResponse = { success: true, message: "Admin updated successfully" };
@@ -201,12 +211,12 @@ describe('/api/admin Tests', () => {
     vi.spyOn(AdminService, 'updateAdminService').mockResolvedValue(mockUpdateResponse);
 
     const req = new NextRequest('http://localhost:3000/api/admin', {
-      method: 'PUT',
+      method: 'PATCH',
       headers: { 'Authorization': 'Bearer valid-token' },
       body: JSON.stringify({ userID: 2, newUserID: 3 }), // Admin to update
     });
 
-    const res = await updateAdmin(req);
+    const res = await PATCH(req);
 
     if (res) {
       const responseJson = await res.json();
@@ -221,7 +231,34 @@ describe('/api/admin Tests', () => {
     }
   });
 
-  it('should return 404 if admin not found in PUT route', async () => {
+  it('should return 401 for invalid token in PATCH route', async () => {
+    vi.spyOn(AuthModule, 'checkToken').mockResolvedValue({
+      isValid: false,
+      decodedUser: null,
+    });
+
+    const req = new NextRequest('http://localhost:3000/api/admin', {
+      method: 'PATCH',
+      headers: { 'Authorization': 'Bearer invalid-token' },
+      body: JSON.stringify({ userID: 2, newUserID: 3 }),
+    });
+
+    const res = await PATCH(req);
+
+    if (res) {
+      const responseJson = await res.json();
+      
+      // Check that the status is 401 (Unauthorized)
+      expect(res.status).toBe(401);
+      
+      // Check that the error message is correct
+      expect(responseJson.error).toBe('Unauthorized. Invalid or missing token.');
+    } else {
+      throw new Error('Response is undefined');
+    }
+  });
+
+  it('should return 404 if admin not found in PATCH route', async () => {
     const mockDecodedUser = { identifire: 1 };
     
     vi.spyOn(AuthModule, 'checkToken').mockResolvedValue({
@@ -238,12 +275,12 @@ describe('/api/admin Tests', () => {
     });
 
     const req = new NextRequest('http://localhost:3000/api/admin', {
-      method: 'PUT',
+      method: 'PATCH',
       headers: { 'Authorization': 'Bearer valid-token' },
       body: JSON.stringify({ userID: 2, newUserID: 3 }),
     });
 
-    const res = await updateAdmin(req);
+    const res = await PATCH(req);
 
     if (res) {
       const responseJson = await res.json();

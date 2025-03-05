@@ -7,9 +7,10 @@ export const metadata:Metadata={
   title:"Shop Cart-home",
   description:"This is home page of shop cart. it display preference of user and all products categories"
 }
+
 function page() {
   return (
-    <div className='w-full max-h-screen overflow-auto pt-10 dark:bg-gray-700 '>
+    <div className='w-full max-h-screen overflow-auto dark:bg-gray-700 '>
       <Category/>
       <Preferences/>
     </div>

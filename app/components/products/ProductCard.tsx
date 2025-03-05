@@ -6,7 +6,7 @@ import Link from 'next/link';
 async function ProductCard({product}:{product:products}) {
   
   return (
-    <div className=" flex flex-col gap-y-2 w-full shadow-2xl p-2 relative transition-transform duration-300 hover:scale-95 mx-auto  " >
+    <div className=" flex flex-col gap-y-2 w-full shadow-2xl p-2 relative transition-transform duration-300 hover:scale-95 mx-auto  dark:bg-gray-300" >
         <WishlistIcon productID={product.productID}/>
         <div className='gap-y-2 flex flex-col' >
           <Link href={`/products/${product.productID}`}>
@@ -14,7 +14,7 @@ async function ProductCard({product}:{product:products}) {
           </Link>
           <div className='flex items-center justify-center gap-x-2'>
           <Link href={`/products/${product.productID}`}>
-            <div className="text-center text-md  font-semibold text-gray-700 dark:text-white cursor-pointer">{product.productName}</div>
+            <div className="text-center text-md  font-semibold text-gray-700  cursor-pointer">{product.productName}</div>
           </Link>
             <img
             src={product.brandThumbnail}
@@ -22,7 +22,7 @@ async function ProductCard({product}:{product:products}) {
             className="h-8 w-8 rounded-full border shadow-md"
             />
           </div>          
-          <div className='text-center dark:text-white' >₹{product.productPrice}</div>
+          <div className='text-center ' >₹{product.productPrice}</div>
           <div className="flex items-center justify-center gap-2 mt-2">
         </div>
         </div>

@@ -37,7 +37,7 @@ export const POST = async (
 
     const { success, message } = await createAdminService(userID);
     if (!success) {
-        return NextResponse.json({message: message });
+        return NextResponse.json({message: message },{status:401});
     }
 
     return NextResponse.json({message: message },{status:200});
@@ -76,15 +76,15 @@ export const DELETE = async (
   try {
     const { success, message } = await deleteAdminService(userID);
     if (!success) {
-      return NextResponse.json({ message:message });
+      return NextResponse.json({ message:message },{status:404});
     }
 
-    return NextResponse.json({message: message });
+    return NextResponse.json({message: message },{status:200});
   } catch (error) {
     console.error("Error deleting admin:", error);
     return NextResponse.json({
       error: "An error occurred while deleting admin",
-    });
+    },{status:500});
   }
 };
 
@@ -92,14 +92,14 @@ export const DELETE = async (
 
 
 // Update admin by userID
-export const updateAdmin = async (
+export const PATCH = async (
   req:NextRequest
 ) => {
   const { userID, newUserID } =await req.json();
   const { isValid, decodedUser } = checkToken(req);
   
   if (!isValid) {
-    return NextResponse.json({ error: "Unauthorized. Invalid or missing token." });
+    return NextResponse.json({ error: "Unauthorized. Invalid or missing token." },{status:401});
   }
 
   console.log(decodedUser); 
@@ -113,10 +113,10 @@ export const updateAdmin = async (
   try {
     const { success, message } = await updateAdminService(userID, newUserID);
     if (!success) {
-        return NextResponse.json({ message });
+        return NextResponse.json({ message:message },{status:404});
     }
 
-    return NextResponse.json({ message },{status:200});
+    return NextResponse.json({ message:message },{status:200});
   } catch (error) {
     console.error("Error updating admin:", error);
     return NextResponse.json({
