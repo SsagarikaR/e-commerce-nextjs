@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+E-commerce Product Listing
 
-## Getting Started
+This is a simple e-commerce product listing application built using Next.js, Tailwind CSS, MySQL, and Docker. The application allows users to browse products, add them to the shopping cart, and manage their cart. Additionally, an Admin Dashboard is implemented, where an admin can create, read, and delete product categories, brands, and products.
 
-First, run the development server:
+## Table of Contents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- [Tech Stack](#tech-stack)
+- [Features](#features)
+- [Setup Instruction](#setup-instruction)
+- [How to Use](#how-to-use)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#Tech Stack
+Frontend: Next.js, React, Tailwind CSS
+Backend: MySQL (Database for storing product, cart, category, and brand data)
+Admin Dashboard: Interface for managing products, categories, and brands (Create, Read, Delete operations)
+Containerization: Docker for containerizing the application
+State Management: Zustand
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+For Users:
+Product Listing: View a list of available products including details like name, price, and image.
+Product Details: View detailed information about a product on a separate page.
+Search and Filter: Search for products and filter by categories or brands.
+Shopping Cart: Add products to the cart, view the cart, and remove items or adjust quantities.
+Checkout: View the checkout page with order summary and proceed to purchase.
 
-## Learn More
+For Admin:
+Admin Dashboard: Manage product categories, brands, and products.
+Create: Add new products, brands, and categories.
+Read: View existing products, brands, and categories.
+Delete: Remove products, brands, and categories.
 
-To learn more about Next.js, take a look at the following resources:
+#Setup Instructions
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Clone the Repository
+   Clone this repository to your local machine:
+   git clone (https://github.com/SsagarikaR/e-commerce-nextjs)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. Install Dependencies
+   Navigate to the project directory and install the necessary dependencies:
+   npm install
 
-## Deploy on Vercel
+3. Set up MySQL Database
+   Ensure that you have MySQL installed and running. Create a new database for the application:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. Docker Setup
+   To run the application with Docker, use the provided Docker configuration.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+First, build the Docker images:
+
+docker-compose build
+Then, run the application:
+
+docker-compose up
+The application will be available at http://localhost:3000.
+
+5. Configuration
+   Ensure you configure the environment variables in the .env file:
+
+env
+Copy
+DB_HOST
+JWT_SECRET_KEY
+DB_USER
+DB_PORT
+PASSWORD
+DB_NAME
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+
+#How to Use
+
+For Users:
+Browse Products: Visit the homepage to view a list of available products.
+Search and Filter Products: Use the search bar and filters to find products by category or brand.
+Add to Cart: Click on a product to view its details and add it to your shopping cart.
+View Cart: Click on the cart icon to view the contents of your shopping cart.
+Checkout: Proceed to the checkout page to finalize your purchase.
+
+For Admin:
+Login to Admin Dashboard: Use the admin login to access the admin dashboard.
+Manage Products, Categories, and Brands:
+Create: Add new products, categories, or brands.
+Read: View the list of existing products, categories, and brands.
+Delete: Remove products, categories, or brands from the list.
+Admin Dashboard
+The admin dashboard allows admins to create, read, and delete products, categories, and brands.
