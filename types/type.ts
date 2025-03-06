@@ -12,13 +12,13 @@ declare global {
   }
 
   interface categories {
-    categoryID: number;
+    categoryID?: number;
     categoryName: string;
     categoryThumbnail: string;
   }
 
   interface brands {
-    brandID: number;
+    brandID?: number;
     brandName: string;
     brandThumbnail: string;
   }

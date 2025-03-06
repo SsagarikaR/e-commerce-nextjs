@@ -1,4 +1,4 @@
-import { category, product } from "@/constants";
+import { category } from "@/constants";
 import CategoryCard from "./CategoryCard";
 import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRequest";
 
@@ -13,7 +13,7 @@ async function Category() {
 
   return (
     <div className="pt-24 px-20">
-      <div className="text-3xl font-serif font-semibold mb-2 text-gray-700 dark:text-white">
+      <div className="text-3xl sm:text-start text-center font-serif font-semibold mb-2 text-gray-700 dark:text-white">
         Categories
       </div>
       {categories && categories.length > 0 ? (

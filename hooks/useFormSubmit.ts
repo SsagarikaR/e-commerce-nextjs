@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useRef } from "react";
 
-export function useFormSubmit<T extends Record<string, any>>(
+export function useFormSubmit<T extends Record<string, number | string>>(
   initialFormData: T,
   apiAction: (form: FormData) => Promise<any>
 ) {
   const [formData, setFormData] = useState(initialFormData);
-  const errors = useRef<any>({}); // Using a ref for errors
+  const errors = useRef<Record<string, string>>({}); // Using a ref for errors
   const [loading, setLoading] = useState(false);
 
   // Handle input change, allowing for a custom event-like object

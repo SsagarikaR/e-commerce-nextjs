@@ -14,6 +14,7 @@ const fetcher = async (url: string) => {
     const response = await authorizedGetRequest(url); // Use your custom axios request
     return response;
   } catch (error) {
+    console.log(error);
     throw new Error("Failed to fetch reviews");
   }
 };
@@ -36,21 +37,21 @@ function FetchReview({ id, rating }: { id: number; rating: number }) {
   }
 
   return (
-    <div className="full border-t pt-2 flex flex-col">
+    <div className="full border-t pt-2 flex flex-col font-serif">
       <div className="flex flex-col w-full">
         <div className="flex w-full items-center justify-between">
           <div className="text-xl font-semibold">{review.RATING_REVIEWS}</div>
           <div
-            className={`bg-green-500 flex items-center justify-center p-1 gap-x-2 rounded-3xl`}
+            className={`bg-green-500 flex items-center justify-center p-1 lg:gap-x-2 rounded-3xl`}
           >
             <div className="text-white text-lg">{rating}</div>
             <div className="text-white">
-              <FontAwesomeIcon icon={faStar} className="w-5 h-5" />
+              <FontAwesomeIcon icon={faStar} className="lg:w-5 lg:h-5" />
             </div>
           </div>
           <Link
             href={`/review?pid=${id}`}
-            className="bg-purple-300 text-lg px-3 py-1 rounded-md hover:bg-purple-400"
+            className="bg-purple-300 xl:text-lg lg:px-3 py-1 px-2 text-md rounded-md hover:bg-purple-400"
           >
             {review.ADD_REVIEW}
           </Link>

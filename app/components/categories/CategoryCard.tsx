@@ -11,6 +11,7 @@ function CategoryCard({
       <div className=" flex flex-col justify-center items-center bg-transparent">
         <img
           src={categoryThumbnail}
+          alt={categoryName}
           className="w-[250px] h-[250px] xl:w-[300px] xl:h-[300px]  shadow-lg border transition-transform duration-300 hover:scale-95"
         />
         <div className="font-serif text-xl font-semibold text-gray-600 dark:text-white">

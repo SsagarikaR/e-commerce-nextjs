@@ -38,7 +38,7 @@ function ProductDetailPage({ id }: { id: string }) {
   }
 
   return (
-    <div className="flex items-center justify-center bg-gray-700">
+    <div className="flex items-center justify-center dark:bg-gray-700 font-serif">
       {/* Render product details if product is available */}
       <div className="flex p-20 gap-10 flex-col lg:flex-row">
         <div className="mx-auto">

@@ -39,7 +39,7 @@ const eslintConfig = [
 
   // Ignoring certain files
   {
-    ignores: ["./hooks/*", "./test/*"],
+    ignores: ["./test/*"],
   },
 ];
 
