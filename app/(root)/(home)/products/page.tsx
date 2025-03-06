@@ -1,11 +1,15 @@
 import Products from "@/app/components/products/Products";
 import { Metadata } from "next";
 
-export const metadata:Metadata={
-  title:"Shop Cart-prodcuts",
-  description:"This is the product page of shop cart"
-}
-const Page = async ({ searchParams }: { searchParams: { category?: string; name?:string; page?: string } }) => {
+export const metadata: Metadata = {
+  title: "Shop Cart-prodcuts",
+  description: "This is the product page of shop cart",
+};
+const Page = async ({
+  searchParams,
+}: {
+  searchParams: { category?: string; name?: string; page?: string };
+}) => {
   // Await searchParams to ensure we get its values before using them
   const params = await searchParams;
 
@@ -15,19 +19,13 @@ const Page = async ({ searchParams }: { searchParams: { category?: string; name?
   // Get category from query parameters
   const category = params.category || null;
 
-  const name=params.name||null;
+  const name = params.name || null;
 
   console.log("Category from query params:", category);
 
- 
-
   return (
     <div className="pt-36">
-      <Products
-      category={category!}
-      page={page!}
-      name={name!}
-      />
+      <Products category={category!} page={page!} name={name!} />
     </div>
   );
 };

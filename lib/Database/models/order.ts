@@ -13,7 +13,7 @@ export const Orders = sequelize.define(
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      onDelete:"CASCADE"
+      onDelete: "CASCADE",
     },
     status: {
       type: DataTypes.ENUM("Pending", "Success", "Cancelled"),
@@ -30,19 +30,19 @@ export const Orders = sequelize.define(
     handlingPrice: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue:'10'
+      defaultValue: "10",
     },
     platformFee: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue:'6'
+      defaultValue: "6",
     },
     deliveryCharge: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue:'10'
+      defaultValue: "10",
     },
-   totalAmount: {
+    totalAmount: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

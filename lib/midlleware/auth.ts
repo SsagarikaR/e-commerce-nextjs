@@ -19,10 +19,6 @@ export const generateToken = async (id: number) => {
   }
 };
 
-
-
-
-
 export const checkToken = (
   req: NextRequest
 ): { isValid: boolean; decodedUser: any | null } => {
@@ -47,11 +43,6 @@ export const checkToken = (
     return { isValid: false, decodedUser: null }; // Token verification failed
   }
 };
-
-
-
-
-
 
 // Middleware to check if the user is an admin
 export const isAdmin = async (req: NextRequest, decodedUser: any) => {

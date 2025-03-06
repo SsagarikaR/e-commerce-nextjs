@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
-import React from 'react'
+import React from "react";
 
-function error({error}:{error:Error & {digest?:string}}) {
+function error({ error }: { error: Error & { digest?: string } }) {
   return (
     <div>
       <h1>Something went wrong, please try again after sometimes!</h1>
       <p>{}</p>
     </div>
-  )
+  );
 }
 
-export default error
+export default error;

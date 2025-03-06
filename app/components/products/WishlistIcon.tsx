@@ -1,11 +1,13 @@
-"use client"
-import { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart as notWishList } from '@fortawesome/free-regular-svg-icons';
-import { faHeart as wishList } from '@fortawesome/free-solid-svg-icons';
-import { authorizedDeleteRequest, authorizedGetRequest, authorizedPostRequest } from '@/services/apiReqServices/authorizedRequest';
-
-
+"use client";
+import { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart as notWishList } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as wishList } from "@fortawesome/free-solid-svg-icons";
+import {
+  authorizedDeleteRequest,
+  authorizedGetRequest,
+  authorizedPostRequest,
+} from "@/services/apiReqServices/authorizedRequest";
 
 export const fetchWishList = async (productID: number) => {
   const response = await authorizedGetRequest(`wishlists/${productID}`);
@@ -36,7 +38,7 @@ function WishlistIcon({ productID }: { productID: number }) {
           setWishlistStatus(true);
         }
       } catch (error) {
-        console.log('Error fetching wishlist:', error);
+        console.log("Error fetching wishlist:", error);
       }
     };
     loadWishList();
@@ -64,7 +66,7 @@ function WishlistIcon({ productID }: { productID: number }) {
         }
       }
     } catch (error) {
-      console.log('Error adding/removing from wishlist:', error);
+      console.log("Error adding/removing from wishlist:", error);
     }
   };
 

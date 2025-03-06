@@ -30,10 +30,6 @@ export const createAdminService = async (userID: number) => {
   }
 };
 
-
-
-
-
 // Service function to get an admin by userID
 export const selectAdminService = async (userID: number) => {
   try {
@@ -43,10 +39,6 @@ export const selectAdminService = async (userID: number) => {
     throw new Error("Error while fetching admin details.");
   }
 };
-
-
-
-
 
 // Service function to delete admin by userID
 export const deleteAdminService = async (userID: number) => {
@@ -59,18 +51,13 @@ export const deleteAdminService = async (userID: number) => {
 
     // Delete the admin
     const result = await deleteAdminByID(userID);
-
+    console.log(result);
     return { success: true, message: "Admin deleted successfully" };
   } catch (error) {
     console.error("Error deleting admin:", error);
     throw new Error("An error occurred while deleting the admin.");
   }
 };
-
-
-
-
-
 
 // Service function to update admin by userID
 export const updateAdminService = async (userID: number, newUserID: number) => {
@@ -83,6 +70,7 @@ export const updateAdminService = async (userID: number, newUserID: number) => {
 
     // Update the admin
     const result = await updateAdminByID(userID, newUserID);
+    console.log(result);
     if (result[0] === 0) {
       return { success: false, message: "Failed to update admin" };
     }

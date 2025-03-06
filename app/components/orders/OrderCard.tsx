@@ -32,7 +32,7 @@ function OrderCard({ item }: { item: OrderData }) {
       setToastType("success");
       setToastVisible(true);
       console.log(response);
-      setShowModal(false)
+      setShowModal(false);
     } catch (error) {
       console.log(error);
     }
@@ -44,6 +44,7 @@ function OrderCard({ item }: { item: OrderData }) {
         orderId: item.orderID,
         newAddress: address,
       });
+      console.log(response);
       setToastMessage("Address updated successfully");
       setToastType("success");
       setToastVisible(true);

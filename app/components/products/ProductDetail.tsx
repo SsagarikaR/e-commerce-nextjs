@@ -1,10 +1,11 @@
-"use client"; // This is a client-side component
-import useSWR from 'swr'; // Import SWR
+"use client";
+import React from "react";
+import useSWR from "swr"; // Import SWR
 import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRequest";
 import WishlistIcon from "./WishlistIcon";
 import FetchReview from "../review/FetchReview";
-import { authorizedPostRequest } from '@/services/apiReqServices/authorizedRequest';
-import AddToCartBtn from './AddToCartBtn';
+import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest";
+import AddToCartBtn from "./AddToCartBtn";
 
 // Define the fetcher function
 const fetcher = async (url: string) => {
@@ -13,14 +14,18 @@ const fetcher = async (url: string) => {
 };
 
 function ProductDetailPage({ id }: { id: string }) {
-
-  const addPrefernce=async()=>{
-    const response=await authorizedPostRequest("preferences",{productID:id})
+  const addPrefernce = async () => {
+    const response = await authorizedPostRequest("preferences", {
+      productID: id,
+    });
     console.log(response);
-  }
+  };
   addPrefernce();
 
-  const { data: product, error } = useSWR<products[],Error>(`/products?id=${id}`, fetcher); // Use SWR for fetching product data
+  const { data: product, error } = useSWR<products[], Error>(
+    `/products?id=${id}`,
+    fetcher
+  ); // Use SWR for fetching product data
 
   // Loading state
   if (!product) {
@@ -48,20 +53,26 @@ function ProductDetailPage({ id }: { id: string }) {
         <div className=" w-80 sm:w-100 md:w-150 lg:w-150 xl:w-[450px] dark:text-white text-gray-700 gap-y-9 flex flex-col ">
           <div className="flex gap-y-4 flex-col ">
             <div className="flex gap-x-3">
-              <div className="text-3xl font-semibold">{product[0].productName}</div>
+              <div className="text-3xl font-semibold">
+                {product[0].productName}
+              </div>
               <img
                 src={product[0].brandThumbnail}
                 className="w-10 h-10 rounded-full border "
               />
             </div>
-            <div className="text-2xl font-normal">₹{product[0].productPrice}</div>
+            <div className="text-2xl font-normal">
+              ₹{product[0].productPrice}
+            </div>
             <div className=" border-b w-80 sm:w-100 md:w-150 lg:w-100 xl:w-[450px]"></div>
           </div>
-          <div className="text-justify text-lg">{product[0].productDescription}</div>
+          <div className="text-justify text-lg">
+            {product[0].productDescription}
+          </div>
           <div className="flex flex-col gap-y-2 pb-6">
-            <AddToCartBtn productID={product[0].productID}/>
-          </div >
-          <FetchReview id={product[0].productID} rating={product[0].rating}/>
+            <AddToCartBtn productID={product[0].productID} />
+          </div>
+          <FetchReview id={product[0].productID} rating={product[0].rating} />
         </div>
       </div>
     </div>

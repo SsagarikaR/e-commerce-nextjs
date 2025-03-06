@@ -7,8 +7,8 @@ declare global {
     password?: string;
     token?: string;
     role?: string;
-    message?:string;
-    error?:string;
+    message?: string;
+    error?: string;
   }
 
   interface categories {
@@ -42,10 +42,9 @@ declare global {
     platformFee: number;
     deliveryCharge: number;
     quantity: number;
-    totalPrice:number;
-    totalAmount:number;
+    totalPrice: number;
+    totalAmount: number;
   }
-
 
   interface OrderItem {
     orderItemID: number;
@@ -58,23 +57,19 @@ declare global {
     quantity: number;
     brandName: string;
   }
-  
- 
-  
-  
-  interface OrderData extends user{
+
+  interface OrderData extends user {
     totalAmount: number;
     items: OrderItem[];
     address: string;
     totalPrice: number;
     status: string;
     orderID: number;
-    handlingPrice:number;
-    platformFee:number;
-    deliveryCharge:number;
+    handlingPrice: number;
+    platformFee: number;
+    deliveryCharge: number;
   }
 
-  
   interface CartStore {
     cartItems: cartItem[];
     addItemToCart: (productID: number, quantity: number) => void;
@@ -82,21 +77,20 @@ declare global {
     updateCartItemQuantity: (cartItemID: number, quantity: number) => void;
     fetchCartItems: () => void; // Function to fetch cart items from the backend
   }
-  
-  interface prefernce{
-    brandName:string
-    brandThumbnail:string
-    preferenceID:number
-    productDescription:string
-    productThumbnail:string;
-    productID:number
-    productName:string
-    productPrice:number
-    userID:string
-    }
-  
 
-  interface wishlist  extends products,brands,user{
+  interface prefernce {
+    brandName: string;
+    brandThumbnail: string;
+    preferenceID: number;
+    productDescription: string;
+    productThumbnail: string;
+    productID: number;
+    productName: string;
+    productPrice: number;
+    userID: string;
+  }
+
+  interface wishlist extends products, brands, user {
     wishListID: number;
     productID: number;
     userID: number;
@@ -166,11 +160,10 @@ declare global {
     userID: number;
   }
 
-
   interface cloudinaryInfo {
     secure_url: string; // The secure URL of the uploaded image
   }
-  
+
   interface cloudinaryImageUploadProps {
     seturl: (url: string) => void;
   }

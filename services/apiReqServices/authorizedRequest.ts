@@ -1,9 +1,8 @@
 import axios from "axios";
 import dotenv from "dotenv";
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import cookie from "js-cookie";
 dotenv.config();
-const port="http://localhost:3000/";
+const port = "http://localhost:3000/";
 
 const getAuthHeaders = () => {
   const token = cookie.get("token");
@@ -11,84 +10,78 @@ const getAuthHeaders = () => {
   return token;
 };
 
-  
-
 // Fetch categories from the API
-export const authorizedGetRequest = async (route:string) => {
-  try{
-    const token= getAuthHeaders();
-    console.log(token)
-    const response = await axios.get(`${port}api/${route}`,
-      {
-        headers:{ Authorization: `Bearer ${token}` }
-      }
-    );
-    console.log("API response data:",response); // Log the data here to check if it is correct
-    return response.data
-  }
-  catch(error){
+export const authorizedGetRequest = async (route: string) => {
+  try {
+    const token = getAuthHeaders();
+    console.log(token);
+    const response = await axios.get(`${port}api/${route}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    console.log("API response data:", response); // Log the data here to check if it is correct
+    return response.data;
+  } catch (error) {
     // console.log(error)
     return error;
     // throw new Error("Error in making get request Please try again")
   }
 };
 
-
-
 // Fetch categories from the API
-export const authorizedPostRequest = async (route:string,data:object) => {
-    try{
-        const token= getAuthHeaders();
-        console.log(process.env.ROUTE)
-        const response = await axios.post(`${port}api/${route}`, data, {
-            headers:{ Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-          });
-      console.log("API response data:",response.data); // Log the data here to check if it is correct
-      return response.data
-    }
-    catch(error){
-      throw new Error("Error in making get request please try again Please try again")
-    }
-  };
-
-
-
-// Fetch categories from the API
-export const authorizedDeleteRequest = async (route:string,data:object) => {
-  try{
-      const token= getAuthHeaders();
-      console.log(process.env.ROUTE)
-      const response = await axios.delete(`${port}api/${route}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json", 
-        },
-        data: data,
-      });
-    console.log("API response data:",response.data); // Log the data here to check if it is correct
-    return response.data
-  }
-  catch(error){
-    throw new Error("Error in making get request please try again Please try again")
+export const authorizedPostRequest = async (route: string, data: object) => {
+  try {
+    const token = getAuthHeaders();
+    console.log(process.env.ROUTE);
+    const response = await axios.post(`${port}api/${route}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    console.log("API response data:", response.data); // Log the data here to check if it is correct
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error(
+      "Error in making get request please try again Please try again"
+    );
   }
 };
 
+// Fetch categories from the API
+export const authorizedDeleteRequest = async (route: string, data: object) => {
+  try {
+    const token = getAuthHeaders();
+    console.log(process.env.ROUTE);
+    const response = await axios.delete(`${port}api/${route}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      data: data,
+    });
+    console.log("API response data:", response.data); // Log the data here to check if it is correct
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error(
+      "Error in making get request please try again Please try again"
+    );
+  }
+};
 
 // PATCH request
-export const authorizedPatchRequest = async (
-  route: string,
-  data: object
-) => {
+export const authorizedPatchRequest = async (route: string, data: object) => {
   console.log(data);
-  const token= getAuthHeaders();
+  const token = getAuthHeaders();
   try {
     const response = await axios.patch(`${port}api/${route}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json", 
+        "Content-Type": "application/json",
       },
     });
-    console.log(response,"response of api")
+    console.log(response, "response of api");
     return response.data;
   } catch (error) {
     console.error("PATCH request error:", error);

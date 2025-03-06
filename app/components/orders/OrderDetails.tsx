@@ -4,7 +4,6 @@ import Link from "next/link";
 import React from "react";
 import useSWR from "swr";
 
-
 function OrderDetails({ id }: { id: string }) {
   const { data: order, error } = useSWR<OrderData[], Error>(`orders`, fetcher);
   const currentOrder = order?.filter((order) => order.orderID === Number(id));

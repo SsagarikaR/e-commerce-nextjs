@@ -6,38 +6,59 @@ export const selectProductWithAllMatch = async (
   productDescription: string,
   productPrice: number,
   categoryID: number,
-  brandID:number
+  brandID: number
 ) => {
   return await sequelize.query(
     "SELECT * FROM Products WHERE productName=? AND productDescription=?  AND productPrice=? AND categoryID=? AND brandID=?",
     {
-      replacements: [productName, productDescription, productPrice, categoryID,brandID],
+      replacements: [
+        productName,
+        productDescription,
+        productPrice,
+        categoryID,
+        brandID,
+      ],
       type: QueryTypes.SELECT,
     }
   );
 };
 
-export const updateProducts=async(productName:string,productDescription:string,productThumbnail:string,productPrice:number,categoryID:number,productID:number)=>{
-    return await sequelize.query('UPDATE Products SET productName=? ,productDescription=? ,productThumbnail=? ,productPrice=? ,categoryID=? WHERE productID=?',{
-        replacements:[productName,productDescription,productThumbnail,productPrice,categoryID,productID],
-        type:QueryTypes.UPDATE
-    })
-}
-export const deleteByProductID=async(productID:number)=>{
-    return await sequelize.query('DELETE FROM Products WHERE productID=?',{
-        replacements:[productID],
-        type:QueryTypes.DELETE
-    });
-}
+export const updateProducts = async (
+  productName: string,
+  productDescription: string,
+  productThumbnail: string,
+  productPrice: number,
+  categoryID: number,
+  productID: number
+) => {
+  return await sequelize.query(
+    "UPDATE Products SET productName=? ,productDescription=? ,productThumbnail=? ,productPrice=? ,categoryID=? WHERE productID=?",
+    {
+      replacements: [
+        productName,
+        productDescription,
+        productThumbnail,
+        productPrice,
+        categoryID,
+        productID,
+      ],
+      type: QueryTypes.UPDATE,
+    }
+  );
+};
+export const deleteByProductID = async (productID: number) => {
+  return await sequelize.query("DELETE FROM Products WHERE productID=?", {
+    replacements: [productID],
+    type: QueryTypes.DELETE,
+  });
+};
 
-export const selectByProductID=async(productID:number)=>{
-    return await sequelize.query('SELECT * FROM Products WHERE productID=?',
-        {
-            replacements:[productID],
-            type:QueryTypes.SELECT
-        }
-    )
-}
+export const selectByProductID = async (productID: number) => {
+  return await sequelize.query("SELECT * FROM Products WHERE productID=?", {
+    replacements: [productID],
+    type: QueryTypes.SELECT,
+  });
+};
 
 export const createNewProduct = async (
   productName: string,
@@ -46,7 +67,7 @@ export const createNewProduct = async (
   productPrice: number,
   categoryID: number,
   brandID: number,
-  stock:number
+  stock: number
 ) => {
   return await sequelize.query(
     "INSERT INTO Products (productName,productDescription,productThumbnail,productPrice,categoryID,brandID,stock) VALUES (?,?,?,?,?,?,?)",
@@ -58,25 +79,28 @@ export const createNewProduct = async (
         productPrice,
         categoryID,
         brandID,
-        stock
+        stock,
       ],
       type: QueryTypes.INSERT,
     }
   );
 };
 
-
-export const getProductWithCondition = async ({
-  categoryID,
-  name,
-  id,
-  price,
-}: {
-  categoryID?: string | number;
-  name?: string;
-  id?: string | number;
-  price?: "low-to-high" | "high-to-low";
-}, page: number, limit: number) => {
+export const getProductWithCondition = async (
+  {
+    categoryID,
+    name,
+    id,
+    price,
+  }: {
+    categoryID?: string | number;
+    name?: string;
+    id?: string | number;
+    price?: "low-to-high" | "high-to-low";
+  },
+  page: number,
+  limit: number
+) => {
   // Base query for products
   let query = `
     SELECT p.*, c.*, b.*, COUNT(*) OVER() AS totalCount
@@ -131,5 +155,5 @@ export const getProductWithCondition = async ({
   });
 
   // Extract the totalCount from the first result (since it's the same for all rows)
- return result;
+  return result;
 };

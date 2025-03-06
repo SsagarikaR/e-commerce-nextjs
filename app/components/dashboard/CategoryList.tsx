@@ -1,7 +1,7 @@
 "use client";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {  faTrash } from "@fortawesome/free-solid-svg-icons";
-import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRequest";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { authorizedDeleteRequest } from "@/services/apiReqServices/authorizedRequest"; // Assuming this exists to handle authorized requests
 import useSWR, { mutate } from "swr";
 import { useState } from "react";
@@ -10,15 +10,18 @@ import { dashboard_catgeory } from "@/constants";
 import { fetcher } from "@/lib/helpers/unAuthorizedGetFetcher";
 
 function CategoryList() {
-  const { data: categories, error } = useSWR<categories[], Error>("categories", fetcher);
+  const { data: categories, error } = useSWR<categories[], Error>(
+    "categories",
+    fetcher
+  );
 
   const [showModal, setShowModal] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState<number | null>(null);
 
   // Handle delete category
   const handleDelete = (categoryID: number) => {
-    setCategoryToDelete(categoryID); 
-    setShowModal(true); 
+    setCategoryToDelete(categoryID);
+    setShowModal(true);
   };
 
   // Confirm delete and make the API call
@@ -33,7 +36,7 @@ function CategoryList() {
       if (response.status === 200) {
         // If successful, refetch the category list
         mutate("categories");
-        setShowModal(false); 
+        setShowModal(false);
       } else {
         console.error("Failed to delete category");
       }

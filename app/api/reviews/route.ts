@@ -11,10 +11,10 @@ import { checkToken } from "@/lib/midlleware/auth";
 export const POST = async (req: NextRequest) => {
   const { isValid, decodedUser } = checkToken(req);
   if (!isValid) {
-    return NextResponse.json(
-      { error: "Unauthorized. Invalid or missing token.",status:401 },
-     
-    );
+    return NextResponse.json({
+      error: "Unauthorized. Invalid or missing token.",
+      status: 401,
+    });
   }
 
   const userID = decodedUser.identifire;
@@ -22,13 +22,15 @@ export const POST = async (req: NextRequest) => {
 
   if (!userID) {
     return NextResponse.json({
-      message: "User not authenticated or missing.",status:401
+      message: "User not authenticated or missing.",
+      status: 401,
     });
   }
 
   if (!productID || !(rating >= 0 && rating <= 5) || !description) {
     return NextResponse.json({
-      message: "Please enter all the required fields.",status:409
+      message: "Please enter all the required fields.",
+      status: 409,
     });
   }
 
@@ -40,10 +42,10 @@ export const POST = async (req: NextRequest) => {
       description
     );
     if (!success) {
-      return NextResponse.json({ message: message ,status:400});
+      return NextResponse.json({ message: message, status: 400 });
     }
 
-    return NextResponse.json({ message: message,status:201 });
+    return NextResponse.json({ message: message, status: 201 });
   } catch (error) {
     console.error("Error adding review:", error);
     return NextResponse.json({
@@ -52,13 +54,11 @@ export const POST = async (req: NextRequest) => {
   }
 };
 
-
-
 // Controller to get reviews for a product
 export const GET = async (req: NextRequest) => {
   const url = new URL(req.url);
   const id = url.searchParams.get("pid");
-  console.log(id)
+  console.log(id);
   if (!id) {
     return NextResponse.json({
       message: "Please enter the product id to fetch reviews for this product.",
@@ -69,7 +69,7 @@ export const GET = async (req: NextRequest) => {
     const { success, reviews, message } = await getReviewsOfProductService(
       Number(id)
     );
-    console.log(success, reviews, message)
+    console.log(success, reviews, message);
     if (!success) {
       return NextResponse.json({ message: message });
     }
@@ -82,9 +82,6 @@ export const GET = async (req: NextRequest) => {
     });
   }
 };
-
-
-
 
 // Controller to update a review
 export const PATCH = async (req: NextRequest) => {
@@ -136,8 +133,6 @@ export const PATCH = async (req: NextRequest) => {
     });
   }
 };
-
-
 
 // Controller to delete a review
 export const DELETE = async (req: NextRequest) => {

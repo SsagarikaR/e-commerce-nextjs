@@ -5,7 +5,7 @@ import {
   deleteProductService,
   updateProductService,
 } from "@/services/apiServices/products";
-import { checkToken,isAdmin } from "@/lib/midlleware/auth";
+import { checkToken, isAdmin } from "@/lib/midlleware/auth";
 import { Reviews } from "@/lib/Database/models/review";
 import { CartItems } from "@/lib/Database/models/cartItem";
 import { orders } from "@/constants";
@@ -24,18 +24,20 @@ export const POST = async (req: NextRequest) => {
     stock,
   } = await req.json();
   const { isValid, decodedUser } = checkToken(req);
-  
-      if (!isValid) {
-          return NextResponse.json({ error: "Unauthorized. Invalid or missing token." });
-      }
-    
-      console.log(decodedUser); 
-    
-      const adminCheckResult = await isAdmin(req, decodedUser);
-    
-      if (adminCheckResult) {
-          return adminCheckResult;  
-      }
+
+  if (!isValid) {
+    return NextResponse.json({
+      error: "Unauthorized. Invalid or missing token.",
+    });
+  }
+
+  console.log(decodedUser);
+
+  const adminCheckResult = await isAdmin(req, decodedUser);
+
+  if (adminCheckResult) {
+    return adminCheckResult;
+  }
 
   try {
     const result = await createProductService(
@@ -57,8 +59,6 @@ export const POST = async (req: NextRequest) => {
   }
 };
 
-
-
 // Controller to fetch products (by filters or all)
 export const GET = async (req: NextRequest) => {
   const url = new URL(req.url);
@@ -74,7 +74,6 @@ export const GET = async (req: NextRequest) => {
   const cacheKey = `products:${name}:${price}:${categoryID}:${id}:${currentPage}:${itemsPerPage}`;
 
   try {
-
     const filters = {
       categoryID: categoryID ? String(categoryID) : undefined,
       name: name ? String(name) : undefined,
@@ -91,7 +90,6 @@ export const GET = async (req: NextRequest) => {
       itemsPerPage
     );
 
-
     return NextResponse.json(products);
   } catch (error) {
     if (error instanceof Error) {
@@ -101,39 +99,42 @@ export const GET = async (req: NextRequest) => {
   }
 };
 
-
-
 // Controller to delete a product
-export const DELETE= async (req: NextRequest) => {
+export const DELETE = async (req: NextRequest) => {
   const { productID } = await req.json();
   const { isValid, decodedUser } = checkToken(req);
 
-    if (!isValid) {
-        return NextResponse.json({ error: "Unauthorized. Invalid or missing token." });
-    }
-  
-    console.log(decodedUser); 
-  
-    const adminCheckResult = await isAdmin(req, decodedUser);
-  
-    if (adminCheckResult) {
-        return adminCheckResult;  
-    }
+  if (!isValid) {
+    return NextResponse.json({
+      error: "Unauthorized. Invalid or missing token.",
+    });
+  }
+
+  console.log(decodedUser);
+
+  const adminCheckResult = await isAdmin(req, decodedUser);
+
+  if (adminCheckResult) {
+    return adminCheckResult;
+  }
 
   try {
     const result = await deleteProductService(productID);
-    return NextResponse.json({ message:"Product deleted successfully",status:200 });
+    return NextResponse.json({
+      message: "Product deleted successfully",
+      status: 200,
+    });
   } catch (error) {
     if (error instanceof Error) {
-      return NextResponse.json({ message: error.message ,status:400});
+      return NextResponse.json({ message: error.message, status: 400 });
     }
 
-    return NextResponse.json({ message: "An unknown error occurred.",status:500 });
+    return NextResponse.json({
+      message: "An unknown error occurred.",
+      status: 500,
+    });
   }
 };
-
-
-
 
 // Controller to update a product
 export const PATCH = async (req: NextRequest) => {
@@ -147,17 +148,19 @@ export const PATCH = async (req: NextRequest) => {
   } = await req.json();
   const { isValid, decodedUser } = checkToken(req);
 
-    if (!isValid) {
-        return NextResponse.json({ error: "Unauthorized. Invalid or missing token." });
-    }
-  
-    console.log(decodedUser); 
-  
-    const adminCheckResult = await isAdmin(req, decodedUser);
-  
-    if (adminCheckResult) {
-        return adminCheckResult;  
-    }
+  if (!isValid) {
+    return NextResponse.json({
+      error: "Unauthorized. Invalid or missing token.",
+    });
+  }
+
+  console.log(decodedUser);
+
+  const adminCheckResult = await isAdmin(req, decodedUser);
+
+  if (adminCheckResult) {
+    return adminCheckResult;
+  }
 
   try {
     const result = await updateProductService(

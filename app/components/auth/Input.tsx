@@ -1,7 +1,4 @@
-
-import React from 'react';
-
-
+import React from "react";
 
 function Input({ field, id, type, value, onChange, error }: InputProps) {
   return (
@@ -12,10 +9,17 @@ function Input({ field, id, type, value, onChange, error }: InputProps) {
         type={type}
         placeholder={`Enter your ${field}`}
         name={id}
-        value={value}  
-        onChange={onChange}  
+        value={value}
+        onChange={onChange}
       />
-      {error && <div className={`${!(type==="password")&&"absolute"} left-7 text-red-500 text-sm mt-1`}>{error}</div>}  {/* Display error if exists */}
+      {error && (
+        <div
+          className={`${!(type === "password") && "absolute"} left-7 text-red-500 text-sm mt-1`}
+        >
+          {error}
+        </div>
+      )}{" "}
+      {/* Display error if exists */}
     </div>
   );
 }
