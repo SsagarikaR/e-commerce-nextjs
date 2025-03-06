@@ -9,14 +9,15 @@ This is a simple e-commerce product listing application built using Next.js, Tai
 - [Setup Instruction](#setup-instruction)
 - [How to Use](#how-to-use)
 
-#Tech Stack
+## Tech Stack
+
 Frontend: Next.js, React, Tailwind CSS
 Backend: MySQL (Database for storing product, cart, category, and brand data)
 Admin Dashboard: Interface for managing products, categories, and brands (Create, Read, Delete operations)
 Containerization: Docker for containerizing the application
 State Management: Zustand
 
-#Features
+## Features
 
 For Users:
 Product Listing: View a list of available products including details like name, price, and image.
@@ -31,7 +32,7 @@ Create: Add new products, brands, and categories.
 Read: View existing products, brands, and categories.
 Delete: Remove products, brands, and categories.
 
-#Setup Instructions
+## Setup Instructions
 
 1. Clone the Repository
    Clone this repository to your local machine:
@@ -68,7 +69,7 @@ PASSWORD
 DB_NAME
 NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
 
-#How to Use
+## How to Use
 
 For Users:
 Browse Products: Visit the homepage to view a list of available products.
