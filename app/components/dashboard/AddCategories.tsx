@@ -10,8 +10,7 @@ import Input from "./Input";
 function AddCategories() {
   const { formData, errors, handleChange, handleSubmit } = useFormSubmit(
     { categoryName: "", categoryThumbnail: "" },
-    addCategoryAction,
-    "categories"
+    addCategoryAction
   );
 
   const router = useRouter();

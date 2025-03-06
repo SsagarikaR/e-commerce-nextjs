@@ -51,7 +51,7 @@ function FetchReview({ id, rating }: { id: number; rating: number }) {
           </div>
           <Link
             href={`/review?pid=${id}`}
-            className="bg-purple-300 xl:text-lg lg:px-3 py-1 px-2 text-md rounded-md hover:bg-purple-400"
+            className="bg-blue-300 border xl:text-lg lg:px-3 py-1 px-2 text-md rounded-md hover:bg-blue-400"
           >
             {review.ADD_REVIEW}
           </Link>

@@ -1,5 +1,6 @@
 "use client";
 import { fetcher } from "@/lib/helpers/authorizedGetFetcher";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import useSWR from "swr";
@@ -19,7 +20,7 @@ function OrderDetails({ id }: { id: string }) {
   return (
     <div className="flex pt-36 w-screen font-serif  overflow-auto dark:bg-gray-700">
       <div className="w-4/5  flex md:flex-row flex-col gap-y-5 mx-auto gap-x-10 ">
-        <div className="flex flex-col  lg:w-3/5 shadow-lg pt-20 px-3 lg:px-20 gap-2  pb-10 dark:bg-gray-300">
+        <div className="flex flex-col  lg:w-3/5 shadow-lg pt-20 px-3 lg:px-20 gap-2  pb-10 dark:bg-gray-300 border border-gray-300">
           <div className="text-lg flex gap-2 font-semibold ">
             <div>Status: </div>
             <div
@@ -35,7 +36,10 @@ function OrderDetails({ id }: { id: string }) {
           </div>
           {currentOrder &&
             currentOrder[0].items.map((item) => (
-              <div key={item.productId} className="shadow-md lg:p-2 p-1 w-full">
+              <div
+                key={item.productId}
+                className="shadow-md lg:p-2 p-1 w-full border border-gray-300"
+              >
                 <div className="flex justify-between  lg:p-3 p-1 w-full">
                   <div className="flex flex-col text-lg lg:text-xl gap-y-3 font-semibold text-gray-700">
                     <div className="">
@@ -44,7 +48,10 @@ function OrderDetails({ id }: { id: string }) {
                     <div>₹{item.productPrice}</div>
                     <div>Quantity: {item.quantity}</div>
                   </div>
-                  <img
+                  <Image
+                    width={440}
+                    height={440}
+                    alt={item.productName}
                     src={item.productThumbnail}
                     className="lg:w-44 lg:h-44 w-32 h-32 shadow-md p-2"
                   />
@@ -52,7 +59,7 @@ function OrderDetails({ id }: { id: string }) {
                 <div className="flex justify-between">
                   <Link
                     href={`/review?pid=${item.productId}`}
-                    className="bg-purple-300 p-4 py-2 rounded-lg hover:bg-purple-400"
+                    className="bg-blue-300 p-4 py-2 rounded-lg hover:bg-blue-400"
                   >
                     Add Review
                   </Link>
@@ -60,8 +67,8 @@ function OrderDetails({ id }: { id: string }) {
               </div>
             ))}
         </div>
-        <div className="flex flex-col gap-4 md:w-2/5 w-3/5 lg:w-1/5 mx-auto ">
-          <div className="flex flex-col shadow-lg p-4 gap-1 dark:bg-gray-300">
+        <div className="flex flex-col gap-4 md:w-2/5  w-3/5 lg:w-1/5 mx-auto ">
+          <div className="flex flex-col shadow-lg p-4 border border-gray-400 gap-1 dark:bg-gray-300">
             <p className="font-semibold text-sm text-gray-600 border-b py-2">
               Shipping Details
             </p>
@@ -72,7 +79,7 @@ function OrderDetails({ id }: { id: string }) {
               <p>{currentOrder[0].contactNo}</p>
             </div>
           </div>
-          <div className="flex flex-col shadow-lg p-4 gap-2 dark:bg-gray-300">
+          <div className="flex flex-col shadow-lg border border-gray-400 p-4 gap-2 dark:bg-gray-300">
             <p className="font-semibold text-sm text-gray-600 border-b py-2">
               Price Details
             </p>

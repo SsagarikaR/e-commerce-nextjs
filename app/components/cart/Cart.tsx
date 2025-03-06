@@ -24,16 +24,16 @@ function Cart() {
                 <CartCard key={item.cartItemID} item={item} />
               ))}
             </div>
-            <div className="flex justify-end p-2 px-10 border dark:border-white dark:bg-gray-300">
+            <div className="flex justify-end p-2 px-10 border border-gray-400 dark:border-white dark:bg-gray-300">
               <Link
                 href="/checkout"
-                className="bg-purple-300 hover:bg-purple-400 p-6 py-3 rounded-md"
+                className="bg-blue-300 hover:bg-blue-400 p-6 py-3 rounded-md"
               >
                 Place Order
               </Link>
             </div>
           </div>
-          <div className=" sm:text-base text-sm lg:w-1/5 border p-4 flex dark:border-white flex-col gap-3 h-64  dark:bg-gray-300 ">
+          <div className=" sm:text-base text-sm lg:w-1/5 border border-gray-400 p-4 flex dark:border-white flex-col gap-3 h-64  dark:bg-gray-300 ">
             <div className="flex justify-between">
               <p>
                 {price_detail.TOTAL_PRICE}({cartItems.length} item)
@@ -52,7 +52,7 @@ function Cart() {
               <p>{price_detail.DELIVERY_CHARGE}</p>
               <p>₹{cartItems[0].deliveryCharge}</p>
             </div>
-            <div className="flex justify-between font-semibold border-t pt-2">
+            <div className="flex justify-between font-semibold border-t border-gray-400 pt-2">
               <p>{price_detail.TOTAL_AMOUNT}</p>
               <p>₹{cartItems[0].totalAmount}</p>
             </div>

@@ -6,6 +6,7 @@ import WishlistIcon from "./WishlistIcon";
 import FetchReview from "../review/FetchReview";
 import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest";
 import AddToCartBtn from "./AddToCartBtn";
+import Image from "next/image";
 
 // Define the fetcher function
 const fetcher = async (url: string) => {
@@ -38,13 +39,16 @@ function ProductDetailPage({ id }: { id: string }) {
   }
 
   return (
-    <div className="flex items-center justify-center dark:bg-gray-700 font-serif">
+    <div className="flex items-center justify-center  font-serif ">
       {/* Render product details if product is available */}
       <div className="flex p-20 gap-10 flex-col lg:flex-row">
         <div className="mx-auto">
           <WishlistIcon productID={Number(id)} />
           <div className="">
-            <img
+            <Image
+              width={500}
+              height={500}
+              alt={product[0].productName}
               src={product[0].productThumbnail}
               className="shadow-[0_0_15px_5px_rgba(0,0,0,0.3)] w-80 h-80 sm:w-100 sm:h-100 md:w-150 md:h-150 xl:w-[500px] xl:h-[500px] "
             />
@@ -56,7 +60,10 @@ function ProductDetailPage({ id }: { id: string }) {
               <div className="text-3xl font-semibold">
                 {product[0].productName}
               </div>
-              <img
+              <Image
+                width={100}
+                height={100}
+                alt={product[0].brandName}
                 src={product[0].brandThumbnail}
                 className="w-10 h-10 rounded-full border "
               />

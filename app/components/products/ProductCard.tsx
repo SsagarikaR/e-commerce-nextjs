@@ -2,6 +2,7 @@ import React from "react";
 import AddToCartBtn from "./AddToCartBtn";
 import WishlistIcon from "./WishlistIcon";
 import Link from "next/link";
+import Image from "next/image";
 
 async function ProductCard({ product }: { product: products }) {
   return (
@@ -9,7 +10,10 @@ async function ProductCard({ product }: { product: products }) {
       <WishlistIcon productID={product.productID} />
       <div className="gap-y-2 flex flex-col">
         <Link href={`/products/${product.productID}`}>
-          <img
+          <Image
+            alt={product.productName}
+            width={300}
+            height={300}
             src={product.productThumbnail}
             className="cursor-pointer w-[300px] h-[300px] md:w-[400px] md:h-[400px] lg:h-[400px] lg:w-[400px] shadow-md "
           />
@@ -20,7 +24,9 @@ async function ProductCard({ product }: { product: products }) {
               {product.productName}
             </div>
           </Link>
-          <img
+          <Image
+            width={100}
+            height={100}
             src={product.brandThumbnail}
             alt={product.brandName}
             className="h-8 w-8 rounded-full border shadow-md"

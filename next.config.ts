@@ -4,8 +4,11 @@ module.exports = {
       {
         source: "/",
         destination: "/home",
-        permanent: true, // Use "true" for a 308 (permanent) redirect
+        permanent: true,
       },
     ];
+  },
+  images: {
+    domains: ["res.cloudinary.com"],
   },
 };

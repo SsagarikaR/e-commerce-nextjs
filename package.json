@@ -34,6 +34,7 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.12.0",
     "next": "^15.2.0",
+    "next-auth": "^4.24.11",
     "next-cloudinary": "^6.16.0",
     "node-cache": "^5.1.2",
     "nookies": "^2.5.2",

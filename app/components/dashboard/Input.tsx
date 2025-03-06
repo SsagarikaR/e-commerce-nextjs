@@ -10,7 +10,7 @@ function Input({
   id: string;
   value: string;
   field: string;
-  errors: string;
+  errors: string | string[] | undefined;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
   return (

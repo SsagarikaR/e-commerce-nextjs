@@ -24,7 +24,7 @@ const Page = async ({
   console.log("Category from query params:", category);
 
   return (
-    <div className="pt-36">
+    <div className="pt-36 max-h-screen overflow-auto">
       <Products category={category!} page={page!} name={name!} />
     </div>
   );

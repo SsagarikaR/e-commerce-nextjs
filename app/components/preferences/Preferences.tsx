@@ -15,7 +15,7 @@ function Preferences() {
     <div className="px-20 py-10">
       {preferences && preferences.length > 0 && (
         <>
-          <div className="text-3xl md:text-left text-center font-serif font-semibold mb-2 text-gray-700 dark:text-white">
+          <div className="text-3xl pl-8 md:text-left text-center font-serif font-semibold mb-2 text-gray-700 dark:text-white">
             Recommend for you..
           </div>
 

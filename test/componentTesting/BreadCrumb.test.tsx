@@ -1,8 +1,10 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
-import Breadcrumb from "@/app/components/navbar/Breadcrumb"; // Adjust path accordingly
+import Breadcrumb from "@/app/components/navbars/Breadcrumb"; // Adjust path accordingly
 import { usePathname } from "next/navigation";
+import "@testing-library/jest-dom/extend-expect";
+import "@testing-library/jest-dom";
 
 // Correctly type the mock function to return a string
 vi.mock("next/navigation", () => ({

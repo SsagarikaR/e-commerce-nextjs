@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -5,12 +6,16 @@ function PreferenceCard({ item }: { item: prefernce }) {
   return (
     <>
       <Link href={`/products/${item.productID}`}>
-        <div className="m-auto flex justify-center font-serif items-center flex-col text-gray-600 border p-4 gap-5 2xl:w-[350px] 2xl:h-[400px] sm:w-[350px] sm:h-[400px]">
-          <img
-            src={item.productThumbnail}
-            alt={item.productName}
-            className=" shadow-xl  w-full transition-transform duration-300 transform hover:scale-110"
-          />
+        <div className="m-auto flex justify-center font-serif items-center transition-transform duration-300 transform hover:scale-95 mt-2 flex-col p-2 pt-8 text-gray-600 bg-gray-200 pb-10 border-gray-400  gap-y-5 2xl:w-[350px] 2xl:h-[400px] sm:w-[350px] sm:h-[400px]">
+          <div className="w-full">
+            <Image
+              width={200}
+              height={200}
+              src={item.productThumbnail}
+              alt={item.productName}
+              className=" shadow-xl  w-full  object-cover"
+            />
+          </div>
           <div className="flex flex-col justify-center items-center">
             <div className="text-lg font-bold dark:text-white">
               {item.productName}

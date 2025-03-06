@@ -10,6 +10,7 @@ import { authorizedDeleteRequest } from "@/services/apiReqServices/authorizedReq
 import ConfirmModal from "../confirmModal.tsx/ConfirmModal"; // Import the Modal component
 import { dashboard_product } from "@/constants";
 import { fetcher } from "@/lib/helpers/unAuthorizedGetFetcher";
+import Image from "next/image";
 
 function ProductList({ page }: { page: number }) {
   const { data: products, error } = useSWR<products[], Error>(
@@ -63,7 +64,7 @@ function ProductList({ page }: { page: number }) {
   };
 
   return (
-    <div className="w-full  mt-24 text-sm md:text-lg text-gray-700 h-[700px] xl:h-[800px] overflow-auto">
+    <div className="w-full  mt-16 text-sm md:text-lg text-gray-700 h-[700px] xl:h-[800px] overflow-auto">
       <table className="border w-full border-collapse ">
         <thead>
           <tr>
@@ -81,9 +82,12 @@ function ProductList({ page }: { page: number }) {
               <tr key={product.productID}>
                 <td className="border-2 p-2">
                   <div className="flex space-x-2 ">
-                    <img
+                    <Image
+                      alt={product.productName}
+                      width={160}
+                      height={160}
                       src={product.productThumbnail}
-                      className="md:w-16 md:h-16 h-12 w-12 border-gray-200 border shadow-md p-2"
+                      className="md:w-16 md:h-16 h-12 w-12 border-gray-200 border shadow-md p-2 object-cover"
                     />
                     <div>{product.productName}</div>
                   </div>

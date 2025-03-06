@@ -34,8 +34,6 @@ function SignUpForm() {
     name: "",
   });
 
-  const [successMsg, setSuccessMsg] = useState("");
-
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,12 +52,10 @@ function SignUpForm() {
           : "",
         name: result.errors.name ? result.errors.name.join(" ") : "",
       });
-      setSuccessMsg("");
     } else if (result.success) {
       const response = await unAuthorizedPostRequest("auth/signup", formData);
       console.log("response", "response", response);
       if (response.token) {
-        setSuccessMsg(result.success);
         setErrors({ email: "", password: "", contactNo: "", name: "" });
         redirect("/home");
       } else {

@@ -11,7 +11,7 @@ async function page({ params }: { params: { id: string } }) {
   const { id } = await params;
 
   return (
-    <div className="w-screen pt-20">
+    <div className="w-screen pt-20 min-h-screen max-h-screen overflow-auto dark:bg-gray-700">
       <ProductDetailPage id={id} />
     </div>
   );

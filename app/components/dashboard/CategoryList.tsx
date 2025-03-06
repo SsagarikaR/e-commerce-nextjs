@@ -8,6 +8,7 @@ import { useState } from "react";
 import ConfirmModal from "../confirmModal.tsx/ConfirmModal"; // Import the reusable ConfirmModal
 import { dashboard_catgeory } from "@/constants";
 import { fetcher } from "@/lib/helpers/unAuthorizedGetFetcher";
+import Image from "next/image";
 
 function CategoryList() {
   const { data: categories, error } = useSWR<categories[], Error>(
@@ -62,9 +63,12 @@ function CategoryList() {
               <tr key={item.categoryID}>
                 <td className="border-2 p-2">
                   <div className="flex space-x-2 items-center">
-                    <img
+                    <Image
+                      width={160}
+                      height={160}
                       src={item.categoryThumbnail}
-                      className="w-16 border-gray-200 border shadow-md p-2"
+                      alt={item.categoryName}
+                      className="w-16 border-gray-200 border shadow-md p-2 object-cover"
                     />
                     <div>{item.categoryName}</div>
                   </div>
@@ -75,7 +79,7 @@ function CategoryList() {
                     <FontAwesomeIcon
                       icon={faTrash}
                       className="w-5 cursor-pointer"
-                      onClick={() => handleDelete(item.categoryID)} // Trigger delete on click
+                      onClick={() => handleDelete(item.categoryID!)} // Trigger delete on click
                     />
                   </div>
                 </td>

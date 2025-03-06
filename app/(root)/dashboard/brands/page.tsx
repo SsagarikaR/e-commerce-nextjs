@@ -9,7 +9,7 @@ function page() {
         <div className="font-semibold text-3xl">Brands</div>
         <Link
           href="/dashboard/brands/create"
-          className="bg-purple-400 px-10 py-2 text-lg font-semibold"
+          className="bg-blue-400 px-10 py-2 text-lg font-semibold"
         >
           ADD+
         </Link>

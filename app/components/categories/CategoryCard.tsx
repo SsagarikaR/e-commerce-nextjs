@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -9,10 +10,12 @@ function CategoryCard({
   return (
     <Link href={`/products?category=${categoryID}`}>
       <div className=" flex flex-col justify-center items-center bg-transparent">
-        <img
+        <Image
           src={categoryThumbnail}
           alt={categoryName}
-          className="w-[250px] h-[250px] xl:w-[300px] xl:h-[300px]  shadow-lg border transition-transform duration-300 hover:scale-95"
+          width={250}
+          height={250}
+          className="w-[250px] h-[250px] xl:w-[300px] xl:h-[300px]  shadow-lg border transition-all duration-300 hover:scale-95 object-cover"
         />
         <div className="font-serif text-xl font-semibold text-gray-600 dark:text-white">
           {categoryName}

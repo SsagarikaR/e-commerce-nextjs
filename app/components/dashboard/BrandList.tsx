@@ -7,6 +7,7 @@ import ConfirmModal from "../confirmModal.tsx/ConfirmModal"; // Import the reusa
 import { authorizedDeleteRequest } from "@/services/apiReqServices/authorizedRequest";
 import { dashboard_brand } from "@/constants";
 import { fetcher } from "@/lib/helpers/unAuthorizedGetFetcher";
+import Image from "next/image";
 
 function BrandList() {
   const { data: brands, error } = useSWR<brands[], Error>(`brands`, fetcher);
@@ -56,9 +57,13 @@ function BrandList() {
               <tr key={item.brandID}>
                 <td className="border-2 p-2">
                   <div className="flex space-x-2 items-center">
-                    <img
+                    <Image
+                      alt={item.brandName}
+                      width={160} // You can adjust these values based on the image's natural size
+                      height={160}
                       src={item.brandThumbnail}
-                      className="w-16 border-gray-200 border shadow-md p-2"
+                      className="w-16 h-16 border-gray-200 border shadow-md p-2 object-cover"
+                      layout="intrinsic" // Use intrinsic layout for better quality scaling
                     />
                     <div>{item.brandName}</div>
                   </div>
@@ -69,7 +74,7 @@ function BrandList() {
                     <FontAwesomeIcon
                       icon={faTrash}
                       className="w-5 cursor-pointer"
-                      onClick={() => handleDelete(item.brandID)} // Trigger delete on click
+                      onClick={() => handleDelete(item.brandID!)} // Trigger delete on click
                     />
                   </div>
                 </td>

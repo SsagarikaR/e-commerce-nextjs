@@ -7,7 +7,6 @@ import { useMemo } from "react";
 const Breadcrumb: React.FC = () => {
   const pathname = usePathname();
 
-  // Always call useMemo unconditionally
   const pathSegments = useMemo(() => {
     return pathname?.split("/").filter(Boolean) || [];
   }, [pathname]);
@@ -17,14 +16,13 @@ const Breadcrumb: React.FC = () => {
     return null;
   }
 
-  // Logging path segments for debugging
   console.log(pathSegments, "path segments");
 
   return (
     <nav className="p-4 rounded-md pt-24 z-10 fixed w-screen flex dark:bg-gray-700 font-semibold">
-      <ol className="list-reset flex text-purple-600">
+      <ol className="list-reset flex text-blue-600">
         <li>
-          <Link href="/" className="hover:text-purple-800 capitalize">
+          <Link href="/" className="hover:text-blue-800 capitalize">
             Home
           </Link>
           <span className="mx-2">/</span>
@@ -38,7 +36,7 @@ const Breadcrumb: React.FC = () => {
 
             return (
               <li key={index}>
-                <Link href={path} className="hover:text-purple-800 capitalize">
+                <Link href={path} className="hover:text-blue-800 capitalize">
                   {segment}
                 </Link>
                 {index !== pathSegments.length - 1 && (

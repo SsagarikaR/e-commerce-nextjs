@@ -13,7 +13,7 @@ const fetcher = async (url: string) => {
     const response = await authorizedGetRequest(url);
     return response;
   } catch (error) {
-    throw new Error("Failed to fetch wishlist");
+    throw new Error(`Failed to fetch wishlist${error}`);
   }
 };
 

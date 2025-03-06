@@ -1,12 +1,13 @@
 "use client";
 // pages/AddReview.tsx
 import React, { useState } from "react";
-import useSWR, { mutate } from "swr"; // Import SWR
+import useSWR from "swr"; // Import SWR
 import { useRouter } from "next/navigation"; // Import useRouter for navigation
 import { authorizedGetRequest } from "@/services/apiReqServices/authorizedRequest";
 import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest";
 import Toast from "../toast/Toast";
 import { review } from "@/constants";
+import Image from "next/image";
 
 // Fetch product data using SWR
 const fetcher = async (url: string) => {
@@ -14,6 +15,7 @@ const fetcher = async (url: string) => {
     const response = await authorizedGetRequest(url);
     return response;
   } catch (error) {
+    console.error(error);
     throw new Error("Failed to fetch product");
   }
 };
@@ -67,7 +69,7 @@ const AddReview = ({ pid }: { pid: string }) => {
         setToastVisible(true);
       }
     } catch (error) {
-      setToastMessage("An error occurred while submitting the review.");
+      setToastMessage(`An error occurred while submitting the review.${error}`);
       setToastType("error");
       setToastVisible(true);
     }
@@ -76,11 +78,14 @@ const AddReview = ({ pid }: { pid: string }) => {
   return (
     <>
       <div className="w-full pt-16 flex flex-col justify-center items-center font-serif gap-2">
-        <div className="w-11/12 flex items-center justify-between border px-10 py-4 text-gray-700 font-semibold dark:bg-gray-300">
+        <div className="w-11/12 flex items-center justify-between border border-gray-400  px-10 py-4 text-gray-700 font-semibold dark:bg-gray-300">
           <div className="text-2xl">{review.RATING_REVIEWS}</div>
           <div className="flex items-center justify-center gap-x-3">
             <div className="text-lg">{product[0].productName}</div>
-            <img
+            <Image
+              width={240}
+              height={240}
+              alt={product[0].productName}
               src={product[0].productThumbnail}
               className="w-24 shadow-md p-2"
             />
@@ -88,7 +93,7 @@ const AddReview = ({ pid }: { pid: string }) => {
         </div>
 
         <form className="w-11/12 gap-4 flex flex-col " onSubmit={handleSubmit}>
-          <div className="flex flex-col border p-4 gap-y-2 text-gray-600 dark:bg-gray-300">
+          <div className="flex flex-col border border-gray-400 p-4 gap-y-2 text-gray-600 dark:bg-gray-300">
             <div className="text-lg font-semibold">{review.RATE_PRODUCT}</div>
             <input
               type="number"
@@ -109,7 +114,7 @@ const AddReview = ({ pid }: { pid: string }) => {
             />
           </div>
 
-          <div className="border text-gray-600 dark:bg-gray-300">
+          <div className="border border-gray-400  text-gray-600 dark:bg-gray-300">
             <div className="p-4 text-lg font-semibold">
               {review.REVIEW_PRODUCT}
             </div>
@@ -127,7 +132,7 @@ const AddReview = ({ pid }: { pid: string }) => {
           <div className="flex justify-end">
             <button
               type="submit"
-              className="bg-purple-300 px-4 py-2 rounded-md"
+              className="bg-blue-300 hover:bg-blue-400 border-gray-400 border px-4 py-2 rounded-md"
             >
               {review.SUBMIT}
             </button>
