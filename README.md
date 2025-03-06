@@ -6,7 +6,7 @@ This is a simple e-commerce product listing application built using Next.js, Tai
 
 - [Tech Stack](#tech-stack)
 - [Features](#features)
-- [Setup Instruction](#setup-instruction)
+- [Setup Instructions](#setup-instructions)
 - [How to Use](#how-to-use)
 
 ## Tech Stack
