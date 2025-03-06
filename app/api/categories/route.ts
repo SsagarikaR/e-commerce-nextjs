@@ -6,6 +6,7 @@ import {
 } from "@/services/apiServices/categories";
 import { NextRequest, NextResponse } from "next/server";
 import { checkToken, isAdmin } from "@/lib/midlleware/auth";
+import { error } from "console";
 
 // Controller to create a new category
 export const POST = async (req: NextRequest) => {
@@ -13,9 +14,12 @@ export const POST = async (req: NextRequest) => {
   const { isValid, decodedUser } = checkToken(req);
 
   if (!isValid) {
-    return NextResponse.json({
-      error: "Unauthorized. Invalid or missing token.",
-    });
+    return NextResponse.json(
+      {
+        error: "Unauthorized. Invalid or missing token.",
+      },
+      { status: 401 }
+    );
   }
 
   console.log(decodedUser);
@@ -28,22 +32,28 @@ export const POST = async (req: NextRequest) => {
 
   try {
     if (!categoryName || !categoryThumbnail) {
-      return NextResponse.json({
-        message: "Please enter all the required fields",
-      });
+      return NextResponse.json(
+        {
+          error: "Please enter all the required fields",
+        },
+        { status: 409 }
+      );
     }
     // Call service to create a new category
     const result = await createCategoryService(categoryName, categoryThumbnail);
     if (result.success) {
-      return NextResponse.json({ message: result.message });
+      return NextResponse.json({ message: result.message }, { status: 200 });
     } else {
-      return NextResponse.json({ message: result.message });
+      return NextResponse.json({ error: result.message }, { status: 403 });
     }
   } catch (error) {
     console.error(error);
-    return NextResponse.json({
-      error: "Error in adding new category. Please try again after some time",
-    });
+    return NextResponse.json(
+      {
+        error: "Error in adding new category. Please try again after some time",
+      },
+      { status: 500 }
+    );
   }
 };
 

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest";
 
 const addCategorySchema = z.object({
   categoryName: z
@@ -28,7 +29,30 @@ export async function addCategoryAction(formData: FormData) {
         categoryThumbnail: formFieldErrors?.categoryThumbnail,
       },
     };
-  } else {
-    return { success: "Fields validated successfully" };
+  }
+
+  try {
+    // Proceed with API call if validation is successful
+    const response = await authorizedPostRequest(
+      "/categories",
+      unvalidatedData
+    );
+    console.log(response);
+    // Assuming the API response includes a success message or the created brand object
+    if (
+      response.response &&
+      response.response.data.error !== undefined &&
+      response.response.data.error !== null
+    ) {
+      return { errors: { general: response.response.data.error } };
+    }
+
+    return { success: "Category created successfully" };
+  } catch (error) {
+    // Handle any errors that occur during the API call
+    console.error("API Error:", error);
+    return {
+      errors: { general: "An error occurred while creating the categroy" },
+    };
   }
 }

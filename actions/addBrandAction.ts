@@ -40,14 +40,16 @@ export async function addBrandAction(formData: FormData) {
   try {
     // Proceed with API call if validation is successful
     const response = await authorizedPostRequest("/brands", unvalidatedData);
-
-    // Assuming the API response includes a success message or the created brand object
-    if (response.success) {
-      return { success: "Brand created successfully" };
-    } else {
-      // If the API responds with an error, handle it accordingly
-      return { errors: { general: "Failed to create brand" } };
+    console.log(response);
+    if (
+      response.response &&
+      response.response.data.error !== undefined &&
+      response.response.data.error !== null
+    ) {
+      return { errors: { general: response.response.data.error } };
     }
+
+    return { success: "Brand created successfully" };
   } catch (error) {
     // Handle any errors that occur during the API call
     console.error("API Error:", error);

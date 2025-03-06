@@ -24,7 +24,7 @@ function AdminSidebar({
     <>
       {!isNavOpen ? (
         <div
-          className="fixed top-7 md:hidden cursor-pointer z-10"
+          className="fixed top-7 md:hidden cursor-pointer z-20 bg-white"
           onClick={() => {
             setNavOpen(true);
           }}
@@ -33,7 +33,7 @@ function AdminSidebar({
         </div>
       ) : (
         <div
-          className="fixed top-1 md:hidden cursor-pointer z-10 left-52"
+          className="fixed top-1 md:hidden cursor-pointer z-20 left-52"
           onClick={() => {
             setNavOpen(false);
           }}
@@ -42,7 +42,7 @@ function AdminSidebar({
         </div>
       )}
       <div
-        className={`${isNavOpen ? "flex fixed" : "hidden"} md:flex  w-[250px]  flex-col font-serif p-2 items-center text-xl font-semibold text-gray-700 h-screen shadow-2xl gap-8 justify-between bg-white`}
+        className={`${isNavOpen ? "flex fixed" : "hidden"} md:flex  w-[250px]  flex-col font-serif p-2 items-center text-xl font-semibold text-gray-700 h-screen shadow-2xl gap-8 justify-between bg-white z-10`}
       >
         <div>
           <div className="flex items-center gap-2 pb-10 pt-2">

@@ -11,7 +11,7 @@ function layout({ children }: { children: ReactNode }) {
     >
       <AdminSidebar isNavOpen={isNavOpen} setNavOpen={setNavOpen} />
       <div
-        className={`md:w-[86%] w-full `}
+        className={`md:w-[86%] w-full ${isNavOpen && ""}`}
         onClick={() => {
           setNavOpen(false);
         }}

@@ -165,7 +165,7 @@ function AddProduct() {
   ];
 
   return (
-    <div className="pt-10 w-full flex flex-col gap-4">
+    <div className="pt-10 w-full flex flex-col gap-4 ">
       <div className="text-3xl font-semibold">
         {dashboard_product.ADD_PRODUCT}
       </div>

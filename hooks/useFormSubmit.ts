@@ -1,11 +1,12 @@
 import { useState } from "react";
+import { useRef } from "react";
 
 export function useFormSubmit<T extends Record<string, any>>(
   initialFormData: T,
   apiAction: (form: FormData) => Promise<any>
 ) {
   const [formData, setFormData] = useState(initialFormData);
-  const [errors, setErrors] = useState<any>({});
+  const errors = useRef<any>({}); // Using a ref for errors
   const [loading, setLoading] = useState(false);
 
   // Handle input change, allowing for a custom event-like object
@@ -35,10 +36,13 @@ export function useFormSubmit<T extends Record<string, any>>(
     try {
       setLoading(true);
       const result = await apiAction(form);
+      console.log(result, "result");
+
       if (result.errors) {
-        setErrors(result.errors); // Set errors if validation fails
+        console.log(result.errors, "result.errors");
+        errors.current = result.errors; // Save errors to ref
       } else {
-        setErrors({}); // Clear errors on successful submission
+        errors.current = {}; // Clear errors on success
       }
     } catch (error) {
       console.error("Error during form submission:", error);

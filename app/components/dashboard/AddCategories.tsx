@@ -1,79 +1,40 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import CloudinaryImageUpload from "./CloudinaryImageUpload";
-import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest";
+import { useFormSubmit } from "@/hooks/useFormSubmit";
 import { dashboard_catgeory } from "@/constants";
 import { addCategoryAction } from "@/actions/addCategoryAction";
 import Input from "./Input";
 
 function AddCategories() {
-  const [formData, setFormData] = useState<{
-    categoryName: string;
-    categoryThumbnail: string;
-  }>({
-    categoryName: "",
-    categoryThumbnail: "",
-  });
-
-  const [errors, setErrors] = useState<{
-    categoryName: string;
-    categoryThumbnail: string;
-  }>({
-    categoryName: "",
-    categoryThumbnail: "",
-  });
+  const { formData, errors, handleChange, handleSubmit } = useFormSubmit(
+    { categoryName: "", categoryThumbnail: "" },
+    addCategoryAction,
+    "categories"
+  );
 
   const router = useRouter();
 
-  // Handle form input change
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleImageUpload = (url: string) => {
-    setFormData((prev) => ({ ...prev, categoryThumbnail: url }));
-  };
-
-  // Handle form submit
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const form = new FormData(e.target as HTMLFormElement);
-    form.append("categoryThumbnail", formData.categoryThumbnail);
-    const result = await addCategoryAction(form);
-    console.log(result, "result");
-    console.log(form, "send form data");
+    await handleSubmit(e);
 
-    if (result.errors) {
-      // If there are errors, you can set the errors in the state
-      setErrors({
-        categoryName: result.errors.categoryName
-          ? result.errors.categoryName[0]
-          : "",
-        categoryThumbnail: result.errors.categoryThumbnail
-          ? result.errors.categoryThumbnail[0]
-          : "",
-      });
-
-      return; // If there are errors, stop form submission
-    }
-
-    try {
-      const response = await authorizedPostRequest("categories", formData);
-      console.log(response);
+    if (
+      !errors.current.categoryName &&
+      !errors.current.categoryThumbnail &&
+      !errors.current.general
+    ) {
       router.push("/dashboard/categories");
-    } catch (error) {
-      console.error("Error:", error);
     }
   };
 
   const inputFields = [
     {
-      id: "catgeoryName",
+      id: "categoryName",
       field: "category name",
       value: formData.categoryName,
-      error: errors.categoryName,
+      error: errors.current.categoryName,
     },
   ];
 
@@ -84,7 +45,7 @@ function AddCategories() {
       </div>
       <form
         className="border-2 p-4 w-full flex flex-col gap-6"
-        onSubmit={handleSubmit}
+        onSubmit={handleFormSubmit}
       >
         {/* Category Name */}
         {inputFields.map((item) => (
@@ -93,7 +54,7 @@ function AddCategories() {
             id={item.id}
             value={item.value}
             field={item.field}
-            onChange={handleChange}
+            onChange={handleChange} // Correctly passing handleChange here
             errors={item.error}
           />
         ))}
@@ -103,9 +64,19 @@ function AddCategories() {
           <label className="text-xl w-2/5">
             {dashboard_catgeory.ENTER_CATEGORY_THUMBNAIL}
           </label>
-          <CloudinaryImageUpload seturl={handleImageUpload} />
-          {errors.categoryThumbnail && (
-            <p className="text-red-500 text-sm">{errors.categoryThumbnail}</p>
+          <CloudinaryImageUpload
+            seturl={(url: string) => {
+              console.log("Setting categoryThumbnail URL:", url); // Debug here
+              handleChange({
+                target: { name: "categoryThumbnail", value: url },
+              });
+            }}
+          />
+
+          {errors.current.categoryThumbnail && (
+            <p className="text-red-500 text-sm">
+              {errors.current.categoryThumbnail}
+            </p>
           )}
         </div>
 
@@ -119,7 +90,7 @@ function AddCategories() {
               <img
                 src={formData.categoryThumbnail}
                 alt="Uploaded Thumbnail"
-                className="w-full h-auto border border-gray-400 p-2 rounded-md"
+                className="w-[200px] h-[200px] border border-gray-400 p-2 rounded-md"
               />
             </div>
           </div>

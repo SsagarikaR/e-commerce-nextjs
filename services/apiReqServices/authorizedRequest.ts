@@ -41,10 +41,8 @@ export const authorizedPostRequest = async (route: string, data: object) => {
     console.log("API response data:", response.data); // Log the data here to check if it is correct
     return response.data;
   } catch (error) {
-    console.error(error);
-    throw new Error(
-      "Error in making get request please try again Please try again"
-    );
+    console.log(error, "error");
+    return error;
   }
 };
 

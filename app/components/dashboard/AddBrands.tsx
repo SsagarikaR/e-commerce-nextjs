@@ -20,26 +20,33 @@ function AddBrands() {
       id: "brandName",
       field: "brand name",
       value: formData.brandName,
-      error: errors.brandName,
+      error: errors.current.brandName,
     },
   ];
 
   // Update handleSubmit to include redirect after success
   const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     // Call the original handleSubmit function from useFormSubmit
     await handleSubmit(e);
 
+    console.log(errors, "errors");
+
     // If form submission is successful, redirect to /dashboard/brand
-    if (!errors.brandName && !errors.brandThumbnail) {
+    if (
+      !errors.current.brandName &&
+      !errors.current.brandThumbnail &&
+      !errors.current.general
+    ) {
       router.push("/dashboard/brands");
     }
   };
 
   return (
-    <div className="pt-10 w-full flex flex-col gap-4">
+    <div className="pt-10 w-full flex flex-col gap-4 ">
       <div className="text-3xl font-semibold">{dashboard_brand.ADD_BRAND}</div>
       <form
-        className="border-2 p-4 w-full flex flex-col gap-6"
+        className="border-2 p-4 w-full flex flex-col gap-6 "
         onSubmit={handleFormSubmit} // Use the updated submit handler
       >
         {inputFields.map((item) => (
@@ -62,8 +69,10 @@ function AddBrands() {
               handleChange({ target: { name: "brandThumbnail", value: url } });
             }}
           />
-          {errors.brandThumbnail && (
-            <p className="text-red-500 text-sm">{errors.brandThumbnail}</p>
+          {errors.current.brandThumbnail && (
+            <p className="text-red-500 text-sm">
+              {errors.current.brandThumbnail}
+            </p>
           )}
         </div>
 

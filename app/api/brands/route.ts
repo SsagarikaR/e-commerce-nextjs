@@ -6,6 +6,7 @@ import {
   updateBrandService,
   deleteBrandService,
 } from "@/services/apiServices/brands";
+import { error } from "console";
 
 // Controller to create a new brand
 export const POST = async (req: NextRequest) => {
@@ -13,9 +14,12 @@ export const POST = async (req: NextRequest) => {
   const { isValid, decodedUser } = checkToken(req);
 
   if (!isValid) {
-    return NextResponse.json({
-      error: "Unauthorized. Invalid or missing token.",
-    });
+    return NextResponse.json(
+      {
+        error: "Unauthorized. Invalid or missing token.",
+      },
+      { status: 401 }
+    );
   }
 
   console.log(decodedUser);
@@ -28,21 +32,27 @@ export const POST = async (req: NextRequest) => {
 
   try {
     if (!brandName || !brandThumbnail) {
-      return NextResponse.json({
-        message: "Please enter all the required fields",
-      });
+      return NextResponse.json(
+        {
+          error: "Please enter all the required fields",
+        },
+        { status: 409 }
+      );
     }
 
     // Call service to create a new brand
     const result = await createBrandService(brandName, brandThumbnail);
     if (result.success) {
-      return NextResponse.json({ message: result.message });
+      return NextResponse.json({ message: result.message }, { status: 200 });
     } else {
-      return NextResponse.json({ message: result.message });
+      return NextResponse.json({ error: result.message }, { status: 403 });
     }
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: "Please try again after some time" });
+    return NextResponse.json(
+      { error: "Please try again after some time" },
+      { status: 500 }
+    );
   }
 };
 
