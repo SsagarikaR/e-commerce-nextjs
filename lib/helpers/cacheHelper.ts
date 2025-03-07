@@ -7,7 +7,7 @@ export const invalidateCache = (cacheKey: string) => {
   cache.del(cacheKey); // Invalidate cache
 };
 
-export const setCache = (cacheKey: string, data: {}) => {
+export const setCache = (cacheKey: string, data: object) => {
   cache.set(cacheKey, data); // Set data to cache
 };
 

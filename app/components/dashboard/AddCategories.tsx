@@ -6,6 +6,7 @@ import { useFormSubmit } from "@/hooks/useFormSubmit";
 import { dashboard_catgeory } from "@/constants";
 import { addCategoryAction } from "@/actions/addCategoryAction";
 import Input from "./Input";
+import Image from "next/image";
 
 function AddCategories() {
   const { formData, errors, handleChange, handleSubmit } = useFormSubmit(
@@ -86,7 +87,9 @@ function AddCategories() {
               {dashboard_catgeory.IMAGE_PREVIEW}
             </label>
             <div className="w-3/5">
-              <img
+              <Image
+                width={200}
+                height={200}
                 src={formData.categoryThumbnail}
                 alt="Uploaded Thumbnail"
                 className="w-[200px] h-[200px] border border-gray-400 p-2 rounded-md"
@@ -98,7 +101,7 @@ function AddCategories() {
         {/* Submit Button */}
         <div className="flex justify-end items-center">
           <button
-            className="bg-purple-400 px-10 py-2 text-lg font-semibold text-black rounded-md"
+            className="bg-blue-400 px-10 py-2 text-lg font-semibold text-black rounded-md"
             type="submit"
           >
             {dashboard_catgeory.ADD_CATGEORY_BTN}

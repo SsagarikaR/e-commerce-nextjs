@@ -1,4 +1,3 @@
-import { Users } from "@/lib/Database/models/user";
 import { getUserService } from "@/services/apiServices/users";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";

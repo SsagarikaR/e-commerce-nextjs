@@ -47,28 +47,32 @@ function BrandList() {
       <table className="border w-full border-collapse">
         <thead>
           <tr>
-            <th className="border-2 p-2">{dashboard_brand.BRAND_NAME}</th>
-            <th className="border-2 p-2">{dashboard_brand.ACTION}</th>
+            <th className="border-2 border-gray-400 p-2">
+              {dashboard_brand.BRAND_NAME}
+            </th>
+            <th className="border-2 border-gray-400 p-2">
+              {dashboard_brand.ACTION}
+            </th>
           </tr>
         </thead>
         <tbody>
           {brands && brands.length > 0 ? (
             brands.map((item) => (
               <tr key={item.brandID}>
-                <td className="border-2 p-2">
+                <td className="border-2 border-gray-400 p-2">
                   <div className="flex space-x-2 items-center">
                     <Image
                       alt={item.brandName}
-                      width={160} // You can adjust these values based on the image's natural size
+                      width={160}
                       height={160}
                       src={item.brandThumbnail}
-                      className="w-16 h-16 border-gray-200 border shadow-md p-2 object-cover"
+                      className="w-16 h-16 border-gray-300 border shadow-md p-2 object-cover"
                       layout="intrinsic" // Use intrinsic layout for better quality scaling
                     />
                     <div>{item.brandName}</div>
                   </div>
                 </td>
-                <td className="border-2 p-2">
+                <td className="border-2 border-gray-400 p-2">
                   <div className="flex space-x-2">
                     {/* <FontAwesomeIcon icon={faEdit} className="w-5" /> */}
                     <FontAwesomeIcon

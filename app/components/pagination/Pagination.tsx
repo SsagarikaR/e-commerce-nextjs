@@ -2,7 +2,6 @@
 import { pagination } from "@/constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import path from "path";
 
 const Pagination = ({ category, currentPage, totalPages }: paginationProps) => {
   const pathname = usePathname();
@@ -18,7 +17,7 @@ const Pagination = ({ category, currentPage, totalPages }: paginationProps) => {
                 ? `http://localhost:3000/products?page=${currentPage - 1}`
                 : `http://localhost:3000/dashboard/products?page=${currentPage - 1}`
           }
-          className="bg-purple-300 p-2 m-1 rounded-md border-gray-300 border"
+          className="bg-blue-300 p-2 m-1 rounded-md border-gray-300 border"
         >
           {pagination.PREVIOUS}
         </Link>
@@ -33,7 +32,7 @@ const Pagination = ({ category, currentPage, totalPages }: paginationProps) => {
                 ? `http://localhost:3000/products?page=${currentPage + 1}`
                 : `http://localhost:3000/dashboard/products?page=${currentPage + 1}`
           }
-          className="bg-purple-300 p-2 m-1 rounded-md border-gray-300 border"
+          className="bg-blue-300 p-2 m-1 rounded-md border-gray-300 border"
         >
           {pagination.NEXT}
         </Link>

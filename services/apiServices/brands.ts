@@ -20,6 +20,7 @@ export const createBrandService = async (
     }
 
     const [result, metaData] = await createNewBrand(brandName, brandThumbnail);
+    console.log(result);
     if (metaData !== 0) {
       invalidateCache("brands:all");
       return { success: true, message: "Successfully added a new brand." };

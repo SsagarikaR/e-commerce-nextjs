@@ -6,6 +6,7 @@ import { dashboard_brand } from "@/constants";
 import { addBrandAction } from "@/actions/addBrandAction";
 import { useFormSubmit } from "@/hooks/useFormSubmit"; // Import the custom hook
 import Input from "./Input";
+import Image from "next/image";
 
 function AddBrands() {
   const { formData, errors, handleChange, handleSubmit } = useFormSubmit(
@@ -82,7 +83,9 @@ function AddBrands() {
               {dashboard_brand.IMAGE_PREVIEW}
             </label>
             <div className="w-3/5">
-              <img
+              <Image
+                width={200}
+                height={200}
                 src={formData.brandThumbnail}
                 alt="Uploaded Thumbnail"
                 className="w-[200px] h-[200px] border border-gray-400 p-2 rounded-md"
@@ -93,7 +96,7 @@ function AddBrands() {
 
         <div className="flex justify-end items-center">
           <button
-            className="bg-purple-400 px-10 py-2 text-lg font-semibold text-black rounded-md"
+            className="bg-blue-400 px-10 py-2 text-lg font-semibold text-black rounded-md"
             type="submit"
             disabled={false}
           >

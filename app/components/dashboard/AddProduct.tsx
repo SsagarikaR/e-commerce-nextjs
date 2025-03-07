@@ -8,6 +8,7 @@ import { dashboard_product } from "@/constants";
 import { fetcher } from "@/lib/helpers/unAuthorizedGetFetcher";
 import { addProductAction } from "@/actions/addProductAction";
 import Input from "./Input";
+import Image from "next/image";
 
 function AddProduct() {
   const { data: brands } = useSWR<brands[], Error>(`brands`, fetcher);
@@ -289,10 +290,12 @@ function AddProduct() {
               {dashboard_product.IMAGE_PREVIEW}
             </label>
             <div className="w-3/5">
-              <img
+              <Image
+                width={200}
+                height={200}
                 src={formData.productThumbnail}
                 alt="Uploaded Thumbnail"
-                className="w-full h-auto border border-gray-400 p-2 rounded-md"
+                className="w-[200px] h-[200px] border border-gray-400 p-2 rounded-md"
               />
             </div>
           </div>
@@ -301,7 +304,7 @@ function AddProduct() {
         {/* Submit Button */}
         <div className="flex justify-end items-center">
           <button
-            className="bg-purple-400 px-10 py-2 text-lg font-semibold text-black rounded-md"
+            className="bg-blue-400 px-10 py-2 text-lg font-semibold text-black rounded-md"
             type="submit"
           >
             {dashboard_product.ADD_PRODUCT_BTN}

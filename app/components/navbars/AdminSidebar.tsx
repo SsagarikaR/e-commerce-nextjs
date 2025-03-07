@@ -69,7 +69,7 @@ function AdminSidebar({
               <li className={`pl-10 cursor-pointer`}>
                 <Link
                   href="/dashboard/categories"
-                  className={`${currentPath === "/dashboard/categories" ? "bg-blue-300 " : ""} hover:bg-purple-200 rounded-md px-4 py-1`}
+                  className={`${currentPath === "/dashboard/categories" ? "bg-blue-300 " : ""} hover:bg-blue-200 rounded-md px-4 py-1`}
                 >
                   {admin_sidebar.CATGEOYR_LIST}
                 </Link>

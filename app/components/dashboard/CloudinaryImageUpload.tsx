@@ -1,21 +1,31 @@
 "use client";
-import { CldUploadWidget } from "next-cloudinary";
-import { useState } from "react";
+import {
+  CldUploadWidget,
+  CloudinaryUploadWidgetResults,
+} from "next-cloudinary";
+
+interface cloudinaryImageUploadProps {
+  seturl: (url: string) => void;
+}
 
 function CloudinaryImageUpload({ seturl }: cloudinaryImageUploadProps) {
   return (
     <CldUploadWidget
       uploadPreset="psmzaqa4"
-      onSuccess={({ info }) => {
-        const imageUrl = info?.secure_url; // This is the URL of the uploaded image
-        seturl(imageUrl); // Pass the URL to the parent component
+      onSuccess={(results: CloudinaryUploadWidgetResults) => {
+        const info = results.info;
+
+        // Ensure info is not undefined and is the expected type
+        if (info && typeof info !== "string" && "secure_url" in info) {
+          const imageUrl = info.secure_url;
+          seturl(imageUrl); // Pass the URL to the parent component
+        }
       }}
     >
       {({ open }) => (
-        // Add type="button" to prevent the form from submitting when clicking this button
         <button
           type="button"
-          className="bg-purple-300 p-2 rounded-lg hover:bg-purple-400"
+          className="bg-blue-300 p-2 rounded-lg hover:bg-blue-400"
           onClick={() => open()}
         >
           Upload

@@ -1,8 +1,9 @@
-import { NextRequest, NextResponse, NextMiddleware } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { sequelize } from "../Database/db";
 import { QueryTypes } from "sequelize";
-import Jwt from "jsonwebtoken";
-require("dotenv").config();
+import Jwt, { JwtPayload } from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 export const generateToken = async (id: number) => {
   // console.log(id,"authentication hit",process.env);
@@ -21,7 +22,7 @@ export const generateToken = async (id: number) => {
 
 export const checkToken = (
   req: NextRequest
-): { isValid: boolean; decodedUser: any | null } => {
+): { isValid: boolean; decodedUser: string | JwtPayload | null } => {
   const authHeader = req.headers.get("authorization");
 
   console.log(authHeader, "authHeader");
@@ -44,33 +45,43 @@ export const checkToken = (
   }
 };
 
-// Middleware to check if the user is an admin
-export const isAdmin = async (req: NextRequest, decodedUser: any) => {
-  const userID = decodedUser.identifire;
-  console.log(decodedUser.identifire, "iden");
-  console.log(decodedUser, "decodeduser");
-  try {
-    const user = await sequelize.query(
-      "SELECT * FROM Admins WHERE userID = ?",
-      {
-        replacements: [userID],
-        type: QueryTypes.SELECT,
-      }
-    );
+export const isAdmin = async (
+  req: NextRequest,
+  decodedUser: JwtPayload | string | null
+) => {
+  // Narrow the type to JwtPayload
+  if (typeof decodedUser !== "string" && decodedUser !== null) {
+    const userID = decodedUser?.identifire;
 
-    if (user.length === 0) {
+    console.log(decodedUser?.identifre, "iden"); // Log for debugging
+    console.log(decodedUser, "decodeduser");
+
+    try {
+      const user = await sequelize.query(
+        "SELECT * FROM Admins WHERE userID = ?",
+        {
+          replacements: [userID],
+          type: QueryTypes.SELECT,
+        }
+      );
+
+      if (user.length === 0) {
+        return NextResponse.json(
+          { error: "You are not authorized for this action." },
+          { status: 403 }
+        );
+      }
+
+      return null; // Proceed if the user is an admin
+    } catch (error) {
+      console.error("Error checking admin:", error);
       return NextResponse.json(
-        { error: "You are not authorized for this action." },
-        { status: 403 }
+        { error: "Please try again after some time." },
+        { status: 500 }
       );
     }
-
-    return null; // Proceed if the user is an admin
-  } catch (error) {
-    console.error("Error checking admin:", error);
-    return NextResponse.json(
-      { error: "Please try again after some time." },
-      { status: 500 }
-    );
   }
+
+  // Return an error if decodedUser is a string or null
+  return NextResponse.json({ error: "Invalid user data" }, { status: 400 });
 };

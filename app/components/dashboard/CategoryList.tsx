@@ -53,27 +53,31 @@ function CategoryList() {
       <table className="border w-full border-collapse">
         <thead>
           <tr>
-            <th className="border-2 p-2">{dashboard_catgeory.CTAEGORY_NAME}</th>
-            <th className="border-2 p-2">{dashboard_catgeory.ACTION}</th>
+            <th className="border-2 border-gray-400 p-2">
+              {dashboard_catgeory.CTAEGORY_NAME}
+            </th>
+            <th className="border-2 border-gray-400 p-2">
+              {dashboard_catgeory.ACTION}
+            </th>
           </tr>
         </thead>
         <tbody>
           {categories && categories.length > 0 ? (
             categories.map((item) => (
               <tr key={item.categoryID}>
-                <td className="border-2 p-2">
+                <td className="border-2 border-gray-400 p-2">
                   <div className="flex space-x-2 items-center">
                     <Image
                       width={160}
                       height={160}
                       src={item.categoryThumbnail}
                       alt={item.categoryName}
-                      className="w-16 border-gray-200 border shadow-md p-2 object-cover"
+                      className="w-16 border-gray-300 border shadow-md p-2 object-cover"
                     />
                     <div>{item.categoryName}</div>
                   </div>
                 </td>
-                <td className="border-2 p-2">
+                <td className="border-2 border-gray-400 p-2">
                   <div className="flex space-x-2">
                     {/* <FontAwesomeIcon icon={faEdit} className="w-5" /> */}
                     <FontAwesomeIcon

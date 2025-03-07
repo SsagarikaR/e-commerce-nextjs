@@ -1,5 +1,5 @@
 import { sequelize } from "@/lib/Database/db";
-import { QueryTypes } from "sequelize";
+import { QueryTypes, Transaction } from "sequelize";
 
 export const selectReviewByProductAndUser = async (
   userID: number,
@@ -19,7 +19,7 @@ export const addNewReview = async (
   productID: number,
   rating: number,
   description: string,
-  t: any
+  t: Transaction
 ) => {
   const result = await sequelize.query(
     `INSERT INTO Reviews (userID, productID, rating, description) 
@@ -33,7 +33,10 @@ export const addNewReview = async (
   return result;
 };
 
-export const calculateAverageRating = async (productID: number, t: any) => {
+export const calculateAverageRating = async (
+  productID: number,
+  t: Transaction
+) => {
   const result: { avgRating: number }[] = await sequelize.query(
     `SELECT AVG(rating) as avgRating FROM Reviews WHERE productID = :productID`,
     {
@@ -48,7 +51,7 @@ export const calculateAverageRating = async (productID: number, t: any) => {
 export const updateProductRating = async (
   productID: number,
   avgRating: number,
-  t: any
+  t: Transaction
 ) => {
   const result = await sequelize.query(
     `UPDATE Products SET rating = :rating WHERE productID = :productID`,

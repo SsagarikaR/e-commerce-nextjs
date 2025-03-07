@@ -68,35 +68,55 @@ function ProductList({ page }: { page: number }) {
       <table className="border w-full border-collapse ">
         <thead>
           <tr>
-            <th className="border-2 p-2">{dashboard_product.PRODUCT_NAME}</th>
-            <th className="border-2 p-2">{dashboard_product.PRICE}</th>
-            <th className="border-2 p-2">{dashboard_product.BRAND}</th>
-            <th className="border-2 p-2">{dashboard_product.CATEGORY}</th>
-            <th className="border-2 p-2">{dashboard_product.STOCK}</th>
-            <th className="border-2 p-2">{dashboard_product.ACTION}</th>
+            <th className="border-2 border-gray-400 p-2">
+              {dashboard_product.PRODUCT_NAME}
+            </th>
+            <th className="border-2 border-gray-400 p-2">
+              {dashboard_product.PRICE}
+            </th>
+            <th className="border-2 border-gray-400 p-2">
+              {dashboard_product.BRAND}
+            </th>
+            <th className="border-2  border-gray-400 p-2">
+              {dashboard_product.CATEGORY}
+            </th>
+            <th className="border-2 p-2 border-gray-400">
+              {dashboard_product.STOCK}
+            </th>
+            <th className="border-2 p-2 border-gray-400">
+              {dashboard_product.ACTION}
+            </th>
           </tr>
         </thead>
         <tbody>
           {products.length > 0 ? (
             products.map((product) => (
               <tr key={product.productID}>
-                <td className="border-2 p-2">
+                <td className="border-2 border-gray-400 p-2">
                   <div className="flex space-x-2 ">
                     <Image
                       alt={product.productName}
                       width={160}
                       height={160}
                       src={product.productThumbnail}
-                      className="md:w-16 md:h-16 h-12 w-12 border-gray-200 border shadow-md p-2 object-cover"
+                      className="md:w-16 md:h-16 h-12 w-12 border-gray-300 border shadow-md p-2 object-cover"
                     />
                     <div>{product.productName}</div>
                   </div>
                 </td>
-                <td className="border-2 p-2">{product.productPrice}</td>
-                <td className="border-2 p-2">{product.brandName}</td>
-                <td className="border-2 p-2">{product.categoryName}</td>
-                <td className="border-2 p-2">{product.stock}</td>
-                <td className="border-2 p-2">
+                <td className="border-2 border-gray-400 p-2">
+                  {product.productPrice}
+                </td>
+                <td className="border-2 border-gray-400 p-2">
+                  {product.brandName}
+                </td>
+                <td className="border-2 border-gray-400 p-2">
+                  {product.categoryName}
+                </td>
+                <td className="border-2 border-gray-400 p-2">
+                  {product.stock}
+                </td>
+                <td className="border-2 border-gray-400 p-2">
                   <div className="flex space-x-2">
                     {/* <FontAwesomeIcon icon={faEdit} className="w-5" /> */}
                     <FontAwesomeIcon

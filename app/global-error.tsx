@@ -8,6 +8,7 @@ function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  console.log(error);
   return (
     <div>
       <html>

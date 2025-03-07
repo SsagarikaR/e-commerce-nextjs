@@ -108,8 +108,8 @@ export const getProductWithCondition = async (
     LEFT JOIN Categories c ON p.categoryID = c.categoryID
     LEFT JOIN Brands b ON p.brandID = b.brandID
   `;
-  let replacements = [];
-  let conditions = [];
+  const replacements = [];
+  const conditions = [];
 
   // Apply conditions for filtering products
   if (categoryID) {

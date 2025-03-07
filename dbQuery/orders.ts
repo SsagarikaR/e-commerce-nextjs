@@ -1,12 +1,12 @@
 import { sequelize } from "@/lib/Database/db";
-import { QueryTypes } from "sequelize";
+import { QueryTypes, Transaction } from "sequelize";
 
 export const insertOrder = async (
   userID: number,
   totalPrice: number,
   address: string,
   totalAmount: number,
-  t: any
+  t: Transaction
 ) => {
   try {
     const [result] = await sequelize.query(
@@ -31,7 +31,7 @@ export const insertOrderItems = async (
   productId: number,
   quantity: number,
   price: number,
-  t: any
+  t: Transaction
 ) => {
   try {
     await sequelize.query(
@@ -49,7 +49,7 @@ export const insertOrderItems = async (
   }
 };
 
-export const selectOrderByUserID = async (userID: number, t: any) => {
+export const selectOrderByUserID = async (userID: number, t: Transaction) => {
   try {
     return await sequelize.query(
       `SELECT * FROM Orders WHERE userId = :userID AND status = 'Pending'`,

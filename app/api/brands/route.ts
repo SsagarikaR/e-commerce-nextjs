@@ -6,7 +6,6 @@ import {
   updateBrandService,
   deleteBrandService,
 } from "@/services/apiServices/brands";
-import { error } from "console";
 
 // Controller to create a new brand
 export const POST = async (req: NextRequest) => {

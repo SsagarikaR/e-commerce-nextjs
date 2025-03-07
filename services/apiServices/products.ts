@@ -39,7 +39,7 @@ export const createProductService = async (
     brandID,
     stock
   );
-
+  console.log(result);
   if (metaData > 0) {
     // After product creation, clear the cache for affected product lists
     const cacheKey = `products:${JSON.stringify({ categoryID })}:page:1:limit:20`;

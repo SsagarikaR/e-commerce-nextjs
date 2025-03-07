@@ -16,6 +16,7 @@ export const createAdminService = async (userID: number) => {
 
     // Create new admin
     const [result, metaData] = await createNewAdmin(userID);
+    console.log(result);
     if (metaData === 0) {
       return {
         success: false,

@@ -41,20 +41,30 @@ function CustomerList() {
       <table className="border w-full border-collapse">
         <thead>
           <tr>
-            <th className="border-2 p-2">{dashboard_customer.CUSTOMER_NAME}</th>
-            <th className="border-2 p-2">{dashboard_customer.CONTACT_NO}</th>
-            <th className="border-2 p-2">{dashboard_customer.EMAIL}</th>
-            <th className="border-2 p-2">{dashboard_customer.ADD_AS_ADMIN}</th>
+            <th className="border-2 border-gray-400 p-2">
+              {dashboard_customer.CUSTOMER_NAME}
+            </th>
+            <th className="border-2 border-gray-400 p-2">
+              {dashboard_customer.CONTACT_NO}
+            </th>
+            <th className="border-2 border-gray-400 p-2">
+              {dashboard_customer.EMAIL}
+            </th>
+            <th className="border-2 border-gray-400 p-2">
+              {dashboard_customer.ADD_AS_ADMIN}
+            </th>
           </tr>
         </thead>
         <tbody>
           {customers.length > 0 ? (
             customers.map((item) => (
               <tr key={item.userID}>
-                <td className="border-2 p-2">{item.name}</td>
-                <td className="border-2 p-2">{item.contactNo}</td>
-                <td className="border-2 p-2">{item.email}</td>
-                <td className="border-2 p-2">
+                <td className="border-2 border-gray-400 p-2">{item.name}</td>
+                <td className="border-2 border-gray-400 p-2">
+                  {item.contactNo}
+                </td>
+                <td className="border-2 border-gray-400 p-2">{item.email}</td>
+                <td className="border-2 border-gray-400 p-2">
                   <div className="flex space-x-2 items-center justify-center">
                     {item.role === "Admin" ? (
                       <div className="text-green-600">
