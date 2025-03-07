@@ -1,11 +1,6 @@
 import { useState } from "react";
 import { useRef } from "react";
 
-export type FormSubmitResult = {
-  success?: string;
-  errors?: Record<string, string[] | string | undefined>; // Updated to allow arrays of errors
-};
-
 export function useFormSubmit<T extends Record<string, number | string>>(
   initialFormData: T,
   apiAction: (form: FormData) => Promise<FormSubmitResult>

@@ -15,6 +15,8 @@ import Cookies from "js-cookie";
 import { useCartStore } from "@/store/cartStore";
 import { useRouter } from "next/navigation";
 import { navbar, shop_cart } from "@/constants";
+import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 export const fetchUser = async () => {
   const response = await authorizedGetRequest("user");
@@ -29,8 +31,17 @@ function Navbar() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const token = Cookies.get("token");
   const router = useRouter();
+  const { data: session, status } = useSession();
+
+  console.log(session, status, "session");
 
   const fetchData = async () => {
+    if (session && session.user) {
+      console.log("setuser");
+      setUser(session.user);
+      console.log(user);
+      return;
+    }
     const response = await fetchUser();
     if (!response.status) {
       setUser(response);
@@ -41,13 +52,13 @@ function Navbar() {
   };
 
   useEffect(() => {
-    if (token) {
+    if (token || session) {
       fetchData();
       fetchCartItems(); // Ensure cart items are fetched when token is available
     } else {
       setLoading(false);
     }
-  }, [token]);
+  }, [token, session]);
 
   // Apply dark mode to the body based on the state
   useEffect(() => {
@@ -59,13 +70,17 @@ function Navbar() {
   }, [isDarkMode]);
 
   const handleLogout = () => {
-    Cookies.remove("token");
-    window.location.reload();
+    if (token) {
+      Cookies.remove("token");
+      window.location.reload();
+      return;
+    }
+    signOut({ callbackUrl: "/" });
   };
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
-    localStorage.setItem("darkMode", (!isDarkMode).toString()); // Persist theme in localStorage
+    localStorage.setItem("darkMode", (!isDarkMode).toString());
   };
 
   // Check if dark mode was set previously in localStorage
@@ -126,7 +141,7 @@ function Navbar() {
 
       <div className="flex justify-center items-center gap-2">
         {/* Profile Icon with Dropdown */}
-        {token && user !== undefined && !user.message && !user.error ? (
+        {user !== undefined && !user.message && !user.error ? (
           <div className="relative flex justify-center items-center gap-x-2 group">
             <div className="text-blue-500 flex justify-center items-center cursor-pointer">
               <FontAwesomeIcon icon={faCircleUser} className="w-8 h-8" />

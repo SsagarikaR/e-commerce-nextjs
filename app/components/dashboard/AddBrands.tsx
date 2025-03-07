@@ -47,7 +47,7 @@ function AddBrands() {
     <div className="pt-10 w-full flex flex-col gap-4 ">
       <div className="text-3xl font-semibold">{dashboard_brand.ADD_BRAND}</div>
       <form
-        className="border-2 p-4 w-full flex flex-col gap-6 "
+        className="border-2 border-gray-400 p-4 w-full flex flex-col gap-6 "
         onSubmit={handleFormSubmit} // Use the updated submit handler
       >
         {inputFields.map((item) => (

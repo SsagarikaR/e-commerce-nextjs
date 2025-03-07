@@ -6,11 +6,6 @@ import {
   updateProductService,
 } from "@/services/apiServices/products";
 import { checkToken, isAdmin } from "@/lib/midlleware/auth";
-import { Reviews } from "@/lib/Database/models/review";
-import { CartItems } from "@/lib/Database/models/cartItem";
-import { orders } from "@/constants";
-import { Orders } from "@/lib/Database/models/order";
-import { OrderItems } from "@/lib/Database/models/orderItem";
 
 // Controller to create a product
 export const POST = async (req: NextRequest) => {
@@ -71,7 +66,6 @@ export const GET = async (req: NextRequest) => {
 
   const currentPage = Number(page);
   const itemsPerPage = Number(limit);
-  const cacheKey = `products:${name}:${price}:${categoryID}:${id}:${currentPage}:${itemsPerPage}`;
 
   try {
     const filters = {
@@ -120,6 +114,7 @@ export const DELETE = async (req: NextRequest) => {
 
   try {
     const result = await deleteProductService(productID);
+    console.log(result);
     return NextResponse.json({
       message: "Product deleted successfully",
       status: 200,

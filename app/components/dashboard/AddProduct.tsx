@@ -171,7 +171,7 @@ function AddProduct() {
         {dashboard_product.ADD_PRODUCT}
       </div>
       <form
-        className="border-2 p-4 w-full flex flex-col gap-6 overflow-auto h-[800px] "
+        className="border-2 border-gray-400 p-4 w-full flex flex-col gap-6 overflow-auto h-[800px] "
         onSubmit={handleSubmit}
       >
         {inputFields.map((item) => (

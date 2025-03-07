@@ -44,7 +44,7 @@ function AddCategories() {
         {dashboard_catgeory.ADD_CATGEORY}
       </div>
       <form
-        className="border-2 p-4 w-full flex flex-col gap-6"
+        className="border-2 border-gray-400 p-4 w-full flex flex-col gap-6"
         onSubmit={handleFormSubmit}
       >
         {/* Category Name */}

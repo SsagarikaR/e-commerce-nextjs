@@ -1,9 +1,9 @@
 declare global {
   interface user {
-    userID: number;
-    name: string;
-    email: string;
-    contactNo: string;
+    userID?: number;
+    name?: string;
+    email?: string;
+    contactNo?: string;
     password?: string;
     token?: string;
     role?: string;
@@ -58,6 +58,11 @@ declare global {
     brandName: string;
   }
 
+  interface sessionUser {
+    email: string;
+    image: string;
+    name: string;
+  }
   interface OrderData extends user {
     totalAmount: number;
     items: OrderItem[];
@@ -161,11 +166,16 @@ declare global {
   }
 
   interface cloudinaryInfo {
-    secure_url: string; // The secure URL of the uploaded image
+    secure_url: string;
   }
 
   interface cloudinaryImageUploadProps {
     seturl: (url: string) => void;
+  }
+
+  interface FormSubmitResult {
+    success?: string;
+    errors?: Record<string, string[] | string | undefined>;
   }
 }
 export {};
