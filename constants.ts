@@ -76,6 +76,7 @@ export const dashboard_product = {
   IMAGE_PREVIEW: "Uploaded image Preview",
   ADD_PRODUCT_BTN: "Add product",
   NO_PRODUCT: "No products found",
+  UPLOAD_ADDITIONAL_IMAGES: "Upload Additional Product Images(Max 4)",
 };
 
 export const dashboard_customer = {

@@ -67,10 +67,11 @@ export const createNewProduct = async (
   productPrice: number,
   categoryID: number,
   brandID: number,
-  stock: number
+  stock: number,
+  productImages: Array<string>
 ) => {
   return await sequelize.query(
-    "INSERT INTO Products (productName,productDescription,productThumbnail,productPrice,categoryID,brandID,stock) VALUES (?,?,?,?,?,?,?)",
+    "INSERT INTO Products (productName,productDescription,productThumbnail,productPrice,categoryID,brandID,stockproductImage1,productImage2, productImage3,productImage4) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
     {
       replacements: [
         productName,
@@ -80,6 +81,10 @@ export const createNewProduct = async (
         categoryID,
         brandID,
         stock,
+        productImages[0],
+        productImages[1],
+        productImages[2],
+        productImages[3],
       ],
       type: QueryTypes.INSERT,
     }

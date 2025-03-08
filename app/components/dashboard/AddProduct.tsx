@@ -9,6 +9,8 @@ import { fetcher } from "@/lib/helpers/unAuthorizedGetFetcher";
 import { addProductAction } from "@/actions/addProductAction";
 import Input from "./Input";
 import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons"; // FontAwesome Cross Icon
 
 function AddProduct() {
   const { data: brands } = useSWR<brands[], Error>(`brands`, fetcher);
@@ -27,6 +29,7 @@ function AddProduct() {
     categoryID: "",
     stock: "",
     productThumbnail: "",
+    productImages: [] as string[],
   });
 
   const [errors, setErrors] = useState({
@@ -56,6 +59,24 @@ function AddProduct() {
   const handleImageUpload = (url: string) => {
     setFormData((prev) => ({ ...prev, productThumbnail: url }));
     handleValidationOnChange();
+  };
+
+  // Handle image upload for additional product images
+  const handleAdditionalImageUpload = (url: string) => {
+    if (formData.productImages.length < 4) {
+      setFormData((prev) => ({
+        ...prev,
+        productImages: [...prev.productImages, url],
+      }));
+    }
+  };
+
+  // Handle image removal
+  const handleImageRemove = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      productImages: prev.productImages.filter((_, i) => i !== index),
+    }));
   };
 
   // Handle input changes and validate immediately
@@ -171,7 +192,7 @@ function AddProduct() {
         {dashboard_product.ADD_PRODUCT}
       </div>
       <form
-        className="border-2 border-gray-400 p-4 w-full flex flex-col gap-6 overflow-auto h-[800px] "
+        className="border-2 border-gray-400 p-4 w-full flex flex-col gap-6 overflow-auto h-[780px] "
         onSubmit={handleSubmit}
       >
         {inputFields.map((item) => (
@@ -222,7 +243,6 @@ function AddProduct() {
             <option value="" disabled>
               ---{dashboard_product.SLECT_BRAND}---
             </option>{" "}
-            {/* This will be the default disabled option */}
             {brands &&
               brands.length > 0 &&
               brands?.map((item) => (
@@ -254,7 +274,6 @@ function AddProduct() {
             <option value="" disabled>
               ---{dashboard_product.SLECT_CATEGORY}---
             </option>{" "}
-            {/* This will be the default disabled option */}
             {categories &&
               categories.length > 0 &&
               categories?.map((item) => (
@@ -270,7 +289,7 @@ function AddProduct() {
           )}
         </div>
 
-        {/* Product Thumbnail (Cloudinary Upload) */}
+        {/* Product Thumbnail*/}
         <div className="w-full flex relative pb-6">
           <label className="text-xl w-2/5">
             {dashboard_product.ENTER_PRODUCT_THUMBNAIL}
@@ -301,11 +320,40 @@ function AddProduct() {
           </div>
         )}
 
+        {/* Upload Additional Product Images */}
+        <div className="w-full flex  relative pb-6">
+          <label className="text-xl w-2/5">
+            {dashboard_product.UPLOAD_ADDITIONAL_IMAGES}
+          </label>
+          <CloudinaryImageUpload seturl={handleAdditionalImageUpload} />
+        </div>
+
+        {/* Display Uploaded Additional Images in Flex with Cross Mark */}
+        <div className="w-full flex flex-wrap gap-4">
+          {formData.productImages.map((imgUrl, index) => (
+            <div key={index} className="relative">
+              <FontAwesomeIcon
+                icon={faTimes}
+                onClick={() => handleImageRemove(index)}
+                className="absolute top-0 right-0 w-7 h-7 cursor-pointer"
+              />
+              <Image
+                src={imgUrl}
+                alt={`Uploaded Image ${index + 1}`}
+                width={100}
+                height={100}
+                className="w-[100px] h-[100px] border border-gray-400 p-2 rounded-md"
+              />
+            </div>
+          ))}
+        </div>
+
         {/* Submit Button */}
         <div className="flex justify-end items-center">
           <button
             className="bg-blue-400 px-10 py-2 text-lg font-semibold text-black rounded-md"
             type="submit"
+            disabled={formData.productImages.length < 2}
           >
             {dashboard_product.ADD_PRODUCT_BTN}
           </button>

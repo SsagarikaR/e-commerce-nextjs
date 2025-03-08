@@ -6,22 +6,26 @@ const addProductSchema = z.object({
     .min(1, { message: "Name is required" }),
   productPrice: z
     .string({ message: "Price is required" })
-    .min(1, { message: "price is required" }),
+    .min(1, { message: "Price is required" }),
   productDescription: z
-    .string({ message: "description is required" })
-    .min(1, { message: "description is required " }),
+    .string({ message: "Description is required" })
+    .min(1, { message: "Description is required" }),
   brandID: z
     .string({ message: "Please choose a brand" })
-    .min(1, { message: "brandID is required " }),
+    .min(1, { message: "Brand ID is required" }),
   categoryID: z
     .string({ message: "Please choose a category" })
-    .min(1, { message: "categoryID is required " }),
+    .min(1, { message: "Category ID is required" }),
   stock: z
     .string({ message: "Stock is required" })
-    .min(1, { message: " stock is required " }),
+    .min(1, { message: "Stock is required" }),
   productThumbnail: z
-    .string({ message: "thumbnail is required." })
+    .string({ message: "Thumbnail is required" })
     .min(1, { message: "Thumbnail is required" }),
+  productImages: z
+    .array(z.string().min(1, { message: "Image URL is required" }))
+    .min(2, { message: "At least 2 images are required" })
+    .max(4, { message: "You can upload a maximum of 4 images" }),
 });
 
 export async function addProductAction(formData: FormData) {
@@ -34,8 +38,9 @@ export async function addProductAction(formData: FormData) {
     productDescription: formData.get("productDescription"),
     stock: formData.get("stock"),
     productPrice: formData.get("productPrice"),
+    productImages: formData.getAll("productImages"),
   };
-  console.log(unvalidatedData, "un validate");
+  console.log(unvalidatedData, "unvalidated");
 
   const validated = addProductSchema.safeParse(unvalidatedData);
 
@@ -51,6 +56,7 @@ export async function addProductAction(formData: FormData) {
         productDescription: formFieldErrors?.productDescription,
         stock: formFieldErrors?.stock,
         productPrice: formFieldErrors?.productPrice,
+        productImages: formFieldErrors?.productImages,
       },
     };
   } else {

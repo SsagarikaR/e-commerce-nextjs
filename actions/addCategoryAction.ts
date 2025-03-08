@@ -32,13 +32,11 @@ export async function addCategoryAction(formData: FormData) {
   }
 
   try {
-    // Proceed with API call if validation is successful
     const response = await authorizedPostRequest(
       "/categories",
       unvalidatedData
     );
     console.log(response);
-    // Assuming the API response includes a success message or the created brand object
     if (
       response.response &&
       response.response.data.error !== undefined &&
@@ -49,7 +47,6 @@ export async function addCategoryAction(formData: FormData) {
 
     return { success: "Category created successfully" };
   } catch (error) {
-    // Handle any errors that occur during the API call
     console.error("API Error:", error);
     return {
       errors: { general: "An error occurred while creating the categroy" },

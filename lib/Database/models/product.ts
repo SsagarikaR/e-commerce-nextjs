@@ -2,7 +2,6 @@ import { sequelize } from "@/lib/Database/db";
 import { DataTypes } from "sequelize";
 import { Categories } from "./category";
 import { Brands } from "./brand";
-import { faL } from "@fortawesome/free-solid-svg-icons";
 
 export const Produtcs = sequelize.define(
   "Products",

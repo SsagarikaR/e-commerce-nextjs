@@ -16,7 +16,8 @@ export const createProductService = async (
   productPrice: number,
   categoryID: number,
   brandID: number,
-  stock: number
+  stock: number,
+  productImages: Array<string>
 ) => {
   // Check if product already exists
   const isProductExist = await selectProductWithAllMatch(
@@ -37,7 +38,8 @@ export const createProductService = async (
     productPrice,
     categoryID,
     brandID,
-    stock
+    stock,
+    productImages
   );
   console.log(result);
   if (metaData > 0) {

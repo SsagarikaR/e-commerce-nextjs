@@ -17,6 +17,7 @@ export const POST = async (req: NextRequest) => {
     categoryID,
     brandID,
     stock,
+    productImages,
   } = await req.json();
   const { isValid, decodedUser } = checkToken(req);
 
@@ -42,7 +43,8 @@ export const POST = async (req: NextRequest) => {
       productPrice,
       categoryID,
       brandID,
-      stock
+      stock,
+      productImages
     );
     return NextResponse.json(result);
   } catch (error) {
