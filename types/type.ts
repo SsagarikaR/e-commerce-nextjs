@@ -32,6 +32,10 @@ declare global {
     stock: number;
     rating: number;
     totalCount: number;
+    productImage1: string;
+    productImage2: string;
+    productImage3: string;
+    productImage4: string;
   }
 
   interface cartItem extends products {

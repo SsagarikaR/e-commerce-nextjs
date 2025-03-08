@@ -14,12 +14,10 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons"; // FontAwesome Cros
 
 function AddProduct() {
   const { data: brands } = useSWR<brands[], Error>(`brands`, fetcher);
-  const { data: categories, error } = useSWR<categories[], Error>(
+  const { data: categories } = useSWR<categories[], Error>(
     "categories",
     fetcher
   );
-
-  console.log(error);
 
   const [formData, setFormData] = useState({
     productName: "",
@@ -40,6 +38,7 @@ function AddProduct() {
     categoryID: "",
     stock: "",
     productThumbnail: "",
+    productImages: "",
   });
 
   const router = useRouter(); // Used for redirection after successful submission
@@ -62,13 +61,14 @@ function AddProduct() {
   };
 
   // Handle image upload for additional product images
-  const handleAdditionalImageUpload = (url: string) => {
-    if (formData.productImages.length < 4) {
-      setFormData((prev) => ({
-        ...prev,
-        productImages: [...prev.productImages, url],
-      }));
-    }
+  const handleAdditionalImageUpload = async (url: string) => {
+    console.log(url, "url");
+    await setFormData((prev) => ({
+      ...prev,
+      productImages: [...prev.productImages, url],
+    }));
+    console.log(formData.productImages, "form data change image");
+    handleValidationOnChange();
   };
 
   // Handle image removal
@@ -89,7 +89,10 @@ function AddProduct() {
     form.set("categoryID", formData.categoryID);
     form.set("brandID", formData.brandID);
     form.set("stock", formData.stock);
-
+    console.log(formData.productImages, "prdccut image sihkkgf");
+    formData.productImages.forEach((imageUrl) => {
+      form.append("productImages[]", imageUrl); // Ensure to append each URL as a separate field
+    });
     const result = await addProductAction(form);
     //  console.log(result)
     if (result.errors) {
@@ -109,6 +112,9 @@ function AddProduct() {
         categoryID: result.errors.categoryID ? result.errors.categoryID[0] : "",
         brandID: result.errors.brandID ? result.errors.brandID[0] : "",
         stock: result.errors.stock ? result.errors.stock[0] : "",
+        productImages: result.errors.productImages
+          ? result.errors.productImages[0]
+          : "",
       });
     } else {
       setErrors({
@@ -119,6 +125,7 @@ function AddProduct() {
         categoryID: "",
         stock: "",
         productThumbnail: "",
+        productImages: "",
       });
     }
   };
@@ -129,8 +136,11 @@ function AddProduct() {
 
     const form = new FormData(e.target as HTMLFormElement);
     form.append("productThumbnail", formData.productThumbnail);
+    formData.productImages.forEach((imageUrl) => {
+      form.append("productImages", imageUrl);
+    });
     const result = await addProductAction(form);
-    console.log(result, "result");
+    console.log(formData, "result");
     console.log(formData, "send form data");
 
     if (result.errors) {
@@ -150,6 +160,9 @@ function AddProduct() {
         categoryID: result.errors.categoryID ? result.errors.categoryID[0] : "",
         brandID: result.errors.brandID ? result.errors.brandID[0] : "",
         stock: result.errors.stock ? result.errors.stock[0] : "",
+        productImages: result.errors.productImages
+          ? result.errors.productImages[0]
+          : "",
       });
 
       return;
@@ -326,6 +339,11 @@ function AddProduct() {
             {dashboard_product.UPLOAD_ADDITIONAL_IMAGES}
           </label>
           <CloudinaryImageUpload seturl={handleAdditionalImageUpload} />
+          {errors.productImages && (
+            <p className="text-red-500 text-sm absolute bottom-0 pl-[40%]">
+              {errors.productImages}
+            </p>
+          )}
         </div>
 
         {/* Display Uploaded Additional Images in Flex with Cross Mark */}

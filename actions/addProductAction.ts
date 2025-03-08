@@ -29,7 +29,7 @@ const addProductSchema = z.object({
 });
 
 export async function addProductAction(formData: FormData) {
-  console.log(formData, "form");
+  console.log(formData.getAll, "formeded");
   const unvalidatedData = {
     productName: formData.get("productName"),
     productThumbnail: formData.get("productThumbnail"),

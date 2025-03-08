@@ -1,59 +1,29 @@
-"use client";
 import React from "react";
-import useSWR from "swr"; // Import SWR
+
 import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRequest";
-import WishlistIcon from "./WishlistIcon";
 import FetchReview from "../review/FetchReview";
-import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest";
 import AddToCartBtn from "./AddToCartBtn";
 import Image from "next/image";
+import ProductDetailImage from "./ProductDetailImage";
 
-// Define the fetcher function
-const fetcher = async (url: string) => {
-  const response = await unAuthorizedGetRequest(url);
-  return response;
+export const fetchProducts = async (id: string) => {
+  const data = await unAuthorizedGetRequest(`/products?id=${id}`);
+  return data;
 };
 
-function ProductDetailPage({ id }: { id: string }) {
-  const addPrefernce = async () => {
-    const response = await authorizedPostRequest("preferences", {
-      productID: id,
-    });
-    console.log(response);
-  };
-  addPrefernce();
-
-  const { data: product, error } = useSWR<products[], Error>(
-    `/products?id=${id}`,
-    fetcher
-  ); // Use SWR for fetching product data
+async function ProductDetailPage({ id }: { id: string }) {
+  const product = await fetchProducts(id);
 
   // Loading state
   if (!product) {
     return <div>Loading...</div>; // Show loading state while fetching
   }
 
-  // Error handling
-  if (error) {
-    return <div>Error: {error.message}</div>; // Show error state if an error occurs
-  }
-
   return (
     <div className="flex items-center justify-center  font-serif ">
       {/* Render product details if product is available */}
       <div className="flex p-20 gap-10 flex-col lg:flex-row">
-        <div className="mx-auto">
-          <WishlistIcon productID={Number(id)} />
-          <div className="">
-            <Image
-              width={500}
-              height={500}
-              alt={product[0].productName}
-              src={product[0].productThumbnail}
-              className="shadow-[0_0_15px_5px_rgba(0,0,0,0.3)] w-80 h-80 sm:w-100 sm:h-100 md:w-150 md:h-150 xl:w-[500px] xl:h-[500px] "
-            />
-          </div>
-        </div>
+        <ProductDetailImage product={product} />
         <div className=" w-80 sm:w-100 md:w-150 lg:w-150 xl:w-[450px] dark:text-white text-gray-700 gap-y-9 flex flex-col ">
           <div className="flex gap-y-4 flex-col ">
             <div className="flex gap-x-3">
