@@ -13,6 +13,7 @@ function page() {
   return (
     <div className="w-full max-h-screen overflow-auto dark:bg-gray-700 ">
       <Category />
+      <div className=" md:hidden border-b border-gray-400 pt-10 px-2 mx-4"></div>
       <Preferences />
     </div>
   );

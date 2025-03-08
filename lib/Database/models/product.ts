@@ -2,6 +2,7 @@ import { sequelize } from "@/lib/Database/db";
 import { DataTypes } from "sequelize";
 import { Categories } from "./category";
 import { Brands } from "./brand";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 export const Produtcs = sequelize.define(
   "Products",
@@ -54,6 +55,22 @@ export const Produtcs = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: "0",
+    },
+    productImage1: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    productImage2: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    productImage3: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    productImage4: {
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
   },
   {

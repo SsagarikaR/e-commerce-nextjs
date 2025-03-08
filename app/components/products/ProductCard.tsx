@@ -15,7 +15,7 @@ async function ProductCard({ product }: { product: products }) {
             width={300}
             height={300}
             src={product.productThumbnail}
-            className="cursor-pointer w-[300px] h-[300px] md:w-[400px] md:h-[400px] lg:h-[400px] lg:w-[400px] shadow-md "
+            className="cursor-pointer xl:w-[400px] xl:h-[400px]   shadow-md "
           />
         </Link>
         <div className="flex items-center justify-center gap-x-2">

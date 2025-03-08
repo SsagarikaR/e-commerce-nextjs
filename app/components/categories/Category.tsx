@@ -12,12 +12,12 @@ async function Category() {
   console.log("Fetched categories:", categories);
 
   return (
-    <div className="pt-24 px-20">
+    <div className="pt-24 lg:px-24 md:px-16 px-4">
       <div className="text-3xl md:text-left text-center font-serif font-semibold mb-2 text-gray-700 dark:text-white">
         Categories
       </div>
       {categories && categories.length > 0 ? (
-        <div className="grid grid-cols-1 self-center sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-10 ">
+        <div className="grid self-center sm:grid-cols-3  grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 md:gap-10 gap-y-10 gap-x-1">
           {categories.map((item, key) => (
             <CategoryCard
               key={key}

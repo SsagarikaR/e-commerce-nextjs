@@ -56,7 +56,7 @@ const Products = async ({
           {products! && products.length > 0 ? (
             <div className="flex flex-col p-5 w-full">
               <div className="flex w-full">
-                <div className="grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10  place-items-center">
+                <div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-10  place-items-center">
                   {products.map((product) => (
                     <ProductCard product={product} key={product.productID} />
                   ))}

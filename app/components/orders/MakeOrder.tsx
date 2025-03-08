@@ -6,6 +6,7 @@ import { authorizedPostRequest } from "@/services/apiReqServices/authorizedReque
 import Toast from "../toast/Toast";
 import { modal_btn, order, price_detail } from "@/constants";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 function MakeOrderPage({ id }: { id: string | null }) {
   const [address, setAddress] = useState("");
@@ -79,7 +80,9 @@ function MakeOrderPage({ id }: { id: string | null }) {
             {cartItems && cartItems.length > 0 ? (
               cartItems.map((item, index) => (
                 <div key={index} className="flex items-center gap-4 mb-4">
-                  <img
+                  <Image
+                    width={240}
+                    height={240}
                     src={item.productThumbnail}
                     alt={item.productName}
                     className="w-24 h-24 object-cover rounded-lg"
@@ -95,7 +98,7 @@ function MakeOrderPage({ id }: { id: string | null }) {
               <p>Your cart is empty.</p>
             )}
           </div>
-          <div className="w-1/5 border p-4 flex flex-col gap-3 h-72">
+          <div className="w-2/5 border p-4 flex flex-col gap-3 h-72 md:text-base text-sm">
             <div className="flex justify-between">
               <p>
                 {price_detail.TOTAL_PRICE}({cartItems.length} item)
@@ -143,7 +146,7 @@ function MakeOrderPage({ id }: { id: string | null }) {
 
         <div className="flex justify-center mb-6">
           <button
-            className="px-6 py-3 bg-orange-500 cursor-pointer text-white text-lg font-semibold rounded-lg shadow-md hover:bg-orange-400 focus:outline-none"
+            className="px-6 py-3 bg-blue-400 cursor-pointer text-white text-lg font-semibold rounded-lg shadow-md hover:bg-blue-500 focus:outline-none"
             onClick={handleConfirm}
           >
             Confirm Order
