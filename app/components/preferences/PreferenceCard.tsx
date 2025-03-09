@@ -13,15 +13,15 @@ function PreferenceCard({ item }: { item: prefernce }) {
               height={200}
               src={item.productThumbnail}
               alt={item.productName}
-              className=" shadow-xl  w-full  object-cover"
+              className=" shadow-xl w-[250px] h-[250px] sm:w-[300px] sm:h-[300px]  object-cover"
             />
           </div>
           <div className="flex flex-col   gap-y-1">
             <div className="flex  gap-x-2">
-              <div className="text-lg font-bold dark:text-white">
+              <div className="text-base sm:text-lg font-bold dark:text-white">
                 {item.productName}
               </div>
-              <div className="text-md sm:text-lg font-semibold dark:text-white">
+              <div className="text-base sm:text-lg font-semibold dark:text-white">
                 (₹{item.productPrice})
               </div>
             </div>

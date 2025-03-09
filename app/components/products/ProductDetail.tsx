@@ -24,8 +24,8 @@ async function ProductDetailPage({ id }: { id: string }) {
       {/* Render product details if product is available */}
       <div className="flex p-20 gap-10 flex-col lg:flex-row">
         <ProductDetailImage product={product} />
-        <div className=" w-80 sm:w-100 md:w-150 lg:w-150 xl:w-[450px] dark:text-white text-gray-700 gap-y-9 flex flex-col ">
-          <div className="flex gap-y-4 flex-col ">
+        <div className=" w-[400px] md:w-[500px] lg:w-[400px] xl:w-[500px] dark:text-white text-gray-700 gap-y-9 flex flex-col m-auto pl-10 lg:p-0">
+          <div className="flex gap-y-4 flex-col  ">
             <div className="flex gap-x-3">
               <div className="text-3xl font-semibold">
                 {product[0].productName}
@@ -41,7 +41,7 @@ async function ProductDetailPage({ id }: { id: string }) {
             <div className="text-2xl font-normal">
               ₹{product[0].productPrice}
             </div>
-            <div className=" border-b w-80 sm:w-100 md:w-150 lg:w-100 xl:w-[450px]"></div>
+            <div className=" border-b border-gray-300  md:w-[500px] xl:w-[500px]"></div>
           </div>
           <div className="text-justify text-lg">
             {product[0].productDescription}

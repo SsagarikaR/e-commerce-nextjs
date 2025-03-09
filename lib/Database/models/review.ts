@@ -19,6 +19,7 @@ export const Reviews = sequelize.define(
         model: Produtcs,
         key: "productID",
       },
+      onDelete: "cascade",
     },
     userID: {
       type: DataTypes.INTEGER,

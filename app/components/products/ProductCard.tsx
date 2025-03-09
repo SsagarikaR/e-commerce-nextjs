@@ -15,12 +15,12 @@ async function ProductCard({ product }: { product: products }) {
             width={300}
             height={300}
             src={product.productThumbnail}
-            className="cursor-pointer xl:w-[400px] xl:h-[400px]   shadow-md "
+            className="cursor-pointer xl:w-[400px] xl:h-[400px] lg:w-[300px] lg:h-[300px]  md:w-[250px] md:h-[250px] sm:w-[300px] sm:h-[300px] h-[220px] w-[220px] shadow-md "
           />
         </Link>
-        <div className="flex items-center justify-center gap-x-2">
+        <div className="flex items-center justify-center sm:gap-x-2 gap-x-1">
           <Link href={`/products/${product.productID}`}>
-            <div className="text-center text-md  font-semibold text-gray-700  cursor-pointer">
+            <div className="text-center sm:text-base text-sm font-semibold text-gray-700  cursor-pointer">
               {product.productName}
             </div>
           </Link>

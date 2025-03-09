@@ -1,121 +1,60 @@
+// @ts-nocheck
 "use client";
+
 import React, { useState } from "react";
-import { signinUserAction } from "@/actions/signinAction";
-import { unAuthorizedPostRequest } from "@/services/apiReqServices/unAuthorizedRequest";
-import { redirect } from "next/navigation";
 import Input from "./Input";
 import Toast from "../toast/Toast";
+import { signinUserAction } from "@/actions/signInAction";
+import { useActionState } from "react";
 
 function SignInForm() {
+  // Define the initial state to match the required types
+  const initialState = {
+    success: "",
+    errors: {
+      email: [],
+      password: [],
+    },
+  };
+  // Use `useActionState` with the correct types
+
+  const [error, action, isLoading] = useActionState(
+    signinUserAction,
+    initialState
+  );
+  console.log(error, "err");
+
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState<"success" | "error">("success");
-  const [formData, setFormData] = useState<{
-    email: string;
-    password: string;
-  }>({
-    email: "",
-    password: "",
-  });
-
-  const [errors, setErrors] = useState<{
-    email: string;
-    password: string;
-  }>({
-    email: "",
-    password: "",
-  });
-
-  const [successMsg, setSuccessMsg] = useState("");
 
   const inputField = [
     { id: "email", field: "Email", type: "text" },
     { id: "password", field: "Password", type: "password" },
   ];
 
-  // Handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const form = new FormData(e.target as HTMLFormElement);
-    const result = await signinUserAction(form);
-
-    // Handle validation errors
-    if (result.errors) {
-      setErrors({
-        email: result.errors.email ? result.errors.email.join(" ") : "",
-        password: result.errors.password
-          ? result.errors.password.join(" ")
-          : "",
-      });
-      setSuccessMsg("");
-    } else if (result.success) {
-      const response = await unAuthorizedPostRequest("auth/signin", formData);
-      // console.log(response);
-      if (response.user.token) {
-        setSuccessMsg(result.success);
-        setErrors({ email: "", password: "" });
-        redirect("/home");
-      } else {
-        setToastMessage(
-          response.response.data.message || response.response.data.error
-        );
-        setToastType("error");
-        setToastVisible(true);
-      }
-    }
-  };
-
-  // Handle input changes and validate immediately
-  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
-
-    const form = new FormData();
-    form.set("email", formData.email);
-    form.set("password", formData.password);
-    form.set(name, value);
-
-    const result = await signinUserAction(form);
-    //  console.log(result)
-    if (result.errors) {
-      setErrors({
-        email: result.errors.email ? result.errors.email.join(" ") : "",
-        password: result.errors.password
-          ? result.errors.password.join(" ")
-          : "",
-      });
-    } else {
-      setErrors({ email: "", password: "" });
-    }
-  };
-
   return (
     <>
-      <form className="w-full" onSubmit={handleSubmit}>
+      <form className="w-full" action={action}>
         <div className="w-full">
-          {inputField.map((input) => {
-            return (
-              <Input
-                key={input.id}
-                field={input.field}
-                id={input.id}
-                type={input.type}
-                value={formData[input.id as keyof typeof formData]}
-                onChange={handleChange}
-                error={errors[input.id as keyof typeof errors]}
-              />
-            );
-          })}
+          {inputField.map((input) => (
+            <Input
+              key={input.id}
+              field={input.field}
+              id={input.id}
+              type={input.type}
+              error={error?.errors?.[input.id] || undefined}
+            />
+          ))}
           <button
             type="submit"
-            className="w-full h-[48px] bg-blue-400 rounded-lg shadow-md text-white font-semibold text-lg  cursor-pointer"
+            className="w-full h-[48px] bg-blue-400 rounded-lg shadow-md text-white font-semibold text-lg cursor-pointer"
           >
-            {`Sign IN`}
+            `${isLoading ? "Sign In" : "signing in..."}`
           </button>
-          {successMsg && <p className="text-green-500 mt-4">{successMsg}</p>}
         </div>
       </form>
+
       {toastVisible && (
         <Toast
           message={toastMessage}

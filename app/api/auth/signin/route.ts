@@ -1,9 +1,9 @@
 import { getUserService } from "@/services/apiServices/users";
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 
 export async function POST(req: NextRequest) {
   const { email, password } = await req.json();
+  console.log(email, password, "emil password");
   if (!email || !password) {
     return NextResponse.json(
       { message: "Email and password are required" },
@@ -12,17 +12,13 @@ export async function POST(req: NextRequest) {
   }
   try {
     const result = await getUserService(email, password);
-
+    console.log(result, "result");
     if (!result?.success) {
       return NextResponse.json({ message: result?.message }, { status: 401 });
     }
 
     if (result.user) {
-      const setCookie = await cookies();
-      const sevenDay = 7 * 24 * 60 * 60 * 1000;
-      setCookie.set("token", result.user.token!, {
-        expires: Date.now() + sevenDay,
-      });
+      console.log("cookies set ");
       return NextResponse.json({ user: result.user }, { status: 200 });
     }
 

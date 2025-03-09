@@ -1,6 +1,6 @@
 import React from "react";
 
-function Input({ field, id, type, value, onChange, error }: InputProps) {
+function Input({ field, id, type, error }: InputProps) {
   return (
     <div className={`relative mb-9 ${id === "password" ? "space-y-2" : ""}`}>
       <input
@@ -9,8 +9,6 @@ function Input({ field, id, type, value, onChange, error }: InputProps) {
         type={type}
         placeholder={`Enter your ${field}`}
         name={id}
-        value={value}
-        onChange={onChange}
       />
       {error && (
         <div

@@ -17,7 +17,7 @@ const signinSchema = z.object({
     ),
 });
 
-export async function signinUserAction(formData: FormData) {
+export async function signinFormValidation(formData: FormData) {
   console.log(formData);
   const unvalidatedData = {
     email: formData.get("email"),

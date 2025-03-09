@@ -15,7 +15,7 @@ export const fetchWishList = async (productID: number) => {
 };
 
 export const addWishList = async (productID: number) => {
-  const response = await authorizedPostRequest(`wishlists`, { productID });
+  await authorizedPostRequest(`wishlists`, { productID });
 };
 
 export const deleteWishList = async (wishListID: number) => {
@@ -25,7 +25,7 @@ export const deleteWishList = async (wishListID: number) => {
 
 function WishlistIcon({ productID }: { productID: number }) {
   const [wishlistStatus, setWishlistStatus] = useState<boolean | null>(null);
-  const [wishlist, setWishlist] = useState<any[]>([]); // Use state to store the wishlist data
+  const [wishlist, setWishlist] = useState<wishlist[]>([]); // Use state to store the wishlist data
 
   useEffect(() => {
     const loadWishList = async () => {

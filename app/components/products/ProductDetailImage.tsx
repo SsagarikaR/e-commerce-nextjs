@@ -15,15 +15,15 @@ function ProductDetailImage({ product }: { product: products[] }) {
   addPrefernce();
 
   return (
-    <div className="mx-auto flex gap-x-7">
-      <div className="flex flex-col gap-3">
+    <div className="mx-auto sm:flex-row flex-col flex gap-x-7 relative sm:p-0 pb-20">
+      <div className="flex sm:flex-col flex-row gap-3 sm:static absolute bottom-0  sm:p-0 p-2">
         {product[0].productImage1 && (
           <Image
-            width={90}
-            height={90}
+            width={70}
+            height={70}
             src={product[0].productImage1}
             alt="product image 1"
-            className={`cursor-pointer ${productImage === product[0].productImage1 ? "border-green-400 border-4" : ""}`}
+            className={`cursor-pointer w-[70px] h-[70px] sm:w-[100px] sm:h-[100px]  ${productImage === product[0].productImage1 ? "border-blue-400 border-4" : ""}`}
             onClick={() => {
               setProductImage(product[0].productImage1);
             }}
@@ -31,11 +31,11 @@ function ProductDetailImage({ product }: { product: products[] }) {
         )}
         {product[0].productImage2 && (
           <Image
-            width={90}
-            height={90}
+            width={70}
+            height={70}
             src={product[0].productImage2}
             alt="product image 2"
-            className={`cursor-pointer ${productImage === product[0].productImage2 ? "border-green-400 border-4" : ""}`}
+            className={`cursor-pointer w-[70px] h-[70px] sm:w-[100px] sm:h-[100px] ${productImage === product[0].productImage2 ? "border-blue-400 border-4" : ""}`}
             onClick={() => {
               setProductImage(product[0].productImage2);
             }}
@@ -43,11 +43,11 @@ function ProductDetailImage({ product }: { product: products[] }) {
         )}
         {product[0].productImage3 && (
           <Image
-            width={90}
-            height={90}
+            width={70}
+            height={70}
             src={product[0].productImage3}
             alt="product image 3"
-            className={`cursor-pointer ${productImage === product[0].productImage3 ? "border-green-400 border-4" : ""}`}
+            className={`cursor-pointer w-[70px] h-[70px] sm:w-[100px] sm:h-[100px] ${productImage === product[0].productImage3 ? "border-blue-400 border-4" : ""}`}
             onClick={() => {
               setProductImage(product[0].productImage3);
             }}
@@ -55,18 +55,18 @@ function ProductDetailImage({ product }: { product: products[] }) {
         )}
         {product[0].productImage4 && (
           <Image
-            width={90}
-            height={90}
+            width={70}
+            height={70}
             src={product[0].productImage4}
             alt="product image 4"
-            className={`cursor-pointer ${productImage === product[0].productImage4 ? "border-green-400 border-4" : ""}`}
+            className={`cursor-pointer w-[70px] h-[70px] sm:w-[100px] sm:h-[100px] ${productImage === product[0].productImage4 ? "border-blue-400 border-4" : ""}`}
             onClick={() => {
               setProductImage(product[0].productImage4);
             }}
           />
         )}
       </div>
-      <div>
+      <div className="relative">
         <WishlistIcon productID={Number(product[0].productID)} />
         <div className="">
           <Image
@@ -74,7 +74,7 @@ function ProductDetailImage({ product }: { product: products[] }) {
             height={500}
             alt={product[0].productName}
             src={productImage}
-            className="shadow-[0_0_15px_5px_rgba(0,0,0,0.3)] w-80 h-80 sm:w-100 sm:h-100 md:w-150 md:h-150 xl:w-[500px] xl:h-[500px] "
+            className="shadow-[0_0_15px_5px_rgba(0,0,0,0.3)] w-[350px] h-[350px] sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px] xl:w-[600px] xl:h-[600px] "
           />
         </div>
       </div>

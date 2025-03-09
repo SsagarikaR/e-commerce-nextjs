@@ -83,8 +83,8 @@ export const createNewProduct = async (
         stock,
         productImages[0],
         productImages[1],
-        productImages[2],
-        productImages[3],
+        productImages[2] || null,
+        productImages[3] || null,
       ],
       type: QueryTypes.INSERT,
     }

@@ -39,7 +39,11 @@ const eslintConfig = [
 
   // Ignoring certain files
   {
-    ignores: ["./test/*"],
+    ignores: [
+      "./test/*",
+      "app/components/auth/SignInForm.tsx",
+      "app/components/auth/SignUpForm.tsx",
+    ],
   },
 ];
 

@@ -1,39 +1,22 @@
-"use client"; // Indicating this is a client-side component
 import { faStar } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import Link from "next/link";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import useSWR from "swr"; // Import SWR
-import { authorizedGetRequest } from "@/services/apiReqServices/authorizedRequest"; // Import your axios function
 import { review } from "@/constants";
+import { unAuthorizedGetRequest } from "@/services/apiReqServices/unAuthorizedRequest";
 
-// Fetch review data using SWR and axios
-const fetcher = async (url: string) => {
-  try {
-    const response = await authorizedGetRequest(url); // Use your custom axios request
-    return response;
-  } catch (error) {
-    console.log(error);
-    throw new Error("Failed to fetch reviews");
-  }
+export const fetchReviews = async (id: string) => {
+  const data = await unAuthorizedGetRequest(`/reviews?pid=${id}`);
+  return data;
 };
 
-function FetchReview({ id, rating }: { id: number; rating: number }) {
-  // Use SWR to fetch review data
-  const { data: reviews, error } = useSWR<review[], Error>(
-    `/reviews?pid=${id}`,
-    fetcher
-  );
+async function FetchReview({ id, rating }: { id: number; rating: number }) {
+  const reviews = await fetchReviews(String(id));
 
   // Handle loading state
   if (!reviews) {
     return <div>Loading reviews...</div>;
-  }
-
-  // Handle error state
-  if (error) {
-    return <div>Error: {error.message}</div>;
   }
 
   return (
