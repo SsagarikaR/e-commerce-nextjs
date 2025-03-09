@@ -1,15 +1,22 @@
 "use client";
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useCartStore } from "@/store/cartStore";
 import { authorizedPostRequest } from "@/services/apiReqServices/authorizedRequest";
 import Toast from "../toast/Toast";
 import { modal_btn, order, price_detail } from "@/constants";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import InputField from "./InputField";
 
 function MakeOrderPage({ id }: { id: string | null }) {
-  const [address, setAddress] = useState("");
+  const [addressFields, setAddressFields] = useState<AddressFields>({
+    state: "",
+    city: "",
+    pincode: "",
+    locality: "",
+    address: "",
+  });
+
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
   const [isConfirmationVisible, setConfirmationVisible] = useState(false);
@@ -26,11 +33,12 @@ function MakeOrderPage({ id }: { id: string | null }) {
     } else {
       setTotalPrice(0);
     }
-  }, []);
+  }, [cartItems]);
 
   const handleConfirm = async () => {
-    if (!address || address === "") {
-      setToastMessage("Please enter you address");
+    const { state, city, pincode, locality, address } = addressFields;
+    if (!state || !city || !pincode || !locality || !address) {
+      setToastMessage("Please fill in all address fields");
       setToastType("error");
       setToastVisible(true);
     } else {
@@ -40,7 +48,6 @@ function MakeOrderPage({ id }: { id: string | null }) {
 
   const handleSubmitOrder = async () => {
     let items = [];
-    // Multiple products from cart
     items = cartItems.map((item) => ({
       productId: item.productID,
       quantity: item.quantity,
@@ -49,10 +56,14 @@ function MakeOrderPage({ id }: { id: string | null }) {
     const response = await authorizedPostRequest("orders", {
       totalAmount,
       items,
-      address,
+      state: addressFields.state,
+      city: addressFields.city,
+      pincode: addressFields.pincode,
+      locality: addressFields.locality,
+      address: addressFields.address,
       totalPrice,
     });
-    if (response.status === 200) {
+    if (response.message === "Order created successfully") {
       setToastMessage(response.message);
       setToastType("success");
       setToastVisible(true);
@@ -64,10 +75,27 @@ function MakeOrderPage({ id }: { id: string | null }) {
     }
   };
 
+  // Handle input change for all fields
+  const handleAddressChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { id, value } = e.target;
+    setAddressFields({ ...addressFields, [id]: value });
+  };
+
+  // Array of input field configurations
+  const inputFields: InputFieldConfig[] = [
+    { id: "state", type: "text", placeholder: "State" },
+    { id: "city", type: "text", placeholder: "City" },
+    { id: "pincode", type: "text", placeholder: "Pincode" },
+    { id: "locality", type: "text", placeholder: "Locality" },
+    { id: "address", type: "textarea", placeholder: "Address" },
+  ];
+
   return (
-    <div className="min-w-screen pt-24 min-h-screen flex justify-center items-center  dark:bg-gray-600 shadow-lg">
+    <div className="min-w-screen pt-24 min-h-screen flex justify-center items-center dark:bg-gray-600 shadow-lg">
       <div
-        className={` container p-6 max-w-4xl bg-white ${isConfirmationVisible && "opacity-25"} dark:bg-gray-200`}
+        className={`container p-6 max-w-4xl bg-white ${isConfirmationVisible && "opacity-25"} dark:bg-gray-200`}
       >
         <h2 className="text-2xl font-semibold dark:text-black mb-6">
           {id ? "Order Product" : "Order from Cart"}
@@ -124,27 +152,24 @@ function MakeOrderPage({ id }: { id: string | null }) {
           </div>
         </div>
 
-        {/* Address Input */}
-        <div className="mb-6">
-          <label
-            htmlFor="address"
-            className="block text-sm font-medium text-gray-700 mb-2 dark:text-black"
-          >
-            Enter Shipping Address:
-          </label>
-          <textarea
-            id="address"
-            value={address}
-            onChange={(event) => {
-              setAddress(event.target.value);
-            }}
-            rows={4}
-            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none dark:text-black focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter your address"
-          ></textarea>
+        {/* Address Input Fields Dynamically Rendered */}
+        <div className="flex flex-col gap-y-2 text-gray-700">
+          <div className="">Shipping address:</div>
+          <div className="grid grid-cols-2 gap-4 relative">
+            {inputFields.map((field) => (
+              <InputField
+                key={field.id}
+                id={field.id}
+                value={addressFields[field.id]}
+                onChange={handleAddressChange}
+                placeholder={field.placeholder}
+                type={field.type}
+              />
+            ))}
+          </div>
         </div>
 
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-6 ">
           <button
             className="px-6 py-3 bg-blue-400 cursor-pointer text-white text-lg font-semibold rounded-lg shadow-md hover:bg-blue-500 focus:outline-none"
             onClick={handleConfirm}
@@ -156,7 +181,7 @@ function MakeOrderPage({ id }: { id: string | null }) {
 
       {/* Confirmation Popup */}
       {isConfirmationVisible && (
-        <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 ">
+        <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-200 p-6 rounded-lg shadow-lg w-11/12 sm:w-1/3">
             <h3 className="text-2xl font-semibold text-center mb-4 dark:text-black">
               {order.ORDER_MODAL_TITLE}
@@ -165,7 +190,7 @@ function MakeOrderPage({ id }: { id: string | null }) {
               {order.ORDER_MODAL_DESC}
             </p>
             <p className="text-lg text-center font-medium dark:text-black">
-              {address}
+              {`${addressFields.address}, ${addressFields.locality}, ${addressFields.city}, ${addressFields.state}, ${addressFields.pincode}`}
             </p>
             <div className="flex justify-center gap-15 mt-6 gap-2">
               <button
@@ -184,6 +209,7 @@ function MakeOrderPage({ id }: { id: string | null }) {
           </div>
         </div>
       )}
+
       {toastVisible && (
         <Toast
           message={toastMessage}

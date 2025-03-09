@@ -26,7 +26,8 @@ try {
 sequelize
   .sync()
   .then((data) => {
-    console.log("databse synced successfully.", data);
+    console.error(data);
+    console.log("databse synced successfully.");
   })
   .catch((error) => {
     console.log("Error syncing databse:", error);

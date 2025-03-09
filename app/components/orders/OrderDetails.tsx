@@ -73,7 +73,12 @@ function OrderDetails({ id }: { id: string }) {
               Shipping Details
             </p>
             <div className="font-semibold">{currentOrder[0].name}</div>
-            <div>{currentOrder[0].address}</div>
+            <div>
+              {currentOrder[0].address.state} , {currentOrder[0].address.city},{" "}
+              {currentOrder[0].address.pincode},{" "}
+              {currentOrder[0].address.locality},{" "}
+              {currentOrder[0].address.address}
+            </div>
             <div>
               <p className="font-semibold">Phone number:</p>
               <p>{currentOrder[0].contactNo}</p>

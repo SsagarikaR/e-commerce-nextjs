@@ -15,9 +15,17 @@ export const POST = async (req: NextRequest) => {
       { status: 401 }
     );
   }
-
-  const userID = decodedUser.identifire;
-  const { totalAmount, items, address, totalPrice } = await req.json();
+  const userID = decodedUser?.identifire;
+  const {
+    totalAmount,
+    items,
+    state,
+    city,
+    pincode,
+    locality,
+    address,
+    totalPrice,
+  } = await req.json();
 
   try {
     // Validate the required fields
@@ -27,6 +35,10 @@ export const POST = async (req: NextRequest) => {
       userID,
       totalAmount,
       items,
+      state,
+      city,
+      pincode,
+      locality,
       address,
       totalPrice
     );
@@ -55,7 +67,7 @@ export const GET = async (req: NextRequest) => {
     );
   }
 
-  const userID = decodedUser.identifire;
+  const userID = decodedUser?.identifire;
   try {
     const orders = await fetchOrders(userID);
     // console.log("orders",orders)
@@ -66,6 +78,7 @@ export const GET = async (req: NextRequest) => {
 
     return NextResponse.json(orders);
   } catch (error) {
+    console.error(error);
     return NextResponse.json({
       error: "Error fetching orders. Please try again later.",
     });
@@ -73,7 +86,7 @@ export const GET = async (req: NextRequest) => {
 };
 
 export const PATCH = async (req: NextRequest) => {
-  const { isValid, decodedUser } = checkToken(req);
+  const { isValid } = checkToken(req);
   if (!isValid) {
     return NextResponse.json(
       { error: "Unauthorized. Invalid or missing token." },
@@ -112,6 +125,7 @@ export const PATCH = async (req: NextRequest) => {
       { status: 200 }
     );
   } catch (error) {
+    console.error(error);
     return NextResponse.json(
       {
         error: "Error in updating product address, please try again!",
@@ -122,7 +136,7 @@ export const PATCH = async (req: NextRequest) => {
 };
 
 export const DELETE = async (req: NextRequest) => {
-  const { isValid, decodedUser } = checkToken(req);
+  const { isValid } = checkToken(req);
   if (!isValid) {
     return NextResponse.json(
       { error: "Unauthorized. Invalid or missing token." },
@@ -130,7 +144,6 @@ export const DELETE = async (req: NextRequest) => {
     );
   }
 
-  const userID = decodedUser.identifire;
   const { orderId } = await req.json();
 
   try {
@@ -138,10 +151,11 @@ export const DELETE = async (req: NextRequest) => {
       return NextResponse.json({ message: "Please provide orderId." });
     }
 
-    const result = await deleteOrderService(orderId);
+    await deleteOrderService(orderId);
 
     return NextResponse.json({ message: "Order deleted successfully" });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({
       error: "Error in deleting order, please try again!",
     });

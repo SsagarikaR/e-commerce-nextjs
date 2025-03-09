@@ -4,21 +4,20 @@ import { QueryTypes, Transaction } from "sequelize";
 export const insertOrder = async (
   userID: number,
   totalPrice: number,
-  address: string,
+  addressID: number,
   totalAmount: number,
   t: Transaction
 ) => {
   try {
     const [result] = await sequelize.query(
-      `INSERT INTO Orders (userId, totalPrice, status, address,totalAmount) 
-      VALUES (:userId, :totalPrice, 'Pending', :address,:totalAmount)`,
+      `INSERT INTO Orders (userId, totalPrice, status, addressID,totalAmount) 
+      VALUES (:userId, :totalPrice, 'Pending', :addressID,:totalAmount)`,
       {
-        replacements: { userId: userID, totalPrice, address, totalAmount },
+        replacements: { userId: userID, totalPrice, addressID, totalAmount },
         type: QueryTypes.INSERT,
-        transaction: t, // Pass the transaction object here
+        transaction: t,
       }
     );
-    // console.log(result);
     return { orderID: result }; // Return orderID or the entire result depending on your table design
   } catch (error) {
     console.log("Error inserting order:", error);
@@ -100,20 +99,48 @@ const getOrderItems = async (orderIDs: number[]): Promise<orderItem[]> => {
 };
 
 // Combine order and items (OrderDetail[] type)
-export const getUserOrderDetails = async (
-  userID: number
-): Promise<OrderDetail[]> => {
+export const getUserOrderDetails = async (userID: number) => {
   const orders = await getOrders(userID);
-  // console.log(orders);
-  const orderIDs = orders.map((order) => order.orderID);
-  // console.log(orderIDs,"order id");
-  const orderItems = await getOrderItems(orderIDs);
 
-  // Combine the results
-  const orderDetails: OrderDetail[] = orders.map((order) => ({
+  // Extracting the order IDs for further querying the items
+  const orderIDs = orders.map((order) => order.orderID);
+
+  // Fetching the order items based on order IDs
+  const orderItems = await getOrderItems(orderIDs);
+  console.log(orderItems);
+
+  // Combine order details with address details in one query
+  const query = `
+    SELECT 
+      o.*,
+      a.state, a.city, a.pincode, a.locality, a.address AS orderAddress,
+      u.*
+    FROM Orders o
+    JOIN Users u ON u.userID = o.userID
+    LEFT JOIN Addresses a ON o.addressID = a.addressID
+    WHERE o.userID = :userID
+  `;
+
+  const result: order[] = await sequelize.query(query, {
+    replacements: { userID },
+    type: QueryTypes.SELECT,
+  });
+  console.log(result, "rresult");
+
+  // Combine orders with order items and address details
+  const orderDetails = result.map((order) => ({
     ...order,
     items: orderItems.filter((item) => item.orderId === order.orderID),
+    address: {
+      addressID: order.addressID,
+      state: order.state,
+      city: order.city,
+      pincode: order.pincode,
+      locality: order.locality,
+      address: order.address, // the actual address field
+    },
   }));
+  console.log(orderDetails, "order details");
 
   return orderDetails;
 };

@@ -9,12 +9,17 @@ import {
   getOrderStatusByIdQuery,
   getUserOrderDetails,
 } from "@/dbQuery/orders";
+import { createNewAddress, selectAddress } from "@/dbQuery/address";
 
 //create a new order
 export const createOrderService = async (
   userID: number,
   totalAmount: number,
   items: orderItem[],
+  state: string,
+  city: string,
+  pincode: string,
+  locality: string,
   address: string,
   totalPrice: number
 ) => {
@@ -22,6 +27,28 @@ export const createOrderService = async (
 
   try {
     const existingOrder = await selectOrderByUserID(userID, t);
+    let addressID: number;
+    const existingAddress: address[] = await selectAddress(
+      state,
+      city,
+      pincode,
+      locality,
+      address,
+      t
+    );
+    if (existingAddress.length > 0) {
+      addressID = existingAddress[0].addressID;
+    } else {
+      const [result] = await createNewAddress(
+        state,
+        city,
+        pincode,
+        locality,
+        address,
+        t
+      );
+      addressID = result;
+    }
 
     if (existingOrder.length > 0) {
       // console.log("You already have a pending order")
@@ -31,7 +58,7 @@ export const createOrderService = async (
     const result = await insertOrder(
       userID,
       totalPrice,
-      address,
+      addressID,
       totalAmount,
       t
     );

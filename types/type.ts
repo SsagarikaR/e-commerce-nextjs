@@ -11,6 +11,30 @@ declare global {
     error?: string;
   }
 
+  interface address {
+    addressID: number;
+    state: string;
+    city: string;
+    pincode: string;
+    locality: string;
+    address: string;
+  }
+
+  interface AddressFields {
+    state: string;
+    city: string;
+    pincode: string;
+    locality: string;
+    address: string;
+  }
+
+  interface InputFieldConfig {
+    id: keyof AddressFields;
+    type: string;
+    placeholder: string;
+    rows?: number;
+  }
+
   interface categories {
     categoryID?: number;
     categoryName: string;
@@ -70,13 +94,14 @@ declare global {
   interface OrderData extends user {
     totalAmount: number;
     items: OrderItem[];
-    address: string;
+    addressID: number;
     totalPrice: number;
     status: string;
     orderID: number;
     handlingPrice: number;
     platformFee: number;
     deliveryCharge: number;
+    address: address;
   }
 
   interface CartStore {
@@ -127,12 +152,11 @@ declare global {
     error?: string;
   }
 
-  interface order {
+  interface order extends address {
     orderID: number;
     userId: number;
     totalAmount: number;
     status: string;
-    address: string;
   }
 
   interface orderItem {

@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "@/lib/Database/db";
+import { Address } from "./address";
 
 export const Orders = sequelize.define(
   "Orders",
@@ -19,21 +20,14 @@ export const Orders = sequelize.define(
       type: DataTypes.ENUM("Pending", "Success", "Cancelled"),
       defaultValue: "Pending",
     },
-    state: {
-      type: DataTypes.STRING,
+    addressID: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-    },
-    city: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    pincode: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    locality: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      references: {
+        model: Address,
+        key: "addressID",
+      },
+      onDelete: "CASCADE",
     },
     totalPrice: {
       type: DataTypes.INTEGER,

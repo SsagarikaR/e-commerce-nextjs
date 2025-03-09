@@ -1,9 +1,5 @@
 "use client";
-import {
-  faCheckCircle,
-  faEdit,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ConfirmModal from "../confirmModal.tsx/ConfirmModal";
 import { useState } from "react";
@@ -121,27 +117,15 @@ function OrderCard({ item }: { item: OrderData }) {
           </div>
 
           {/* Address Section */}
-          <div className="mt-6 flex gap-x-4 items-center justify-between">
-            <div className="flex gap-3 items-center">
+          <div className="mt-6 flex gap-x-1  items-center justify-between">
+            <div className="flex items-center">
               {!isEdit ? (
                 <>
-                  <p className="text-md text-gray-600">
-                    {orders.ADDRESS}: {item.address}
+                  <p className="text-sm text-gray-600">
+                    {orders.ADDRESS}: {item.address.state} , {item.address.city}
+                    , {item.address.pincode}, {item.address.locality},{" "}
+                    {item.address.address}
                   </p>
-
-                  {item.status !== "Cancelled" && (
-                    <div
-                      onClick={() => {
-                        setIsEdit(true);
-                        setAddress(item.address);
-                      }}
-                    >
-                      <FontAwesomeIcon
-                        icon={faEdit}
-                        className="cursor-pointer"
-                      />
-                    </div>
-                  )}
                 </>
               ) : (
                 <div className="flex justify-center items-center gap-2">
@@ -161,13 +145,12 @@ function OrderCard({ item }: { item: OrderData }) {
             </div>
             {item.status !== "Cancelled" && (
               <div
-                className="flex justify-center items-center gap-x-1 text-red-500 cursor-pointer"
+                className="flex justify-center w-1/5 items-center gap-x-1 text-red-500 cursor-pointer"
                 onClick={() => {
                   setShowModal(true);
                 }}
               >
                 <FontAwesomeIcon icon={faTrash} className="w-4 h-4" />
-                <div>{orders.CANCEL_ORDER}</div>
               </div>
             )}
           </div>
