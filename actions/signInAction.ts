@@ -31,14 +31,14 @@ export async function signinUserAction(
   };
 
   const result = await unAuthorizedPostRequest("auth/signin", plainData);
-  console.log(result, "result");
-  if (result.user.token) {
+  // console.log(result, "result.........");
+  if (result.user?.token) {
     const setCookie = await cookies();
     const sevenDay = 7 * 24 * 60 * 60 * 1000;
     await setCookie.set("token", result.user.token!, {
       expires: Date.now() + sevenDay,
     });
-    console.log(setCookie.get("token"));
+    // console.log(setCookie.get("token"));
     redirect(`/home`, RedirectType.push);
   }
 

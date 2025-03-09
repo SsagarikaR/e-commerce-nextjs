@@ -5,7 +5,7 @@ const port = "http://localhost:3000/";
 export const unAuthorizedGetRequest = async (route: string) => {
   try {
     const response = await axios.get(`${port}api/${route}`);
-    console.log("API response data:", response.data); // Log the data here to check if it is correct
+    console.log("API response data:", response.data);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -13,16 +13,26 @@ export const unAuthorizedGetRequest = async (route: string) => {
   }
 };
 
-// Fetch categories from the API
 export const unAuthorizedPostRequest = async (route: string, data: object) => {
   try {
-    console.log(process.env.ROUTE);
     const response = await axios.post(`${port}api/${route}`, data);
-    console.log("API response data:", response.data); // Log the data here to check if it is correct
+    console.log("API response data:", response);
     return response.data;
-  } catch (error) {
-    console.log(error);
-    return error;
-    // throw new Error("Error in making post request please try again Please try again")
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      console.log("API error response:", error.response);
+      return {
+        status: error.response?.status || 500,
+        message:
+          error.response?.data?.error ||
+          "An error occurred while processing the request.",
+      };
+    } else {
+      console.log("Error without response:", error);
+      return {
+        status: 500,
+        message: "An error occurred, please try again later.",
+      };
+    }
   }
 };

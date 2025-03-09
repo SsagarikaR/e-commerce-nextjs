@@ -14,21 +14,17 @@ export const createPreferenceService = async (
 ) => {
   const cacheKey = `preferences:${userID}`;
   try {
-    // First, check if the preference already exists
     const existingPreference = await selectPrefernceByProductANDUser(
       productID,
       userID
     );
 
-    // If the preference exists, return null to prevent adding again
     if (existingPreference.length > 0) {
-      return { message: "Preference already exists" }; // Inform that preference already exists
+      return { message: "Preference already exists" };
     }
 
-    // Insert new preference if it doesn't exist
     const result = await insertPrefernce(productID, userID);
 
-    // After inserting, invalidate cache to reflect new changes
     invalidateCache(cacheKey);
 
     return { message: "Preference created successfully", result };
@@ -45,13 +41,13 @@ export const fetchPreferencesService = async (userID: number) => {
     const cachedPreferences = getCache(cacheKey);
     if (cachedPreferences) {
       console.log("Returning cached preferences");
-      return cachedPreferences; // Return cached data if available
+      return cachedPreferences;
     }
 
     // Fetch preferences from database if cache is not available
     const preferences = await fetchPreference(userID);
     if (!preferences || preferences.length === 0) {
-      return null; // No preferences found for the user
+      return null;
     }
 
     // Store the preferences in cache for future use

@@ -30,8 +30,8 @@ export const order = {
 };
 
 export const modal_btn = {
-  CANCEL: "No, Cancel",
-  CONFIRM: "Yes, Confirm",
+  CANCEL: "Cancel",
+  CONFIRM: "Confirm",
 };
 
 export const dashboard_brand = {

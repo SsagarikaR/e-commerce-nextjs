@@ -22,13 +22,13 @@ const ConfirmModal: React.FC<ModalProps> = ({
         <h2 className="text-xl mb-4">{title}</h2>
         <div className="flex justify-between">
           <button
-            className="bg-red-400 text-white px-4 py-2 rounded"
+            className="bg-red-400 hover:bg-red-500 text-white px-4 py-2 rounded"
             onClick={onCancel}
           >
             {modal_btn.CANCEL}
           </button>
           <button
-            className="bg-purple-400 text-white px-4 py-2 rounded"
+            className="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded"
             onClick={onConfirm}
           >
             {modal_btn.CONFIRM}

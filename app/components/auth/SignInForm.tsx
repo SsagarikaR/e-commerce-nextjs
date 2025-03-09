@@ -1,6 +1,5 @@
-// @ts-nocheck
+//@ts-nocheck
 "use client";
-
 import React, { useState } from "react";
 import Input from "./Input";
 import Toast from "../toast/Toast";
@@ -10,13 +9,12 @@ import { useActionState } from "react";
 function SignInForm() {
   // Define the initial state to match the required types
   const initialState = {
-    success: "",
+    message: "",
     errors: {
       email: [],
       password: [],
     },
   };
-  // Use `useActionState` with the correct types
 
   const [error, action, isLoading] = useActionState(
     signinUserAction,
@@ -27,6 +25,15 @@ function SignInForm() {
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState<"success" | "error">("success");
+
+  // Handle error message from server-side (general error or form errors)
+  React.useEffect(() => {
+    if (error?.errors?.message) {
+      setToastMessage(error?.errors?.message);
+      setToastType("error"); // Show error type for non-field errors
+      setToastVisible(true);
+    }
+  }, [error]);
 
   const inputField = [
     { id: "email", field: "Email", type: "text" },
@@ -50,7 +57,7 @@ function SignInForm() {
             type="submit"
             className="w-full h-[48px] bg-blue-400 rounded-lg shadow-md text-white font-semibold text-lg cursor-pointer"
           >
-            `${isLoading ? "Sign In" : "signing in..."}`
+            {!isLoading ? "Sign In" : "signing in..."}
           </button>
         </div>
       </form>

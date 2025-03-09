@@ -12,21 +12,21 @@ export async function POST(req: NextRequest) {
   }
   try {
     const result = await getUserService(email, password);
-    console.log(result, "result");
-    if (!result?.success) {
-      return NextResponse.json({ message: result?.message }, { status: 401 });
+    // console.log(result, "result");
+    if (result?.success === false) {
+      console.log("sended");
+      return NextResponse.json({ error: result?.message }, { status: 409 });
     }
 
-    if (result.user) {
-      console.log("cookies set ");
+    if (result?.user) {
       return NextResponse.json({ user: result.user }, { status: 200 });
     }
 
-    return NextResponse.json({ message: "User not found" }, { status: 404 });
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { message: "Error retrieving user. Please try again later." },
+      { error: "Error retrieving user. Please try again later." },
       { status: 500 }
     );
   }

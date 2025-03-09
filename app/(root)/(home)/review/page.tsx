@@ -9,7 +9,7 @@ const ProfilePage = async ({
   const pid = params.pid;
 
   return (
-    <div className="w-screen pt-20">
+    <div className="w-screen pt-20 dark:bg-gray-700 min-h-screen">
       <AddReview pid={pid} />
     </div>
   );

@@ -34,7 +34,7 @@ async function FetchReview({ id, rating }: { id: number; rating: number }) {
           </div>
           <Link
             href={`/review?pid=${id}`}
-            className="bg-blue-300 border xl:text-lg lg:px-3 py-1 px-2 text-md rounded-md hover:bg-blue-400"
+            className="bg-orange-400 border text-black xl:text-lg lg:px-3 py-1 px-2 text-md rounded-md hover:bg-orange-500"
           >
             {review.ADD_REVIEW}
           </Link>

@@ -9,6 +9,7 @@ import { authorizedPatchRequest } from "@/services/apiReqServices/authorizedRequ
 import { mutate } from "swr";
 import Link from "next/link";
 import { orders } from "@/constants";
+import Image from "next/image";
 
 function OrderCard({ item }: { item: OrderData }) {
   const [showModal, setShowModal] = useState(false);
@@ -84,7 +85,9 @@ function OrderCard({ item }: { item: OrderData }) {
                       key={item.productId}
                       className=" p-4 rounded-lg shadow-lg flex items-center"
                     >
-                      <img
+                      <Image
+                        width={240}
+                        height={240}
                         src={item.productThumbnail}
                         alt={item.productName}
                         className="w-24 h-24 object-cover rounded-lg shadow-lg"
@@ -151,6 +154,7 @@ function OrderCard({ item }: { item: OrderData }) {
                 }}
               >
                 <FontAwesomeIcon icon={faTrash} className="w-4 h-4" />
+                <p className="text-sm md:text-base">Cancel order</p>
               </div>
             )}
           </div>
