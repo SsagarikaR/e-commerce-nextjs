@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-import { useRouter } from "next/navigation"; // Import useRouter for navigation
+import { useRouter } from "next/navigation";
 import CloudinaryImageUpload from "./CloudinaryImageUpload";
 import { dashboard_brand } from "@/constants";
 import { addBrandAction } from "@/actions/addBrandAction";
-import { useFormSubmit } from "@/hooks/useFormSubmit"; // Import the custom hook
+import { useFormSubmit } from "@/hooks/useFormSubmit";
 import Input from "./Input";
 import Image from "next/image";
 
@@ -14,7 +14,7 @@ function AddBrands() {
     addBrandAction
   );
 
-  const router = useRouter(); // Initialize the useRouter hook
+  const router = useRouter();
 
   const inputFields = [
     {
@@ -28,7 +28,6 @@ function AddBrands() {
   // Update handleSubmit to include redirect after success
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Call the original handleSubmit function from useFormSubmit
     await handleSubmit(e);
 
     console.log(errors, "errors");
@@ -48,7 +47,7 @@ function AddBrands() {
       <div className="text-3xl font-semibold">{dashboard_brand.ADD_BRAND}</div>
       <form
         className="border-2 border-gray-400 p-4 w-full flex flex-col gap-6 "
-        onSubmit={handleFormSubmit} // Use the updated submit handler
+        onSubmit={handleFormSubmit}
       >
         {inputFields.map((item) => (
           <Input

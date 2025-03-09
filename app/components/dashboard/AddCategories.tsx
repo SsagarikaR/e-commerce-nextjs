@@ -54,7 +54,7 @@ function AddCategories() {
             id={item.id}
             value={item.value}
             field={item.field}
-            onChange={handleChange} // Correctly passing handleChange here
+            onChange={handleChange}
             errors={item.error}
           />
         ))}

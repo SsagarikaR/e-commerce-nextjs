@@ -19,7 +19,19 @@ export const Orders = sequelize.define(
       type: DataTypes.ENUM("Pending", "Success", "Cancelled"),
       defaultValue: "Pending",
     },
-    address: {
+    state: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    city: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    pincode: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    locality: {
       type: DataTypes.STRING,
       allowNull: false,
     },
