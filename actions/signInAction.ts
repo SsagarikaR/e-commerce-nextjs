@@ -25,14 +25,11 @@ export async function signinUserAction(
     };
   }
 
-  // If validation passes, proceed with the API request
-  // Assuming you need to convert FormData to JSON for the API request
   const plainData = {
     email: formData.get("email"),
     password: formData.get("password"),
   };
 
-  // Call the unAuthorizedPostRequest to handle the API submission
   const result = await unAuthorizedPostRequest("auth/signin", plainData);
   console.log(result, "result");
   if (result.user.token) {
