@@ -4,7 +4,7 @@ import { redirect, RedirectType } from "next/navigation";
 import { cookies } from "next/headers";
 import { signupFormValidation } from "@/validations/signupFormValidation";
 
-// The action function should accept `previousState` and `formData` correctly
+// The action function should accept previousState and formData correctly
 export async function signupUserAction(
   previousState: {
     success: string;
@@ -39,7 +39,6 @@ export async function signupUserAction(
     contactNo: formData.get("contactNo"),
   };
 
-  // Call the unAuthorizedPostRequest to handle the API submission
   const result = await unAuthorizedPostRequest("auth/signup", plainData);
   console.log(result, "result");
   if (result.token) {

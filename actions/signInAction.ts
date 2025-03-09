@@ -4,7 +4,7 @@ import { signinFormValidation } from "@/validations/signinFormValidation";
 import { redirect, RedirectType } from "next/navigation";
 import { cookies } from "next/headers";
 
-// The action function should accept `previousState` and `formData` correctly
+// The action function should accept previousState and formData correctly
 export async function signinUserAction(
   previousState: {
     success: string;
