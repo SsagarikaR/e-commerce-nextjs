@@ -12,10 +12,10 @@ const Pagination = ({ category, currentPage, totalPages }: paginationProps) => {
         <Link
           href={
             category
-              ? `http://localhost:3000/products?category=${category || " "}&page=${currentPage - 1}`
+              ? `/products?category=${category || " "}&page=${currentPage - 1}`
               : pathname === "/products"
-                ? `http://localhost:3000/products?page=${currentPage - 1}`
-                : `http://localhost:3000/dashboard/products?page=${currentPage - 1}`
+                ? `/products?page=${currentPage - 1}`
+                : `/dashboard/products?page=${currentPage - 1}`
           }
           className="bg-blue-300 p-2 m-1 rounded-md border-gray-300 border"
         >
@@ -27,10 +27,10 @@ const Pagination = ({ category, currentPage, totalPages }: paginationProps) => {
         <Link
           href={
             category
-              ? `http://localhost:3000/products?category=${category || " "}&page=${currentPage + 1}`
+              ? `/products?category=${category || " "}&page=${currentPage + 1}`
               : pathname === "/products"
-                ? `http://localhost:3000/products?page=${currentPage + 1}`
-                : `http://localhost:3000/dashboard/products?page=${currentPage + 1}`
+                ? `/products?page=${currentPage + 1}`
+                : `/dashboard/products?page=${currentPage + 1}`
           }
           className="bg-blue-300 p-2 m-1 rounded-md border-gray-300 border"
         >

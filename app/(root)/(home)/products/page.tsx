@@ -6,8 +6,8 @@ export const generateMetadata = async ({
 }: {
   searchParams: { category?: string; name?: string; page?: string };
 }): Promise<Metadata> => {
-  const category = searchParams.category || null;
-  const name = searchParams.name || null;
+  const category = (await searchParams.category) || null;
+  const name = (await searchParams.name) || null;
 
   let title = "Shop Cart - Products";
   if (category) {
@@ -29,10 +29,16 @@ export const generateMetadata = async ({
 const Page = async ({
   searchParams,
 }: {
-  searchParams: { category?: string; name?: string; page?: string };
+  searchParams: {
+    category?: string;
+    price?: string;
+    name?: string;
+    page?: string;
+  };
 }) => {
-  const params = searchParams;
+  const params = await searchParams;
   const page = parseInt(params.page || "1", 10);
+  const price = params.price || null;
   const category = params.category || null;
   const name = params.name || null;
 
@@ -40,7 +46,7 @@ const Page = async ({
 
   return (
     <div className="pt-36 max-h-screen overflow-auto dark:bg-gray-700 min-h-screen">
-      <Products category={category!} page={page!} name={name!} />
+      <Products category={category!} price={price!} page={page!} name={name!} />
     </div>
   );
 };

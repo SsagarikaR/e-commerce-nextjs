@@ -8,7 +8,6 @@ import {
   faCartShopping,
   faHeart,
   faCircleHalfStroke,
-  faStepBackward,
   faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";

@@ -93,9 +93,9 @@ function MakeOrderPage({ id }: { id: string | null }) {
   ];
 
   return (
-    <div className="min-w-screen pt-24 min-h-screen flex justify-center items-center dark:bg-gray-600 shadow-lg">
+    <div className="min-w-screen pt-24 dark:pt-28 min-h-screen flex justify-center items-center dark:bg-gray-700 shadow-lg">
       <div
-        className={`container p-6 max-w-4xl bg-white ${isConfirmationVisible && "opacity-25"} dark:bg-gray-200`}
+        className={`container p-6 max-w-4xl bg-white ${isConfirmationVisible && "opacity-25"} dark:bg-gray-400`}
       >
         <h2 className="text-2xl font-semibold dark:text-black mb-6">
           {id ? "Order Product" : "Order from Cart"}
@@ -166,16 +166,15 @@ function MakeOrderPage({ id }: { id: string | null }) {
                 type={field.type}
               />
             ))}
+            <div className="flex  items-end  mb-9 ">
+              <button
+                className="px-6 py-3 bg-blue-400 cursor-pointer text-white text-lg font-semibold rounded-lg shadow-md hover:bg-blue-500 focus:outline-none"
+                onClick={handleConfirm}
+              >
+                Confirm Order
+              </button>
+            </div>
           </div>
-        </div>
-
-        <div className="flex justify-center mb-6 ">
-          <button
-            className="px-6 py-3 bg-blue-400 cursor-pointer text-white text-lg font-semibold rounded-lg shadow-md hover:bg-blue-500 focus:outline-none"
-            onClick={handleConfirm}
-          >
-            Confirm Order
-          </button>
         </div>
       </div>
 

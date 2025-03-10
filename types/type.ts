@@ -203,5 +203,9 @@ declare global {
     success?: string;
     errors?: Record<string, string[] | string | undefined>;
   }
+
+  interface SessionProviderWrapperProps {
+    children: React.ReactNode;
+  }
 }
 export {};
