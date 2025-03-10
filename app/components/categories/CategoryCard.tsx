@@ -9,7 +9,7 @@ function CategoryCard({
 }: categories) {
   return (
     <Link href={`/products?category=${categoryID}`}>
-      <div className=" flex flex-col justify-center items-center bg-transparent">
+      <div className=" flex flex-col justify-center items-center bg-transparent font-serif">
         <Image
           src={categoryThumbnail}
           alt={categoryName}

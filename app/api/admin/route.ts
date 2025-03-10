@@ -5,29 +5,30 @@ import {
   updateAdminService,
 } from "@/services/apiServices/admins";
 import { checkToken, isAdmin } from "@/lib/midlleware/auth";
+import { selectAllAdmin } from "@/dbQuery/adminsMongo";
 
 // Create new admin
 export const POST = async (req: NextRequest) => {
-  const { userID } = await req.json();
-  const { isValid, decodedUser } = checkToken(req);
+  const { userId } = await req.json();
+  // const { isValid, decodedUser } = checkToken(req);
 
-  if (!isValid) {
-    return NextResponse.json(
-      { error: "Unauthorized. Invalid or missing token." },
-      { status: 401 }
-    );
-  }
+  // if (!isValid) {
+  //   return NextResponse.json(
+  //     { error: "Unauthorized. Invalid or missing token." },
+  //     { status: 401 }
+  //   );
+  // }
 
-  console.log(decodedUser);
+  // console.log(decodedUser);
 
-  const adminCheckResult = await isAdmin(req, decodedUser);
+  // const adminCheckResult = await isAdmin(req, decodedUser);
 
-  if (adminCheckResult) {
-    return adminCheckResult;
-  }
+  // if (adminCheckResult) {
+  //   return adminCheckResult;
+  // }
 
   try {
-    if (!userID) {
+    if (!userId) {
       return NextResponse.json(
         {
           message: "Please enter user's ID to add the user as admin",
@@ -36,7 +37,7 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    const { success, message } = await createAdminService(userID);
+    const { success, message } = await createAdminService(userId);
     if (!success) {
       return NextResponse.json({ message: message }, { status: 401 });
     }
@@ -51,28 +52,59 @@ export const POST = async (req: NextRequest) => {
   }
 };
 
-// Delete admin by userID
-export const DELETE = async (req: NextRequest) => {
-  const { userID } = await req.json();
-  const { isValid, decodedUser } = checkToken(req);
+export const GET = async (req: NextRequest) => {
+  // const { isValid, decodedUser } = checkToken(req);
 
-  if (!isValid) {
-    return NextResponse.json(
-      { error: "Unauthorized. Invalid or missing token." },
-      { status: 401 }
-    );
-  }
+  // if (!isValid) {
+  //   return NextResponse.json(
+  //     { error: "Unauthorized. Invalid or missing token." },
+  //     { status: 401 }
+  //   );
+  // }
 
-  console.log(decodedUser);
+  // console.log(decodedUser);
 
-  const adminCheckResult = await isAdmin(req, decodedUser);
+  // const adminCheckResult = await isAdmin(req, decodedUser);
 
-  if (adminCheckResult) {
-    return adminCheckResult;
-  }
+  // if (adminCheckResult) {
+  //   return adminCheckResult;
+  // }
 
   try {
-    const { success, message } = await deleteAdminService(userID);
+    const admin = await selectAllAdmin();
+
+    return NextResponse.json({ admin }, { status: 200 });
+  } catch (error) {
+    console.error("Error creating admin:", error);
+    return NextResponse.json({
+      error: "An error occurred while creating admin",
+      status: 500,
+    });
+  }
+};
+
+// Delete admin by userID
+export const DELETE = async (req: NextRequest) => {
+  const { userId } = await req.json();
+  // const { isValid, decodedUser } = checkToken(req);
+
+  // if (!isValid) {
+  //   return NextResponse.json(
+  //     { error: "Unauthorized. Invalid or missing token." },
+  //     { status: 401 }
+  //   );
+  // }
+
+  // console.log(decodedUser);
+
+  // const adminCheckResult = await isAdmin(req, decodedUser);
+
+  // if (adminCheckResult) {
+  //   return adminCheckResult;
+  // }
+
+  try {
+    const { success, message } = await deleteAdminService(userId);
     if (!success) {
       return NextResponse.json({ message: message }, { status: 404 });
     }
@@ -91,7 +123,7 @@ export const DELETE = async (req: NextRequest) => {
 
 // Update admin by userID
 export const PATCH = async (req: NextRequest) => {
-  const { userID, newUserID } = await req.json();
+  const { userId, newUserId } = await req.json();
   const { isValid, decodedUser } = checkToken(req);
 
   if (!isValid) {
@@ -110,7 +142,7 @@ export const PATCH = async (req: NextRequest) => {
   }
 
   try {
-    const { success, message } = await updateAdminService(userID, newUserID);
+    const { success, message } = await updateAdminService(userId, newUserId);
     if (!success) {
       return NextResponse.json({ message: message }, { status: 404 });
     }

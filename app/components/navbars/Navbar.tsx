@@ -47,6 +47,7 @@ function Navbar() {
     const response = await fetchUser();
     if (!response.status) {
       setUser(response);
+      console.log(user, "user.....");
     } else {
       console.log("response", response.response.data.message);
     }

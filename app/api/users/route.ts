@@ -82,10 +82,10 @@ export const deleteUser = async (req: NextRequest) => {
       { status: 401 }
     );
   }
-  const userID = decodedUser.identifire;
+  const id = decodedUser?.identifire;
 
   try {
-    const result = await deleteUserService(userID);
+    const result = await deleteUserService(id);
 
     if (!result.success) {
       return NextResponse.json({ message: result.message });

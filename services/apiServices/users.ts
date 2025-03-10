@@ -7,7 +7,7 @@ import {
   selectUserByID,
   updateUsersPassword,
   selectAllUsers,
-} from "@/dbQuery/users";
+} from "@/dbQuery/usersMongo";
 import bcrypt from "bcryptjs";
 import { generateToken } from "@/lib/midlleware/auth";
 
@@ -26,52 +26,46 @@ export const createUserService = async (
   console.log(existingUserByName);
 
   const existingUserByEmail = await selectUserByEmail(email);
-  if (existingUserByEmail.length > 0) {
+  if (existingUserByEmail) {
     return { success: false, message: "Email already registered" };
   }
   console.log(existingUserByEmail, "email");
 
   const hashedPassword = await bcrypt.hashSync(password, 10);
   console.log(hashedPassword, "hashed");
-  const [result, metaData] = await createNewUser(
-    name,
-    email,
-    contactNo,
-    hashedPassword
-  );
+  const user = await createNewUser(name, email, contactNo, hashedPassword);
 
-  if (metaData === 0) {
+  console.log("user created", user);
+  if (!user) {
     return { success: false, message: "Error creating user" };
   }
-
+  const result = user._id;
   return { success: true, result };
 };
 
 // Service to get a user by email and password
 export const getUserService = async (email: string, password: string) => {
-  const users: user[] = await selectUserByEmail(email);
+  const user = await selectUserByEmail(email);
 
-  if (users[0].password) {
-    const isPasswordValid = await bcrypt.compareSync(
-      password,
-      users[0].password
-    );
+  if (user.password) {
+    const isPasswordValid = await bcrypt.compareSync(password, user.password);
     if (!isPasswordValid) {
       return { success: false, message: "Invalid password" };
     }
-    const user = users[0];
     delete user.password;
-    const token = await generateToken(user.userID);
-    user.token = token;
-    return { success: true, user };
+    const userToReturn = user.toJSON();
+    const token = await generateToken(user._id);
+    userToReturn.token = token;
+    console.log(userToReturn, "user....");
+    return { success: true, user: userToReturn };
   }
 };
 
 // Service to delete a user by their ID
-export const deleteUserService = async (id: number) => {
-  const user = await selectUserByID(id);
+export const deleteUserService = async (id: string) => {
+  const user: user[] = await selectUserByID(id);
 
-  if (user.length === 0) {
+  if (!user) {
     return { success: false, message: "User not found" };
   }
 
@@ -81,13 +75,13 @@ export const deleteUserService = async (id: number) => {
 
 // Service to update the user's password
 export const updatePasswordService = async (
-  userID: number,
+  id: string,
   oldPassword: string,
   newPassword: string
 ) => {
-  const user = await selectUserByID(userID);
+  const user: user[] = await selectUserByID(id);
 
-  if (user.length === 0) {
+  if (!user) {
     return { success: false, message: "User not found" };
   }
 
@@ -99,7 +93,7 @@ export const updatePasswordService = async (
   }
 
   const hashedPassword = await bcrypt.hash(newPassword, 10);
-  await updateUsersPassword(hashedPassword);
+  await updateUsersPassword(user[0]._id, hashedPassword);
 
   return { success: true, message: "Password updated successfully" };
 };
@@ -118,15 +112,15 @@ export const getAllUsersService = async () => {
 };
 
 // Service function to retrieve a user by their ID
-export const getUserByIDService = async (id: number) => {
+export const getUserByIDService = async (id: string) => {
   try {
     const users = await selectUserByID(id);
-    if (users.length === 0) {
+    console.log(users, "user from backend");
+    if (!users) {
       return { success: false, message: "User not found" };
     }
 
     // Delete the password field before returning
-    delete users[0].password;
     return { success: true, user: users[0] };
   } catch (error) {
     throw new Error(`An error occurred while fetching the user by ID ${error}`);

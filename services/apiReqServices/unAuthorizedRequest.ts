@@ -16,7 +16,7 @@ export const unAuthorizedGetRequest = async (route: string) => {
 export const unAuthorizedPostRequest = async (route: string, data: object) => {
   try {
     const response = await axios.post(`${port}api/${route}`, data);
-    console.log("API response data:", response);
+    // console.log("API response data:", response);
     return response.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {

@@ -31,7 +31,7 @@ export async function signinUserAction(
   };
 
   const result = await unAuthorizedPostRequest("auth/signin", plainData);
-  // console.log(result, "result.........");
+  console.log(result, "result.........");
   if (result.user?.token) {
     const setCookie = await cookies();
     const sevenDay = 7 * 24 * 60 * 60 * 1000;

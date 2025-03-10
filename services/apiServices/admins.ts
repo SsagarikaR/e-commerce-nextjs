@@ -3,21 +3,21 @@ import {
   selectAdmin,
   deleteAdminByID,
   updateAdminByID,
-} from "@/dbQuery/admins";
+} from "@/dbQuery/adminsMongo";
 
 // Service function to create a new admin
-export const createAdminService = async (userID: number) => {
+export const createAdminService = async (userId: string) => {
   try {
     // Check if the admin already exists
-    const existingAdmin = await selectAdminService(userID);
-    if (existingAdmin.length > 0) {
+    const existingAdmin = await selectAdminService(userId);
+    if (existingAdmin) {
       return { success: false, message: "This Admin is already registered." };
     }
 
     // Create new admin
-    const [result, metaData] = await createNewAdmin(userID);
-    console.log(result);
-    if (metaData === 0) {
+    const admin = await createNewAdmin(userId);
+    console.log(admin);
+    if (!admin) {
       return {
         success: false,
         message: "Failed to create admin. Please try again later.",
@@ -32,9 +32,9 @@ export const createAdminService = async (userID: number) => {
 };
 
 // Service function to get an admin by userID
-export const selectAdminService = async (userID: number) => {
+export const selectAdminService = async (userId: string) => {
   try {
-    return await selectAdmin(userID);
+    return await selectAdmin(userId);
   } catch (error) {
     console.error("Error fetching admin:", error);
     throw new Error("Error while fetching admin details.");
@@ -42,16 +42,16 @@ export const selectAdminService = async (userID: number) => {
 };
 
 // Service function to delete admin by userID
-export const deleteAdminService = async (userID: number) => {
+export const deleteAdminService = async (userId: string) => {
   try {
     // Check if the admin exists
-    const admin = await selectAdmin(userID);
-    if (admin.length === 0) {
+    const admin = await selectAdmin(userId);
+    if (!admin) {
       return { success: false, message: "Admin not found" };
     }
 
     // Delete the admin
-    const result = await deleteAdminByID(userID);
+    const result = await deleteAdminByID(userId);
     console.log(result);
     return { success: true, message: "Admin deleted successfully" };
   } catch (error) {
@@ -61,18 +61,18 @@ export const deleteAdminService = async (userID: number) => {
 };
 
 // Service function to update admin by userID
-export const updateAdminService = async (userID: number, newUserID: number) => {
+export const updateAdminService = async (userId: string, newUserId: string) => {
   try {
     // Check if the admin exists
-    const admin = await selectAdminService(userID);
-    if (admin.length === 0) {
+    const admin = await selectAdminService(userId);
+    if (!admin) {
       return { success: false, message: "Admin not found" };
     }
 
     // Update the admin
-    const result = await updateAdminByID(userID, newUserID);
+    const result = await updateAdminByID(userId, newUserId);
     console.log(result);
-    if (result[0] === 0) {
+    if (!result) {
       return { success: false, message: "Failed to update admin" };
     }
 

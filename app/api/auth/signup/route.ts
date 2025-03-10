@@ -2,6 +2,7 @@ import { createUserService } from "@/services/apiServices/users";
 import { NextRequest, NextResponse } from "next/server";
 import { generateToken } from "@/lib/midlleware/auth";
 import { cookies } from "next/headers";
+import connectDB from "@/lib/Database/mongodb";
 
 export async function POST(req: NextRequest) {
   const { name, email, contactNo, password } = await req.json();
@@ -11,6 +12,7 @@ export async function POST(req: NextRequest) {
       { status: 400 }
     );
   }
+  await connectDB();
   try {
     const result = await createUserService(name, email, contactNo, password);
     console.log(result);

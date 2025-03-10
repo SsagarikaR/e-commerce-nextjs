@@ -1,6 +1,6 @@
 declare global {
   interface user {
-    userID?: number;
+    _id: string;
     name?: string;
     email?: string;
     contactNo?: string;

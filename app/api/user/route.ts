@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { checkToken, isAdmin } from "@/lib/midlleware/auth";
+import { checkToken } from "@/lib/midlleware/auth";
 import { getUserByIDService } from "@/services/apiServices/users";
 
 // Controller to retrieve a user by their ID
@@ -12,8 +12,9 @@ export const GET = async (req: NextRequest) => {
       { status: 401 }
     );
   }
-  const id = decodedUser.identifire;
 
+  const id = decodedUser?.identifire;
+  console.log(decodedUser);
   try {
     const result = await getUserByIDService(id);
 

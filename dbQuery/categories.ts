@@ -1,4 +1,5 @@
 import { sequelize } from "@/lib/Database/db";
+
 import { QueryTypes } from "sequelize";
 
 export const selectCatgeoryByName = async (categoryName: string) => {
