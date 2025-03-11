@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 // Page component
 const Page = async () => {
   return (
-    <div className="min-w-full min-h-full pt-10">
+    <div className="min-w-full min-h-full pt-10 ">
       <Category />
     </div>
   );

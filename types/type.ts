@@ -36,13 +36,13 @@ declare global {
   }
 
   interface categories {
-    categoryID?: number;
+    _id?: number;
     categoryName: string;
     categoryThumbnail: string;
   }
 
   interface brands {
-    brandID?: number;
+    _id?: number;
     brandName: string;
     brandThumbnail: string;
   }
@@ -124,7 +124,7 @@ declare global {
     userID: string;
   }
 
-  interface wishlist extends products, brands, user {
+  interface wishlist extends products, brands {
     wishListID: number;
     productID: number;
     userID: number;

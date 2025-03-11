@@ -64,7 +64,7 @@ function CategoryList() {
         <tbody>
           {categories && categories.length > 0 ? (
             categories.map((item) => (
-              <tr key={item.categoryID}>
+              <tr key={item._id}>
                 <td className="border-2 border-gray-400 p-2">
                   <div className="flex space-x-2 items-center">
                     <Image
@@ -83,7 +83,7 @@ function CategoryList() {
                     <FontAwesomeIcon
                       icon={faTrash}
                       className="w-5 cursor-pointer"
-                      onClick={() => handleDelete(item.categoryID!)} // Trigger delete on click
+                      onClick={() => handleDelete(item._id!)} // Trigger delete on click
                     />
                   </div>
                 </td>

@@ -1,34 +1,22 @@
-import { sequelize } from "@/lib/Database/db";
+import Category from "@/lib/database/models/category";
 
-import { QueryTypes } from "sequelize";
-
-export const selectCatgeoryByName = async (categoryName: string) => {
-  return await sequelize.query(
-    `SELECT * FROM Categories WHERE categoryName=?`,
-    {
-      replacements: [categoryName],
-      type: QueryTypes.SELECT,
-    }
-  );
+export const selectCategoryByName = async (categoryName: string) => {
+  return await Category.findOne({ categoryName });
 };
 
-export const selectAllCatgeory = async () => {
-  return await sequelize.query("SELECT * FROM Categories", {
-    type: QueryTypes.SELECT,
-  });
+export const selectAllCategories = async () => {
+  return await Category.find();
 };
 
-export const updateTheCatgeory = async (
+export const updateCategory = async (
   categoryName: string,
   categoryThumbnail: string,
-  categoryID: number
+  categoryID: string
 ) => {
-  return await sequelize.query(
-    `UPDATE Categories SET categoryName=?, categoryThumbnail=? where categoryID=?`,
-    {
-      replacements: [categoryName, categoryThumbnail, categoryID],
-      type: QueryTypes.UPDATE,
-    }
+  return await Category.findByIdAndUpdate(
+    categoryID,
+    { categoryName, categoryThumbnail },
+    { new: true }
   );
 };
 
@@ -36,24 +24,17 @@ export const createNewCategory = async (
   categoryName: string,
   categoryThumbnail: string
 ) => {
-  return await sequelize.query(
-    "INSERT INTO Categories (categoryName,categoryThumbnail) VALUES (?,?)",
-    {
-      replacements: [categoryName, categoryThumbnail],
-    }
-  );
+  const newCategory = new Category({
+    categoryName,
+    categoryThumbnail,
+  });
+  return await newCategory.save();
 };
 
-export const selectCatgeoryByID = async (categoryID: number) => {
-  return await sequelize.query("SELECT * FROM Categories WHERE categoryID=?", {
-    replacements: [categoryID],
-    type: QueryTypes.SELECT,
-  });
+export const selectCategoryByID = async (categoryId: string) => {
+  return await Category.findById({ _id: categoryId });
 };
 
-export const deleteCatgeory = async (categoryID: number) => {
-  return await sequelize.query("DELETE FROM Categories WHERE categoryID=?", {
-    replacements: [categoryID],
-    type: QueryTypes.DELETE,
-  });
+export const deleteCategory = async (categoryID: string) => {
+  return await Category.findByIdAndDelete({ _id: categoryID });
 };

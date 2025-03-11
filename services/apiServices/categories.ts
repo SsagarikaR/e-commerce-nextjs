@@ -1,10 +1,10 @@
 import {
   createNewCategory,
-  deleteCatgeory,
-  selectAllCatgeory,
-  selectCatgeoryByID,
-  selectCatgeoryByName,
-  updateTheCatgeory,
+  deleteCategory,
+  selectAllCategories,
+  selectCategoryByID,
+  selectCategoryByName,
+  updateCategory,
 } from "@/dbQuery/categories";
 import { invalidateCache, getCache, setCache } from "@/lib/helpers/cacheHelper";
 
@@ -15,18 +15,14 @@ export const createCategoryService = async (
 ) => {
   try {
     // Check if the category already exists
-    const isCategoryExist = await selectCatgeoryByName(categoryName);
-    if (isCategoryExist.length !== 0) {
+    const isCategoryExist = await selectCategoryByName(categoryName);
+    if (isCategoryExist) {
       return { success: false, message: "This category already exists" };
     }
 
     // Create the new category
-    const [result, metaData] = await createNewCategory(
-      categoryName,
-      categoryThumbnail
-    );
-    console.log(result);
-    if (metaData !== 0) {
+    const category = await createNewCategory(categoryName, categoryThumbnail);
+    if (category) {
       // Invalidate cache for all categories to ensure the list is updated
       invalidateCache("categories:all");
       return { success: true, message: "Successfully added a new category." };
@@ -51,8 +47,8 @@ export const getCategoriesService = async (name?: string) => {
     }
 
     if (name && typeof name === "string") {
-      const category = await selectCatgeoryByName(name);
-      if (category.length === 0) {
+      const category = await selectCategoryByName(name);
+      if (!category) {
         return {
           success: false,
           message: `No category with name ${name} found.`,
@@ -64,7 +60,7 @@ export const getCategoriesService = async (name?: string) => {
       return { success: true, categories: category };
     }
 
-    const categories = await selectAllCatgeory();
+    const categories = await selectAllCategories();
     if (categories.length === 0) {
       return { success: false, message: "No categories found." };
     }
@@ -80,18 +76,18 @@ export const getCategoriesService = async (name?: string) => {
 
 // Service to update an existing category
 export const updateCategoryService = async (
-  categoryID: number,
+  categoryId: string,
   categoryName: string,
   categoryThumbnail: string
 ) => {
   try {
-    const isCategoryExist = await selectCatgeoryByID(categoryID);
-    if (isCategoryExist.length === 0) {
+    const isCategoryExist = await selectCategoryByID(categoryId);
+    if (!isCategoryExist) {
       return { success: false, message: "Category not found" };
     }
 
     // Update the category
-    await updateTheCatgeory(categoryName, categoryThumbnail, categoryID);
+    await updateCategory(categoryName, categoryThumbnail, categoryId);
 
     // Invalidate cache for all categories since an update occurred
     invalidateCache("categories:all");
@@ -105,15 +101,15 @@ export const updateCategoryService = async (
 };
 
 // Service to delete an existing category
-export const deleteCategoryService = async (categoryID: number) => {
+export const deleteCategoryService = async (categoryId: string) => {
   try {
-    const isCategoryExist = await selectCatgeoryByID(categoryID);
-    if (isCategoryExist.length === 0) {
+    const isCategoryExist = await selectCategoryByID(categoryId);
+    if (!isCategoryExist) {
       return { success: false, message: "This category not found" };
     }
 
     // Delete the category
-    await deleteCatgeory(categoryID);
+    await deleteCategory(categoryId);
 
     // Invalidate cache for all categories after deletion
     invalidateCache("categories:all");

@@ -8,7 +8,7 @@ import {
   calculateAverageRating,
   updateProductRating,
 } from "@/dbQuery/reviews";
-import { sequelize } from "@/lib/Database/db";
+import { sequelize } from "@/lib/database/db";
 
 // Service function to add a new review
 export const addReviewService = async (

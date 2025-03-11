@@ -1,4 +1,4 @@
-import { sequelize } from "@/lib/Database/db";
+import { sequelize } from "@/lib/database/db";
 import { QueryTypes } from "sequelize";
 
 export const createNewAdmin = async (userID: number) => {

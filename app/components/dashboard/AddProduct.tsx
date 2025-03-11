@@ -61,9 +61,9 @@ function AddProduct() {
   };
 
   // Handle image upload for additional product images
-  const handleAdditionalImageUpload = async (url: string) => {
+  const handleAdditionalImageUpload = (url: string) => {
     console.log(url, "url");
-    await setFormData((prev) => ({
+    setFormData((prev) => ({
       ...prev,
       productImages: [...prev.productImages, url],
     }));

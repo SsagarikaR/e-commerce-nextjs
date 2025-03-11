@@ -17,7 +17,6 @@ const userSchema = new Schema<IUser>(
   { timestamps: true }
 );
 
-// Fix: Prevent model overwrite in Next.js
 const User = mongoose.models.User || mongoose.model<IUser>("User", userSchema);
 
 export default User;

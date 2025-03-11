@@ -1,12 +1,12 @@
+import { sequelize } from "@/lib/database/db";
 import { DataTypes } from "sequelize";
-import { sequelize } from "@/lib/Database/db";
 import { Produtcs } from "./product";
 import { Users } from "./user";
 
-export const CartItems = sequelize.define(
-  "CartItems",
+export const Preferences = sequelize.define(
+  "Preferences",
   {
-    cartItemID: {
+    preferenceID: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
@@ -30,30 +30,8 @@ export const CartItems = sequelize.define(
       },
       onDelete: "CASCADE",
     },
-    handlingPrice: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: "10",
-    },
-    platformFee: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: "6",
-    },
-    deliveryCharge: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: "10",
-    },
-    quantity: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: "1",
-    },
   },
   {
     timestamps: false,
   }
 );
-
-// console.log(CartItems===sequelize.model("CartItems"))

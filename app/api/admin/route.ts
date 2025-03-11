@@ -10,22 +10,22 @@ import { selectAllAdmin } from "@/dbQuery/adminsMongo";
 // Create new admin
 export const POST = async (req: NextRequest) => {
   const { userId } = await req.json();
-  // const { isValid, decodedUser } = checkToken(req);
+  const { isValid, decodedUser } = checkToken(req);
 
-  // if (!isValid) {
-  //   return NextResponse.json(
-  //     { error: "Unauthorized. Invalid or missing token." },
-  //     { status: 401 }
-  //   );
-  // }
+  if (!isValid) {
+    return NextResponse.json(
+      { error: "Unauthorized. Invalid or missing token." },
+      { status: 401 }
+    );
+  }
 
-  // console.log(decodedUser);
+  console.log(decodedUser);
 
-  // const adminCheckResult = await isAdmin(req, decodedUser);
+  const adminCheckResult = await isAdmin(req, decodedUser);
 
-  // if (adminCheckResult) {
-  //   return adminCheckResult;
-  // }
+  if (adminCheckResult) {
+    return adminCheckResult;
+  }
 
   try {
     if (!userId) {
@@ -53,22 +53,22 @@ export const POST = async (req: NextRequest) => {
 };
 
 export const GET = async (req: NextRequest) => {
-  // const { isValid, decodedUser } = checkToken(req);
+  const { isValid, decodedUser } = checkToken(req);
 
-  // if (!isValid) {
-  //   return NextResponse.json(
-  //     { error: "Unauthorized. Invalid or missing token." },
-  //     { status: 401 }
-  //   );
-  // }
+  if (!isValid) {
+    return NextResponse.json(
+      { error: "Unauthorized. Invalid or missing token." },
+      { status: 401 }
+    );
+  }
 
-  // console.log(decodedUser);
+  console.log(decodedUser);
 
-  // const adminCheckResult = await isAdmin(req, decodedUser);
+  const adminCheckResult = await isAdmin(req, decodedUser);
 
-  // if (adminCheckResult) {
-  //   return adminCheckResult;
-  // }
+  if (adminCheckResult) {
+    return adminCheckResult;
+  }
 
   try {
     const admin = await selectAllAdmin();
@@ -86,22 +86,22 @@ export const GET = async (req: NextRequest) => {
 // Delete admin by userID
 export const DELETE = async (req: NextRequest) => {
   const { userId } = await req.json();
-  // const { isValid, decodedUser } = checkToken(req);
+  const { isValid, decodedUser } = checkToken(req);
 
-  // if (!isValid) {
-  //   return NextResponse.json(
-  //     { error: "Unauthorized. Invalid or missing token." },
-  //     { status: 401 }
-  //   );
-  // }
+  if (!isValid) {
+    return NextResponse.json(
+      { error: "Unauthorized. Invalid or missing token." },
+      { status: 401 }
+    );
+  }
 
-  // console.log(decodedUser);
+  console.log(decodedUser);
 
-  // const adminCheckResult = await isAdmin(req, decodedUser);
+  const adminCheckResult = await isAdmin(req, decodedUser);
 
-  // if (adminCheckResult) {
-  //   return adminCheckResult;
-  // }
+  if (adminCheckResult) {
+    return adminCheckResult;
+  }
 
   try {
     const { success, message } = await deleteAdminService(userId);

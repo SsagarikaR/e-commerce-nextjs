@@ -1,4 +1,4 @@
-import { sequelize } from "@/lib/Database/db";
+import { sequelize } from "@/lib/database/db";
 import { DataTypes } from "sequelize";
 import { Produtcs } from "./product";
 import { Users } from "./user";

@@ -58,7 +58,7 @@ function BrandList() {
         <tbody>
           {brands && brands.length > 0 ? (
             brands.map((item) => (
-              <tr key={item.brandID}>
+              <tr key={item._id}>
                 <td className="border-2 border-gray-400 p-2">
                   <div className="flex space-x-2 items-center">
                     <Image
@@ -78,7 +78,7 @@ function BrandList() {
                     <FontAwesomeIcon
                       icon={faTrash}
                       className="w-5 cursor-pointer"
-                      onClick={() => handleDelete(item.brandID!)} // Trigger delete on click
+                      onClick={() => handleDelete(item._id!)} // Trigger delete on click
                     />
                   </div>
                 </td>

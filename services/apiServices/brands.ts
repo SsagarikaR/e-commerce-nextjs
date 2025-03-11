@@ -15,13 +15,12 @@ export const createBrandService = async (
 ) => {
   try {
     const isBrandExist = await findBrandByName(brandName);
-    if (isBrandExist.length !== 0) {
+    if (isBrandExist) {
       return { success: false, message: "This brand already exists" };
     }
 
-    const [result, metaData] = await createNewBrand(brandName, brandThumbnail);
-    console.log(result);
-    if (metaData !== 0) {
+    const brand = await createNewBrand(brandName, brandThumbnail);
+    if (brand) {
       invalidateCache("brands:all");
       return { success: true, message: "Successfully added a new brand." };
     } else {
@@ -45,7 +44,7 @@ export const getBrandsService = async (name?: string) => {
 
     if (name && typeof name === "string") {
       const brand = await findBrandByName(name);
-      if (brand.length === 0) {
+      if (!brand) {
         return { success: false, message: `No brand with name ${name} found.` };
       }
 
@@ -68,17 +67,17 @@ export const getBrandsService = async (name?: string) => {
 
 // Service to update an existing brand
 export const updateBrandService = async (
-  brandID: number,
+  brandId: string,
   brandName: string,
   brandThumbnail: string
 ) => {
   try {
-    const isBrandExist = await selectBrandByID(brandID);
-    if (isBrandExist.length === 0) {
+    const isBrandExist = await selectBrandByID(brandId);
+    if (!isBrandExist) {
       return { success: false, message: "Brand not found" };
     }
 
-    await updateTheBrand(brandID, brandName, brandThumbnail);
+    await updateTheBrand(brandId, brandName, brandThumbnail);
     invalidateCache("brands:all");
     invalidateCache(`brand:${brandName}`);
 
@@ -90,14 +89,14 @@ export const updateBrandService = async (
 };
 
 // Service to delete an existing brand
-export const deleteBrandService = async (brandID: number) => {
+export const deleteBrandService = async (brandId: string) => {
   try {
-    const isBrandExist = await selectBrandByID(brandID);
-    if (isBrandExist.length === 0) {
+    const isBrandExist = await selectBrandByID(brandId);
+    if (!isBrandExist) {
       return { success: false, message: "This brand not found" };
     }
 
-    await deleteBrandByID(brandID);
+    await deleteBrandByID(brandId);
     invalidateCache("brands:all");
 
     return { success: true, message: "Successfully deleted the brand." };

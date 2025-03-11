@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { sequelize } from "../Database/db";
-import { QueryTypes } from "sequelize";
+// import { sequelize } from "../Database/db";
+// import { QueryTypes } from "sequelize";
 import Jwt, { JwtPayload } from "jsonwebtoken";
 import dotenv from "dotenv";
+import Admin from "../database/models/adminmongo";
 dotenv.config();
 
 export const generateToken = async (id: number) => {
@@ -51,28 +52,22 @@ export const isAdmin = async (
 ) => {
   // Narrow the type to JwtPayload
   if (typeof decodedUser !== "string" && decodedUser !== null) {
-    const userID = decodedUser?.identifire;
+    const userId = decodedUser?.identifire;
 
-    console.log(decodedUser?.identifre, "iden"); // Log for debugging
+    console.log(decodedUser?.identifre, "iden");
     console.log(decodedUser, "decodeduser");
 
     try {
-      const user = await sequelize.query(
-        "SELECT * FROM Admins WHERE userID = ?",
-        {
-          replacements: [userID],
-          type: QueryTypes.SELECT,
-        }
-      );
+      const user = await Admin.findOne({ userId });
 
-      if (user.length === 0) {
+      if (!user) {
         return NextResponse.json(
           { error: "You are not authorized for this action." },
           { status: 403 }
         );
       }
 
-      return null; // Proceed if the user is an admin
+      return null;
     } catch (error) {
       console.error("Error checking admin:", error);
       return NextResponse.json(

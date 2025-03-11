@@ -30,7 +30,7 @@ async function Category() {
         {categories.map((item, key) => (
           <CategoryCard
             key={key}
-            categoryID={item.categoryID}
+            _id={item._id}
             categoryName={item.categoryName}
             categoryThumbnail={item.categoryThumbnail}
           />
@@ -48,7 +48,7 @@ async function Category() {
                   className="2xl:basis-1/5 lg:basis-1/4 basis-1/3 "
                 >
                   <CategoryCard
-                    categoryID={item.categoryID}
+                    _id={item._id}
                     categoryName={item.categoryName}
                     categoryThumbnail={item.categoryThumbnail}
                   />

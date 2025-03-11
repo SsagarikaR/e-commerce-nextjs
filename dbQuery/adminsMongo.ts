@@ -1,4 +1,4 @@
-import Admin from "@/lib/Database/models/adminmongo";
+import Admin from "@/lib/database/models/adminmongo";
 
 // Create a New Admin
 export const createNewAdmin = async (userId: string) => {
