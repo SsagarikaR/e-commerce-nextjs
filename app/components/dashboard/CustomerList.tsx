@@ -75,7 +75,7 @@ function CustomerList() {
                         <FontAwesomeIcon
                           icon={faUserPlus}
                           className="w-8 h-8 cursor-pointer"
-                          onClick={() => handleAddAdmin(item.userID)} // Add user as admin when clicked
+                          onClick={() => handleAddAdmin(item.userID!)} // Add user as admin when clicked
                         />
                       </div>
                     )}

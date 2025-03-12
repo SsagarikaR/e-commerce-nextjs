@@ -20,7 +20,7 @@ function SortBy({
       </div>
 
       {/* Dropdown Menu (hidden by default) */}
-      <div className="absolute left-0 mt-2 w-48 z-20 bg-white shadow-2xl rounded-lg opacity-0 group-hover:opacity-100 transition-opacity ease-in-out duration-200">
+      <div className="absolute left-0 mt-2 w-44 z-20 bg-white shadow-2xl rounded-lg opacity-0 group-hover:opacity-100 transition-opacity ease-in-out duration-200">
         <div className="text-gray-600 text-sm">
           <Link
             href={`/products?category=${category || " "}&price=low-to-high&page=${currentPage}`}

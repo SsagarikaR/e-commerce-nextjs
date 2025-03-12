@@ -16,7 +16,7 @@ export const price_detail = {
 };
 
 export const product = {
-  NO_PRODUCT: "No product found",
+  NO_PRODUCT: "No product Exist on this category",
   ADD_TO_CART: "ADD TO CART",
 };
 

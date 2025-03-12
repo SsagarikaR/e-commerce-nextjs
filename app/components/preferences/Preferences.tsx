@@ -16,7 +16,7 @@ function Preferences() {
       {preferences && preferences.length > 0 && (
         <>
           <div className="text-3xl tracking-wider pl-8  text-center font-serif font-semibold mb-2 text-gray-700 dark:text-white">
-            Recommend for you..
+            Recommend for you
           </div>
 
           <div className="grid  2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 self-center grid-cols-2  sm:gap-10 gap-4">

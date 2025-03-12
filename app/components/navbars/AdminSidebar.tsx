@@ -24,12 +24,12 @@ function AdminSidebar({
     <>
       {!isNavOpen ? (
         <div
-          className="fixed top-7 md:hidden cursor-pointer z-20 "
+          className="absolute top-7 left-4 md:hidden cursor-pointer z-20 "
           onClick={() => {
             setNavOpen(true);
           }}
         >
-          <FontAwesomeIcon icon={faBars} className="w-7 h-7 " />
+          <FontAwesomeIcon icon={faBars} className="w-6 h-6 " />
         </div>
       ) : (
         <div
