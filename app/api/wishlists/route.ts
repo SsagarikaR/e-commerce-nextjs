@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   addProductToWishListService,
   getWishListByUserService,
-  getWishListItemByIDService,
   deleteFromWishListService,
 } from "@/services/apiServices/wishLists";
 import { checkToken } from "@/lib/midlleware/auth";

@@ -2,6 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { authorizedDeleteRequest } from "@/services/apiReqServices/authorizedRequest";
+import Image from "next/image";
 
 interface WishListCardProps {
   item: wishlist;
@@ -29,9 +30,11 @@ function WishListCard({ item, onDelete, onShowToast }: WishListCardProps) {
   };
 
   return (
-    <div className="flex shadow-lg items-center justify-between font-serif text-sm md:text-md lg:text-lg font-semibold text-gray-700 p-4 dark:bg-gray-300">
+    <div className="flex shadow-lg items-center border border-gray-400 m-1 justify-between font-serif text-sm md:text-md lg:text-lg font-semibold text-gray-700 p-4 dark:bg-gray-300">
       <div className="flex justify-center items-center gap-x-2">
-        <img
+        <Image
+          width={280}
+          height={280}
           src={item.productThumbnail}
           className="w-28 shadow-md p-2 cursor-pointer"
           alt={item.productName}
@@ -39,7 +42,9 @@ function WishListCard({ item, onDelete, onShowToast }: WishListCardProps) {
         <div className="flex flex-col">
           <div className="flex justify-center items-center gap-1">
             <div>{item.productName}</div>
-            <img
+            <Image
+              width={80}
+              height={80}
               src={item.brandThumbnail}
               className="w-8 h-8 border shadow-md rounded-full"
               alt={item.brandName}
