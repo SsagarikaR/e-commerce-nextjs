@@ -107,9 +107,9 @@ function Navbar() {
             <div className="text-blue-500 flex items-center justify-center sm:gap-2 cursor-pointer">
               <FontAwesomeIcon
                 icon={faBagShopping}
-                className="sm:w-12 sm:h-12 w-8 h-8"
+                className="sm:w-12 sm:h-12 w-9 h-9"
               />
-              <div className="text-xl dark:text-white sm:text-3xl text-black font-serif font-semibold w-5">
+              <div className="text-2xl dark:text-white sm:text-3xl text-black font-serif font-semibold sm:w-5 w-6">
                 {shop_cart}
               </div>
             </div>
@@ -208,13 +208,13 @@ function Navbar() {
               Sign In
             </Link>
           )}
-          <div className="text-black dark:text-white cursor-pointer justify-center flex items-center">
+          {/*<div className="text-black dark:text-white cursor-pointer justify-center flex items-center">
             <FontAwesomeIcon
               icon={faCircleHalfStroke}
               className="md:w-7 md:h-7 w-6 h-6 p-2"
               onClick={toggleDarkMode}
             />
-          </div>
+          </div>*/}
         </div>
       </nav>
       <nav
