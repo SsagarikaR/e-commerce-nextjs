@@ -2,13 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-function CategoryCard({
-  categoryID,
-  categoryName,
-  categoryThumbnail,
-}: categories) {
+function CategoryCard({ _id, categoryName, categoryThumbnail }: categories) {
   return (
-    <Link href={`/products?category=${categoryID}`}>
+    <Link href={`/products?category=${_id}`}>
       <div className=" flex flex-col justify-center items-center bg-transparent font-serif">
         <Image
           src={categoryThumbnail}

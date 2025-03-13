@@ -17,7 +17,7 @@ function CustomerList() {
   const [toastType, setToastType] = useState<"success" | "error">("success"); // Type of toast (success or error)
 
   // Handle adding a user as admin
-  const handleAddAdmin = async (userID: number) => {
+  const handleAddAdmin = async (userID: string) => {
     try {
       const response = await authorizedPostRequest("admin", { userID }); // Send POST request to add the user as an admin
       console.log(response);
@@ -58,7 +58,7 @@ function CustomerList() {
         <tbody>
           {customers.length > 0 ? (
             customers.map((item) => (
-              <tr key={item.userID}>
+              <tr key={item._id}>
                 <td className="border-2 border-gray-400 p-2">{item.name}</td>
                 <td className="border-2 border-gray-400 p-2">
                   {item.contactNo}
@@ -75,7 +75,7 @@ function CustomerList() {
                         <FontAwesomeIcon
                           icon={faUserPlus}
                           className="w-8 h-8 cursor-pointer"
-                          onClick={() => handleAddAdmin(item.userID)} // Add user as admin when clicked
+                          onClick={() => handleAddAdmin(item._id)} // Add user as admin when clicked
                         />
                       </div>
                     )}

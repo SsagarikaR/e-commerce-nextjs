@@ -259,7 +259,7 @@ function AddProduct() {
             {brands &&
               brands.length > 0 &&
               brands?.map((item) => (
-                <option key={item.brandID} value={item.brandID}>
+                <option key={item._id} value={item._id}>
                   {item.brandName}
                 </option>
               ))}
@@ -290,7 +290,7 @@ function AddProduct() {
             {categories &&
               categories.length > 0 &&
               categories?.map((item) => (
-                <option key={item.categoryID} value={item.categoryID}>
+                <option key={item._id} value={item._id}>
                   {item.categoryName}
                 </option>
               ))}

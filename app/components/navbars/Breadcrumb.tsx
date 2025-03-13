@@ -31,7 +31,6 @@ const Breadcrumb: React.FC = () => {
         {/* Generate breadcrumbs dynamically */}
         {pathSegments.length > 0 &&
           pathSegments.map((segment, index) => {
-            // Build the path from the root
             const path = "/" + pathSegments.slice(0, index + 1).join("/");
 
             return (
