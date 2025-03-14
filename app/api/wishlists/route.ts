@@ -2,14 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   addProductToWishListService,
   getWishListByUserService,
-  getWishListItemByIDService,
   deleteFromWishListService,
-} from "@/services/apiServices/wishLists";
+} from "@/services/apiServices/wishList";
 import { checkToken } from "@/lib/midlleware/auth";
 
 // Controller to add a product to the wishlist
 export const POST = async (req: NextRequest) => {
-  const { productID } = await req.json();
+  const { productId } = await req.json();
   const { isValid, decodedUser } = await checkToken(req);
   if (!isValid) {
     return NextResponse.json(
@@ -18,10 +17,10 @@ export const POST = async (req: NextRequest) => {
     );
   }
 
-  const userID = decodedUser.identifire;
+  const userId = decodedUser.identifire;
 
   try {
-    const result = await addProductToWishListService(userID, productID);
+    const result = await addProductToWishListService(userId, productId);
     if (!result.success) {
       return NextResponse.json({ message: result.message });
     }
@@ -45,10 +44,10 @@ export const GET = async (req: NextRequest) => {
     );
   }
 
-  const userID = decodedUser.identifire;
+  const userId = decodedUser.identifire;
 
   try {
-    const result = await getWishListByUserService(userID);
+    const result = await getWishListByUserService(userId);
     if (!result.success) {
       return NextResponse.json({ message: result.message });
     }
@@ -61,7 +60,7 @@ export const GET = async (req: NextRequest) => {
 
 // Controller to delete an item from the wishlist
 export const DELETE = async (req: NextRequest) => {
-  const { wishListID } = await req.json();
+  const { wishListId } = await req.json();
   const { isValid, decodedUser } = await checkToken(req);
   if (!isValid) {
     return NextResponse.json(
@@ -71,7 +70,7 @@ export const DELETE = async (req: NextRequest) => {
   }
 
   try {
-    const result = await deleteFromWishListService(wishListID);
+    const result = await deleteFromWishListService(wishListId);
     if (!result.success) {
       return NextResponse.json({ message: result.message, status: 400 });
     }

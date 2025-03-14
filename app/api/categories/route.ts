@@ -6,7 +6,6 @@ import {
 } from "@/services/apiServices/categories";
 import { NextRequest, NextResponse } from "next/server";
 import { checkToken, isAdmin } from "@/lib/midlleware/auth";
-import { error } from "console";
 
 // Controller to create a new category
 export const POST = async (req: NextRequest) => {

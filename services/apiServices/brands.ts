@@ -5,7 +5,7 @@ import {
   findBrandByName,
   updateTheBrand,
   selectBrandByID,
-} from "@/dbQuery/brands";
+} from "@/dbQuery/brand";
 import { invalidateCache, getCache, setCache } from "@/lib/helpers/cacheHelper";
 
 // Service to create a new brand

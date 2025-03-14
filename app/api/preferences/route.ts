@@ -15,12 +15,12 @@ export const POST = async (req: NextRequest) => {
       { status: 401 }
     );
   }
-  const userID = decodedUser.identifire;
+  const userId = decodedUser.identifire;
 
-  const { productID } = await req.json();
+  const { productId } = await req.json();
 
   try {
-    const result = await createPreferenceService(productID, userID);
+    const result = await createPreferenceService(productId, userId);
 
     if (!result) {
       return NextResponse.json({ message: "Preference already exists" });
@@ -48,10 +48,10 @@ export const GET = async (req: NextRequest) => {
       { status: 401 }
     );
   }
-  const userID = decodedUser.identifire;
+  const userId = decodedUser.identifire;
   try {
-    const preferences = await fetchPreferencesService(userID);
-
+    const preferences = await fetchPreferencesService(userId);
+    console.log(preferences, "preferences...");
     if (!preferences) {
       return NextResponse.json({
         message: "No preferences found for the user",

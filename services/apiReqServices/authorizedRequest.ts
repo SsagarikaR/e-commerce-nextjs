@@ -6,7 +6,7 @@ const port = "http://localhost:3000/";
 
 const getAuthHeaders = () => {
   const token = cookie.get("token");
-  console.log("Retrieved token:", token); // Log to check if token is retrieved
+  // console.log("Retrieved token:", token); // Log to check if token is retrieved
   return token;
 };
 

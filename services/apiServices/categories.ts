@@ -5,7 +5,7 @@ import {
   selectCategoryByID,
   selectCategoryByName,
   updateCategory,
-} from "@/dbQuery/categories";
+} from "@/dbQuery/categorie";
 import { invalidateCache, getCache, setCache } from "@/lib/helpers/cacheHelper";
 
 // Service to create a new category

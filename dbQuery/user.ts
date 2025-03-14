@@ -1,4 +1,4 @@
-import User from "@/lib/database/models/usermongo";
+import User from "@/lib/database/models/user";
 import mongoose from "mongoose";
 
 export const createNewUser = async (

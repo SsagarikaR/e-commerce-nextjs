@@ -1,54 +1,36 @@
-import { DataTypes } from "sequelize";
-import { sequelize } from "@/lib/database/db";
-import { Produtcs } from "./product";
-import { Users } from "./user";
+import mongoose, { Schema, model, models } from "mongoose";
 
-export const CartItems = sequelize.define(
-  "CartItems",
+export const cartItemSchema = new Schema(
   {
-    cartItemID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
+    productId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+      required: true,
     },
-    productID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: Produtcs,
-        key: "productID",
-      },
-      onDelete: "CASCADE",
-    },
-    userID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: Users,
-        key: "userID",
-      },
-      onDelete: "CASCADE",
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
     handlingPrice: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: "10",
+      type: Number,
+      required: true,
+      default: "10",
     },
     platformFee: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: "6",
+      type: Number,
+      required: true,
+      default: "6",
     },
     deliveryCharge: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: "10",
+      type: Number,
+      required: true,
+      default: "10",
     },
     quantity: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: "1",
+      type: Number,
+      required: true,
+      default: "1",
     },
   },
   {
@@ -56,4 +38,6 @@ export const CartItems = sequelize.define(
   }
 );
 
-// console.log(CartItems===sequelize.model("CartItems"))
+const cartItem = models.cartItem || model("cartItem", cartItemSchema);
+console.log(models, "model");
+export default cartItem;

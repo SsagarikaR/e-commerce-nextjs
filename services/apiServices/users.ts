@@ -7,7 +7,7 @@ import {
   selectUserByID,
   updateUsersPassword,
   selectAllUsers,
-} from "@/dbQuery/usersMongo";
+} from "@/dbQuery/user";
 import bcrypt from "bcryptjs";
 import { generateToken } from "@/lib/midlleware/auth";
 
@@ -23,19 +23,19 @@ export const createUserService = async (
     return { success: false, message: "Username already taken" };
   }
 
-  console.log(existingUserByName);
+  // console.log(existingUserByName);
 
   const existingUserByEmail = await selectUserByEmail(email);
   if (existingUserByEmail) {
     return { success: false, message: "Email already registered" };
   }
-  console.log(existingUserByEmail, "email");
+  // console.log(existingUserByEmail, "email");
 
   const hashedPassword = await bcrypt.hashSync(password, 10);
   console.log(hashedPassword, "hashed");
   const user = await createNewUser(name, email, contactNo, hashedPassword);
 
-  console.log("user created", user);
+  // console.log("user created", user);
   if (!user) {
     return { success: false, message: "Error creating user" };
   }
@@ -56,7 +56,7 @@ export const getUserService = async (email: string, password: string) => {
     const userToReturn = user.toJSON();
     const token = await generateToken(user._id);
     userToReturn.token = token;
-    console.log(userToReturn, "user....");
+    // console.log(userToReturn, "user....");
     return { success: true, user: userToReturn };
   }
 };
@@ -115,7 +115,7 @@ export const getAllUsersService = async () => {
 export const getUserByIDService = async (id: string) => {
   try {
     const users = await selectUserByID(id);
-    console.log(users, "user from backend");
+    // console.log(users, "user from backend");
     if (!users) {
       return { success: false, message: "User not found" };
     }

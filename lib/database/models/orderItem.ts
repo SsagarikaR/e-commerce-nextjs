@@ -1,39 +1,30 @@
-import { DataTypes } from "sequelize";
-import { sequelize } from "@/lib/database/db";
-import { Orders } from "./order";
+import mongoose, { Schema, model, models } from "mongoose";
 
-export const OrderItems = sequelize.define(
-  "OrderItems",
+export const orderItemSchema = new Schema(
   {
-    orderItemID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-    },
     orderId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: Orders,
-        key: "orderID",
-      },
-      onDelete: "CASCADE",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Order",
+      required: true,
     },
     productId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      onDelete: "CASCADE",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Address",
+      required: true,
     },
     quantity: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      type: Number,
+      required: true,
     },
     price: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      type: Number,
+      required: true,
     },
   },
   {
     timestamps: false,
   }
 );
+
+const OrderItem = models.OrderItem || model("OrderItem", orderItemSchema);
+export default OrderItem;

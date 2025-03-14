@@ -5,7 +5,7 @@ import React from "react";
 function PreferenceCard({ item }: { item: prefernce }) {
   return (
     <>
-      <Link href={`/products/${item.productID}`}>
+      <Link href={`/products/${item.productId}`}>
         <div className="m-auto  flex justify-center font-serif  items-center  mt-2 flex-col p-4 pt-8 text-gray-600 bg-gray-300 pb-10 border-gray-400  gap-y-2 lg:w-[300px] lg:h-[400px] md:w-[250px] md:h-[400px]  sm:w-[300px] sm:h-[400px]">
           <div className="w-full">
             <Image

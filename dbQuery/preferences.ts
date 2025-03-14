@@ -1,68 +1,86 @@
-import { sequelize } from "@/lib/database/db";
-import { QueryTypes } from "sequelize";
+import Preference from "@/lib/database/models/preference";
+import mongoose from "mongoose";
 
+// Select Preference by Product and User
 export const selectPrefernceByProductANDUser = async (
-  productID: number,
-  userID: number
+  productId: string,
+  userId: string
 ) => {
-  return await sequelize.query(
-    `SELECT * FROM Preferences WHERE productID = :productID AND userID = :userID`,
-    {
-      replacements: { productID: productID, userID: userID },
-      type: QueryTypes.SELECT,
-    }
-  );
+  return await Preference.findOne({
+    productId,
+    userId,
+  }).exec();
 };
 
-export const insertPrefernce = async (productID: number, userID: number) => {
-  return await sequelize.query(
-    `INSERT INTO Preferences (productID, userID) VALUES (:productID, :userID)`,
-    {
-      replacements: { productID, userID },
-      type: QueryTypes.INSERT,
-    }
-  );
+// Insert Preference
+export const insertPrefernce = async (productId: string, userId: string) => {
+  const newPreference = new Preference({
+    productId,
+    userId,
+  });
+
+  return await newPreference.save();
 };
 
-export const deletePreference = async (preferenceID: number) => {
-  return await sequelize.query(
-    `DELETE FROM Preferences WHERE preferenceID = :preferenceID`,
-    {
-      replacements: { preferenceID },
-      type: QueryTypes.DELETE,
-    }
-  );
+// Delete Preference
+export const deletePreference = async (preferenceId: string) => {
+  return await Preference.deleteOne({ _id: preferenceId }).exec();
 };
 
+// Update Preference
 export const updatePreference = async (
-  productID: number,
-  userID: number,
-  preferenceID: number
+  productId: string,
+  userId: string,
+  preferenceId: string
 ) => {
-  return await sequelize.query(
-    `UPDATE Preferences 
-         SET productID = :productID, userID = :userID 
-         WHERE preferenceID = :preferenceID`,
-    {
-      replacements: { productID, userID, preferenceID },
-      type: QueryTypes.UPDATE,
-    }
-  );
+  return await Preference.updateOne(
+    { _id: preferenceId },
+    { $set: { productId: productId, userId: userId } }
+  ).exec();
 };
 
-export const fetchPreference = async (userID: number) => {
-  // console.log(userID,"got2")
-  return await sequelize.query(
-    `SELECT p.preferenceID, p.productID, p.userID, 
-        pr.productName, pr.productDescription,pr.productThumbnail,pr.productPrice, 
-        b.brandName, b.brandThumbnail
-         FROM Preferences p
-         JOIN Products pr ON pr.productID = p.productID
-         JOIN Brands b ON b.brandID = pr.brandID
-         WHERE p.userID = ? LIMIT 8`, // Filter by userID
+// Fetch Preferences for a User
+export const fetchPreference = async (userId: string) => {
+  console.log(userId, "user id....");
+  const objectId = new mongoose.Types.ObjectId(userId);
+
+  const result = await Preference.aggregate([
+    { $match: { userId: objectId } },
     {
-      replacements: [userID],
-      type: QueryTypes.SELECT,
-    }
-  );
+      $lookup: {
+        from: "products",
+        localField: "productId",
+        foreignField: "_id",
+        as: "productDetails",
+      },
+    },
+    { $unwind: { path: "$productDetails", preserveNullAndEmptyArrays: true } },
+    {
+      $lookup: {
+        from: "brands",
+        localField: "productDetails.brandID",
+        foreignField: "_id",
+        as: "brandDetails",
+      },
+    },
+    { $unwind: { path: "$brandDetails", preserveNullAndEmptyArrays: true } },
+    {
+      $project: {
+        preferenceId: "$_id",
+        productId: "$productId",
+        userId: "$userId",
+        productName: "$productDetails.productName",
+        productDescription: "$productDetails.productDescription",
+        productThumbnail: "$productDetails.productThumbnail",
+        productPrice: "$productDetails.productPrice",
+        brandName: "$brandDetails.brandName",
+        brandThumbnail: "$brandDetails.brandThumbnail",
+      },
+    },
+    { $limit: 8 },
+  ]);
+
+  console.log("Fetch Preference Result:", result); // Check the aggregation result
+
+  return result;
 };

@@ -4,8 +4,8 @@ import {
   getProductWithCondition,
   selectByProductID,
   deleteByProductID,
-  updateProducts,
-} from "@/dbQuery/products";
+  updateProduct,
+} from "@/dbQuery/product";
 import { invalidateCache } from "../../lib/helpers/cacheHelper";
 
 // Service to create a new product
@@ -14,8 +14,8 @@ export const createProductService = async (
   productDescription: string,
   productThumbnail: string,
   productPrice: number,
-  categoryID: number,
-  brandID: number,
+  categoryId: string,
+  brandId: string,
   stock: number,
   productImages: Array<string>
 ) => {
@@ -24,27 +24,27 @@ export const createProductService = async (
     productName,
     productDescription,
     productPrice,
-    categoryID,
-    brandID
+    categoryId,
+    brandId
   );
   if (isProductExist.length > 0) {
     throw new Error("This product already exists.");
   }
 
-  const [result, metaData] = await createNewProduct(
+  const newProduct = await createNewProduct(
     productName,
     productDescription,
     productThumbnail,
     productPrice,
-    categoryID,
-    brandID,
+    categoryId,
+    brandId,
     stock,
     productImages
   );
-  console.log(result);
-  if (metaData > 0) {
+  console.log(newProduct);
+  if (newProduct) {
     // After product creation, clear the cache for affected product lists
-    const cacheKey = `products:${JSON.stringify({ categoryID })}:page:1:limit:20`;
+    const cacheKey = `products:${JSON.stringify({ categoryId })}:page:1:limit:20`;
     invalidateCache(cacheKey);
 
     return { success: true, message: "Successfully added the product." };
@@ -56,16 +56,16 @@ export const createProductService = async (
 // Service to fetch products with condition (filters), including caching logic
 export const getProductsService = async (
   filters: {
-    categoryID?: string | number;
+    categoryID?: string;
     name?: string;
-    id?: string | number;
+    id?: string;
     price?: "low-to-high" | "high-to-low";
   },
   page: number,
   limit: number
 ) => {
   const products = await getProductWithCondition(filters, page, limit);
-  if (products.length === 0) {
+  if (!products) {
     throw new Error("No products found.");
   }
 
@@ -73,17 +73,17 @@ export const getProductsService = async (
 };
 
 // Service to delete a product
-export const deleteProductService = async (productID: number) => {
-  const isProductExist = await selectByProductID(productID);
-  if (isProductExist.length === 0) {
+export const deleteProductService = async (_id: string) => {
+  const isProductExist = await selectByProductID(_id);
+  if (!isProductExist) {
     throw new Error("This product doesn't exist.");
   }
 
   // Delete the product from the database
-  await deleteByProductID(productID);
+  await deleteByProductID(_id);
 
   // After deleting, invalidate the cache for affected product lists
-  const cacheKey = `products:${JSON.stringify({ id: productID })}:page:1:limit:20`;
+  const cacheKey = `products:${JSON.stringify({ id: _id })}:page:1:limit:20`;
   invalidateCache(cacheKey);
 
   return { success: true, message: "Successfully deleted the product" };
@@ -95,24 +95,24 @@ export const updateProductService = async (
   productDescription: string,
   productThumbnail: string,
   productPrice: number,
-  categoryID: number,
-  productID: number
+  categoryId: string,
+  _id: string
 ) => {
-  const isProductExist = await selectByProductID(productID);
-  if (isProductExist.length === 0) {
+  const isProductExist = await selectByProductID(_id);
+  if (!isProductExist) {
     throw new Error("This product doesn't exist.");
   }
 
-  await updateProducts(
+  await updateProduct(
     productName,
     productDescription,
     productThumbnail,
     productPrice,
-    categoryID,
-    productID
+    categoryId,
+    _id
   );
 
-  const cacheKey = `products:${JSON.stringify({ categoryID })}:page:1:limit:20`;
+  const cacheKey = `products:${JSON.stringify({ categoryId })}:page:1:limit:20`;
   invalidateCache(cacheKey);
 
   return { success: true, message: "Successfully updated the product." };

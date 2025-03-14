@@ -36,7 +36,7 @@ declare global {
   }
 
   interface categories {
-    _id?: number;
+    _id?: string;
     categoryName: string;
     categoryThumbnail: string;
   }
@@ -47,25 +47,34 @@ declare global {
     brandThumbnail: string;
   }
 
-  interface products extends brands, categories {
-    productID: number;
+  interface product {
+    _id: string;
     productName: string;
     productDescription: string;
     productThumbnail: string;
     productPrice: number;
     stock: number;
     rating: number;
-    totalCount: number;
     productImage1: string;
     productImage2: string;
     productImage3: string;
     productImage4: string;
+    brandId: brands;
+    categoryId: categories;
   }
 
-  interface cartItem extends products {
-    cartItemID: number;
-    productID: number;
-    userID: number;
+  interface products {
+    products: product[];
+    totalCount: number;
+  }
+
+  interface cartItem {
+    _id: string;
+    productId: string;
+    userId: string;
+    brandDetails: brands;
+    productDetails: product;
+    categoryDetails: categories;
     handlingPrice: number;
     platformFee: number;
     deliveryCharge: number;
@@ -106,28 +115,28 @@ declare global {
 
   interface CartStore {
     cartItems: cartItem[];
-    addItemToCart: (productID: number, quantity: number) => void;
-    removeItemFromCart: (cartItemID: number) => void;
-    updateCartItemQuantity: (cartItemID: number, quantity: number) => void;
+    addItemToCart: (productId: string, quantity: number) => void;
+    removeItemFromCart: (cartItemId: string) => void;
+    updateCartItemQuantity: (cartItemId: string, quantity: number) => void;
     fetchCartItems: () => void; // Function to fetch cart items from the backend
   }
 
   interface prefernce {
     brandName: string;
     brandThumbnail: string;
-    preferenceID: number;
+    _id: string;
     productDescription: string;
     productThumbnail: string;
-    productID: number;
+    productId: string;
     productName: string;
     productPrice: number;
-    userID: string;
+    userId: string;
   }
 
-  interface wishlist extends products, brands {
-    wishListID: number;
-    productID: number;
-    userID: number;
+  interface wishlist {
+    _id: string;
+    productId: product;
+    userId: user;
   }
 
   interface signinFormState<T> {
@@ -181,14 +190,11 @@ declare global {
   }
 
   interface review {
-    contactNo: string;
     description: string;
-    email: string;
-    name: string;
-    productID: number;
+    productId: string;
     rating: number;
-    reviewID: number;
-    userID: number;
+    _id: string;
+    userId: user;
   }
 
   interface cloudinaryInfo {

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-//define the brand schema
+// Define the brand schema
 const brandSchema = new mongoose.Schema(
   {
     brandName: {
@@ -17,7 +17,7 @@ const brandSchema = new mongoose.Schema(
   }
 );
 
-// Create the model
-const Brand = mongoose.model("Brand", brandSchema);
+// Avoid re-registering the schema if it's already registered
+const Brand = mongoose.models.Brand || mongoose.model("Brand", brandSchema);
 
 export default Brand;

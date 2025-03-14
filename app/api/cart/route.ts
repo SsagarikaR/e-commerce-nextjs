@@ -6,11 +6,10 @@ import {
   deleteCartItemService,
   updateCartItemQuantityService,
 } from "@/services/apiServices/carts";
-import { CartItems } from "@/lib/database/models/cartItem";
 
 // Controller to add an item to the user's cart
 export const POST = async (req: NextRequest) => {
-  const { productID, quantity } = await req.json();
+  const { productId, quantity } = await req.json();
   const { isValid, decodedUser } = checkToken(req);
   if (!isValid) {
     return NextResponse.json(
@@ -19,14 +18,14 @@ export const POST = async (req: NextRequest) => {
     );
   }
 
-  const userID = decodedUser.identifire;
+  const userId = decodedUser.identifire;
 
   try {
-    const result = await addCartItemService(userID, productID, quantity);
+    const result = await addCartItemService(userId, productId, quantity);
     if (result.success) {
       return NextResponse.json({
         message: result.message,
-        cartItemID: result.cartItemID,
+        cartItemID: result.cartItemId,
         status: 201,
       });
     } else {
@@ -52,11 +51,11 @@ export const GET = async (req: NextRequest) => {
     );
   }
 
-  const userID = decodedUser.identifire;
+  const userId = decodedUser.identifire;
 
   try {
-    const result = await getCartItemsService(userID);
-    console.log(result, "result cat item");
+    const result = await getCartItemsService(userId);
+    // console.log(result, "result cat item");
     return NextResponse.json(result.cartItems);
   } catch (error) {
     console.error(error);
@@ -69,7 +68,7 @@ export const GET = async (req: NextRequest) => {
 
 // Controller to delete an item from the user's cart
 export const DELETE = async (req: NextRequest) => {
-  const { isValid, decodedUser } = checkToken(req);
+  const { isValid } = checkToken(req);
   if (!isValid) {
     return NextResponse.json(
       { error: "Unauthorized. Invalid or missing token." },
@@ -77,11 +76,10 @@ export const DELETE = async (req: NextRequest) => {
     );
   }
 
-  const userID = decodedUser.identifire;
-  const { cartItemID } = await req.json();
+  const { cartItemId } = await req.json();
 
   try {
-    const result = await deleteCartItemService(cartItemID);
+    const result = await deleteCartItemService(cartItemId);
     if (result.success) {
       return NextResponse.json({ message: result.message, status: 200 });
     } else {
@@ -98,8 +96,8 @@ export const DELETE = async (req: NextRequest) => {
 
 // Controller to update the quantity of an item in the user's cart
 export const PATCH = async (req: NextRequest) => {
-  const { quantity, cartItemID } = await req.json();
-  const { isValid, decodedUser } = checkToken(req);
+  const { quantity, cartItemId } = await req.json();
+  const { isValid } = checkToken(req);
   if (!isValid) {
     return NextResponse.json(
       { error: "Unauthorized. Invalid or missing token." },
@@ -107,9 +105,8 @@ export const PATCH = async (req: NextRequest) => {
     );
   }
 
-  const userID = decodedUser.identifire;
   try {
-    const result = await updateCartItemQuantityService(quantity, cartItemID);
+    const result = await updateCartItemQuantityService(quantity, cartItemId);
     if (result.success) {
       return NextResponse.json({ message: result.message, status: 200 });
     } else {

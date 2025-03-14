@@ -1,60 +1,56 @@
-import { sequelize } from "@/lib/database/db";
-import { QueryTypes } from "sequelize";
+import Wishlist from "@/lib/database/models/wishList";
+import Product from "@/lib/database/models/product";
+import Brand from "@/lib/database/models/brand";
+import Category from "@/lib/database/models/category";
+import User from "@/lib/database/models/user";
 
+// Select wishlist by user and product
 export const selectByUserAndProduct = async (
-  userID: number,
-  productID: number
+  userId: string,
+  productId: string
 ) => {
-  return await sequelize.query(
-    "SELECT * FROM WishLists WHERE userID=? and productID=?",
-    {
-      replacements: [userID, productID],
-      type: QueryTypes.SELECT,
-    }
-  );
+  return await Wishlist.findOne({ userId, productId });
 };
 
+// Add product to wishlist
 export const addProductToWishList = async (
-  userID: number,
-  productID: number
+  userId: string,
+  productId: string
 ) => {
-  return await sequelize.query(
-    "Insert INTO WishLists (userID,productID) VALUES (?,?)",
-    {
-      replacements: [userID, productID],
-      type: QueryTypes.INSERT,
-    }
-  );
-};
-
-export const getWishListByUserID = async (userID: number) => {
-  return await sequelize.query(
-    `
-        SELECT 
-        wl.*, p.*, br.*,u.*
-      FROM WishLists wl
-      JOIN Products p ON wl.productID = p.productID
-      JOIN Brands br ON p.brandID = br.brandID
-      JOIN Users u ON u.userID = wl.userID
-      WHERE wl.userID = ?
-      `,
-    {
-      replacements: [userID],
-      type: QueryTypes.SELECT,
-    }
-  );
-};
-
-export const selectFromWishListByID = async (wishListID: number) => {
-  return await sequelize.query("SELECT * FROM WishLists WHERE WishListID=?", {
-    replacements: [wishListID],
-    type: QueryTypes.SELECT,
+  const wishlist = new Wishlist({
+    userId,
+    productId: productId,
   });
+
+  return await wishlist.save();
 };
 
-export const deleteFromWishList = async (wishListID: number) => {
-  return await sequelize.query("DELETE FROM WishLists WHERE WishListID=?", {
-    replacements: [wishListID],
-    type: QueryTypes.DELETE,
-  });
+// Get all items in the user's wishlist, populated with product, brand, and category data
+export const getWishListByUserId = async (userId: string) => {
+  return await Wishlist.find({ userId })
+    .populate({
+      path: "productId",
+      model: Product,
+      populate: [
+        {
+          path: "brandId",
+          model: Brand,
+        },
+        {
+          path: "categoryId",
+          model: Category,
+        },
+      ],
+    })
+    .populate({ path: "userId", model: User });
+};
+
+// Select a specific wishlist item by ID
+export const selectFromWishListById = async (wishListId: string) => {
+  return await Wishlist.findById({ _id: wishListId });
+};
+
+// Delete a specific wishlist item by ID
+export const deleteFromWishList = async (wishListId: string) => {
+  return await Wishlist.deleteOne({ _id: wishListId });
 };

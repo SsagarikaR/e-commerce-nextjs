@@ -9,13 +9,13 @@ function CartCard({ item }: { item: cartItem }) {
         <Image
           width={360}
           height={360}
-          alt={item.productName}
-          src={item.productThumbnail}
+          alt={item.productDetails.productName}
+          src={item.productDetails.productThumbnail}
           className="md:w-36 w-28 shadow-md p-2"
         />
         <div>
-          <div>{item.productName}</div>
-          <div>₹{item.productPrice}</div>
+          <div>{item.productDetails.productName}</div>
+          <div>₹{item.productDetails.productPrice}</div>
         </div>
       </div>
       <div className="flex flex-col justify-center items-center gap-2">
@@ -24,7 +24,7 @@ function CartCard({ item }: { item: cartItem }) {
             <button
               className="px-2 py-1 bg-gray-300 dark:bg-white rounded"
               onClick={() => {
-                updateCartItemQuantity(item.cartItemID, item.quantity - 1);
+                updateCartItemQuantity(item._id, item.quantity - 1);
               }}
             >
               -
@@ -34,7 +34,7 @@ function CartCard({ item }: { item: cartItem }) {
           <button
             className="px-2 py-1  dark:bg-white bg-gray-300 rounded"
             onClick={() => {
-              updateCartItemQuantity(item.cartItemID, item.quantity + 1);
+              updateCartItemQuantity(item._id, item.quantity + 1);
             }}
           >
             +
@@ -44,7 +44,7 @@ function CartCard({ item }: { item: cartItem }) {
           <button
             className="mt-2 px-2 py-2 text-sm sm:text-base sm:px-6 sm:py-2 bg-red-500 hover:bg-red-400  text-white rounded"
             onClick={() => {
-              removeItemFromCart(item.cartItemID);
+              removeItemFromCart(item._id);
             }}
           >
             Remove

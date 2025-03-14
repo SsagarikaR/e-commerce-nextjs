@@ -11,7 +11,7 @@ function Cart() {
   console.log(cartItems, "cart items");
 
   useEffect(() => {
-    fetchCartItems(); // Ensure cart items are fetched when token is available
+    fetchCartItems();
   }, []);
 
   return (
@@ -21,7 +21,7 @@ function Cart() {
           <div className="flex flex-col max-h-[800px] w-4/5 border">
             <div className="flex flex-col max-h-[900px] overflow-auto">
               {cartItems.map((item) => (
-                <CartCard key={item.cartItemID} item={item} />
+                <CartCard key={item._id} item={item} />
               ))}
             </div>
             <div className="flex justify-end p-2 px-10 border border-gray-400 dark:border-white dark:bg-gray-300">

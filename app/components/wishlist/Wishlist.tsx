@@ -36,9 +36,9 @@ function Wishlist() {
   }
 
   // Handle the delete event
-  const handleDelete = (wishListID: number) => {
+  const handleDelete = (wishListID: string) => {
     const updatedWishlists = wishlists.filter(
-      (item) => item.wishListID !== wishListID
+      (item) => item._id !== wishListID
     );
     mutate(updatedWishlists, false);
   };
@@ -57,7 +57,7 @@ function Wishlist() {
           <FontAwesomeIcon icon={faCircleUser} className="w-10 h-10" />
           <div className="flex flex-col text-gray-600">
             <p>Hello,</p>
-            <div className="text-xl">{wishlists[0].name}</div>
+            <div className="text-xl">{wishlists[0].userId.name}</div>
           </div>
         </div>
       )}
@@ -68,7 +68,7 @@ function Wishlist() {
         {wishlists.length > 0 ? (
           wishlists.map((item: wishlist) => (
             <WishListCard
-              key={item.wishListID}
+              key={item._id}
               item={item}
               onDelete={handleDelete}
               onShowToast={handleShowToast}

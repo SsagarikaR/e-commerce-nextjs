@@ -9,32 +9,34 @@ import {
   authorizedPostRequest,
 } from "@/services/apiReqServices/authorizedRequest";
 
-export const fetchWishList = async (productID: number) => {
-  const response = await authorizedGetRequest(`wishlists/${productID}`);
+export const fetchWishList = async (productId: string) => {
+  const response = await authorizedGetRequest(`wishlists/${productId}`);
   return response;
 };
 
-export const addWishList = async (productID: number) => {
-  await authorizedPostRequest(`wishlists`, { productID });
+export const addWishList = async (productId: string) => {
+  await authorizedPostRequest(`wishlists`, { productId });
 };
 
-export const deleteWishList = async (wishListID: number) => {
-  const response = await authorizedDeleteRequest(`wishlists`, { wishListID });
+export const deleteWishList = async (wishListId: string) => {
+  const response = await authorizedDeleteRequest(`wishlists`, { wishListId });
   return response;
 };
 
-function WishlistIcon({ productID }: { productID: number }) {
+function WishlistIcon({ productId }: { productId: string }) {
   const [wishlistStatus, setWishlistStatus] = useState<boolean | null>(null);
-  const [wishlist, setWishlist] = useState<wishlist[]>([]); // Use state to store the wishlist data
+  const [wishlistId, setWishlistId] = useState<string | undefined>(); // Use state to store the wishlist data
 
   useEffect(() => {
+    console.log(productId, "product id");
     const loadWishList = async () => {
       try {
-        const response = await fetchWishList(productID);
+        const response = await fetchWishList(productId);
         if (response.message) {
           setWishlistStatus(false);
         } else {
-          setWishlist(response); // Store the wishlist in state
+          setWishlistId(response._id); // Store the wishlist in state
+          // console.log(response, wishList, "response");
           setWishlistStatus(true);
         }
       } catch (error) {
@@ -42,27 +44,27 @@ function WishlistIcon({ productID }: { productID: number }) {
       }
     };
     loadWishList();
-  }, [productID]);
+  }, [productId]);
 
   const handleClick = async () => {
     try {
       if (wishlistStatus === null) return; // Prevent any action if the wishlistStatus is still loading
-
+      // console.log(wishList, "wishlist");
+      // console.log(wishlistStatus, "status");
       if (!wishlistStatus) {
         // Add to wishlist
-        await addWishList(productID);
+        await addWishList(productId);
         setWishlistStatus(true);
-        const response = await fetchWishList(productID);
-        setWishlist(response);
+        const response = await fetchWishList(productId);
+        setWishlistId(response);
       } else {
         // Delete from wishlist
-        if (wishlist.length > 0) {
-          const wishListID = wishlist[0].wishListID; // Access the first element of the wishlist array
-          await deleteWishList(wishListID);
+        if (wishlistId) {
+          await deleteWishList(wishlistId);
           setWishlistStatus(false);
-          setWishlist([]); // Clear the wishlist after deletion
-          const response = await fetchWishList(productID);
-          setWishlist(response);
+          setWishlistId(undefined); // Clear the wishlist after deletion
+          const response = await fetchWishList(productId);
+          setWishlistId(response._id);
         }
       }
     } catch (error) {

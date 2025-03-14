@@ -1,44 +1,31 @@
-import { DataTypes } from "sequelize";
-import { sequelize } from "@/lib/database/db";
-import { Produtcs } from "./product";
-import { Users } from "./user";
+import mongoose, { Schema, model, models } from "mongoose";
 
-export const Reviews = sequelize.define(
-  "Reviews",
+export const reviewSchema = new Schema(
   {
-    reviewID: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      allowNull: false,
+    productId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+      required: true,
     },
-    productID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: Produtcs,
-        key: "productID",
-      },
-      onDelete: "cascade",
-    },
-    userID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: Users,
-        key: "userID",
-      },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
     rating: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      type: Number,
+      required: true,
     },
     description: {
-      type: DataTypes.TEXT,
-      allowNull: false,
+      type: String,
+      required: true,
     },
   },
   {
     timestamps: false,
   }
 );
+
+const Review = models.Review || model("Review", reviewSchema);
+console.log(models, "model");
+export default Review;

@@ -1,37 +1,23 @@
-import { sequelize } from "@/lib/database/db";
-import { DataTypes } from "sequelize";
-import { Produtcs } from "./product";
-import { Users } from "./user";
+import mongoose, { Schema, model, models } from "mongoose";
 
-export const Preferences = sequelize.define(
-  "Preferences",
+export const preferenceSchema = new Schema(
   {
-    preferenceID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
+    productId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+      required: true,
     },
-    productID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: Produtcs,
-        key: "productID",
-      },
-      onDelete: "CASCADE",
-    },
-    userID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: Users,
-        key: "userID",
-      },
-      onDelete: "CASCADE",
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
   },
   {
     timestamps: false,
   }
 );
+
+const Preference = models.Preference || model("Preference", preferenceSchema);
+console.log(models.preference, "model");
+export default Preference;

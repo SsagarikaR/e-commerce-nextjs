@@ -18,10 +18,10 @@ export const DELETE = async (
       error: "Unauthorized. Invalid or missing token.",
     });
   }
-  const userID = decodedUser?.identifire;
+  const userId = decodedUser?.identifire;
 
   try {
-    const result = await deletePreferenceService(Number(id), userID);
+    const result = await deletePreferenceService(Number(id), userId);
     console.log(result);
 
     return NextResponse.json({ message: "Preference deleted successfully" });
@@ -45,11 +45,11 @@ export const updatePreference = async (
       { status: 401 }
     );
   }
-  const userID = decodedUser?.identifire;
-  const { productID } = await req.json();
+  const userId = decodedUser?.identifire;
+  const { productId } = await req.json();
 
   try {
-    const result = await updatePreferenceService(Number(id), productID, userID);
+    const result = await updatePreferenceService(String(id), productId, userId);
 
     if (!result) {
       return NextResponse.json({

@@ -1,37 +1,32 @@
-import { DataTypes } from "sequelize";
-import { sequelize } from "@/lib/database/db";
+import { Schema, model, models } from "mongoose";
 
-export const Address = sequelize.define(
-  "Address",
+const addressSchema = new Schema(
   {
-    addressID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-    },
     state: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: String,
+      required: true,
     },
     city: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: String,
+      required: true,
     },
     pincode: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: String,
+      required: true,
     },
     locality: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: String,
+      required: true,
     },
     address: {
-      type: DataTypes.TEXT,
-      allowNull: false,
+      type: String,
+      required: true,
     },
   },
   {
     timestamps: false,
   }
 );
+
+const Address = models.Address || model("Address", addressSchema);
+export default Address;

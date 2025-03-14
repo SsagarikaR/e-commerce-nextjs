@@ -3,7 +3,7 @@ import {
   selectAdmin,
   deleteAdminByID,
   updateAdminByID,
-} from "@/dbQuery/adminsMongo";
+} from "@/dbQuery/admin";
 
 // Service function to create a new admin
 export const createAdminService = async (userId: string) => {

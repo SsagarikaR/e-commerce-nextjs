@@ -1,70 +1,63 @@
-import { sequelize } from "@/lib/database/db";
-import { QueryTypes, Transaction } from "sequelize";
+import Address from "@/lib/database/models/address"; // Address model
 
+// Create New Address
 export const createNewAddress = async (
   state: string,
   city: string,
   pincode: string,
   locality: string,
-  address: string,
-  t: Transaction
+  address: string
 ) => {
-  return await sequelize.query(
-    "INSERT INTO Addresses  ( state,city,pincode, locality,address) VALUES (?,?,?,?,?)",
-    {
-      replacements: [state, city, pincode, locality, address],
-      type: QueryTypes.INSERT,
-      transaction: t,
-    }
-  );
+  const newAddress = new Address({
+    state,
+    city,
+    pincode,
+    locality,
+    address,
+  });
+
+  return await newAddress.save(); // Save the new address to the database
 };
 
+// Select Address by Details (state, city, pincode, locality, address)
 export const selectAddress = async (
   state: string,
   city: string,
   pincode: string,
   locality: string,
-  address: string,
-  t: Transaction
-): Promise<address[]> => {
-  return await sequelize.query(
-    "SELECT * FROM Addresses WHERE state = ? AND city = ? AND pincode = ? AND locality = ? AND address = ?",
-    {
-      replacements: [state, city, pincode, locality, address],
-      type: QueryTypes.SELECT,
-      transaction: t,
-    }
-  );
-};
-
-export const selectAddressById = async (addressID: number) => {
-  return await sequelize.query("SELECT * FROM Addresses WHERE addressID=?", {
-    replacements: [addressID],
-    type: QueryTypes.SELECT,
+  address: string
+) => {
+  return await Address.find({
+    state,
+    city,
+    pincode,
+    locality,
+    address,
   });
 };
 
+// Select Address by ID
+export const selectAddressById = async (addressID: string) => {
+  return await Address.findById(addressID); // Find the address by its ObjectId
+};
+
+// Update Address
 export const updateAddress = async (
+  addressID: string,
   state: string,
   city: string,
   pincode: string,
-  localiy: string,
-  address: string,
-  t: Transaction
+  locality: string,
+  address: string
 ) => {
-  return await sequelize.query(
-    "UPDATE Addresses SET state=?, city=?, pincode=?, locality=?, address=?",
-    {
-      replacements: [state, city, pincode, localiy, address],
-      type: QueryTypes.UPDATE,
-      transaction: t,
-    }
+  return await Address.findByIdAndUpdate(
+    addressID,
+    { state, city, pincode, locality, address },
+    { new: true } // Return the updated address
   );
 };
 
-export const deleteAddressById = async (addressID: number) => {
-  return await sequelize.query("DELETE FROM Addresses WHERE addressID = ?", {
-    replacements: [addressID],
-    type: QueryTypes.DELETE,
-  });
+// Delete Address by ID
+export const deleteAddressById = async (addressID: string) => {
+  return await Address.findByIdAndDelete(addressID); // Delete the address by its ObjectId
 };

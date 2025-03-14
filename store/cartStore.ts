@@ -10,8 +10,8 @@ import {
 export const fetchCartItemsFromBackend = async () => {
   try {
     const response = await authorizedGetRequest("cart");
-    console.log(response, "cart response");
-    return response; // Return the fetched cart items
+    // console.log(response, "cart response");
+    return response;
   } catch (error) {
     console.error("Error fetching cart items:", error);
     return [];
@@ -20,20 +20,16 @@ export const fetchCartItemsFromBackend = async () => {
 
 export const useCartStore = create<CartStore>((set) => ({
   cartItems: [],
-
-  // Fetch the latest cart items from the backend
   fetchCartItems: async () => {
     const cartItems = await fetchCartItemsFromBackend();
-    set({ cartItems }); // Update the state with the fetched data
+    set({ cartItems });
   },
 
   // Add an item to the cart
-  addItemToCart: (productID, quantity) => {
-    // Perform async request outside set
-    authorizedPostRequest("cart", { productID, quantity })
+  addItemToCart: (productId, quantity) => {
+    authorizedPostRequest("cart", { productId, quantity })
       .then((response) => {
         if (response.status === 200) {
-          // Fetch updated cart items after adding an item
           fetchCartItemsFromBackend().then((updatedCartItems) => {
             set({ cartItems: updatedCartItems });
           });
@@ -45,12 +41,10 @@ export const useCartStore = create<CartStore>((set) => ({
   },
 
   // Remove an item from the cart
-  removeItemFromCart: (cartItemID) => {
-    // Perform async request outside set
-    authorizedDeleteRequest("cart", { cartItemID })
+  removeItemFromCart: (cartItemId) => {
+    authorizedDeleteRequest("cart", { cartItemId })
       .then((response) => {
         if (response.status === 200) {
-          // Fetch updated cart items after removing an item
           fetchCartItemsFromBackend().then((updatedCartItems) => {
             set({ cartItems: updatedCartItems });
           });
@@ -62,12 +56,10 @@ export const useCartStore = create<CartStore>((set) => ({
   },
 
   // Update the quantity of an item in the cart
-  updateCartItemQuantity: (cartItemID, quantity) => {
-    // Perform async request outside set
-    authorizedPatchRequest("cart", { cartItemID, quantity })
+  updateCartItemQuantity: (cartItemId, quantity) => {
+    authorizedPatchRequest("cart", { cartItemId, quantity })
       .then((response) => {
         if ((response.status = 200)) {
-          // Fetch updated cart items after updating an item
           fetchCartItemsFromBackend().then((updatedCartItems) => {
             set({ cartItems: updatedCartItems });
           });

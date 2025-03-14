@@ -23,8 +23,8 @@ function AddProduct() {
     productName: "",
     productPrice: "",
     productDescription: "",
-    brandID: "",
-    categoryID: "",
+    brandId: "",
+    categoryId: "",
     stock: "",
     productThumbnail: "",
     productImages: [] as string[],
@@ -34,8 +34,8 @@ function AddProduct() {
     productName: "",
     productPrice: "",
     productDescription: "",
-    brandID: "",
-    categoryID: "",
+    brandId: "",
+    categoryId: "",
     stock: "",
     productThumbnail: "",
     productImages: "",
@@ -62,12 +62,12 @@ function AddProduct() {
 
   // Handle image upload for additional product images
   const handleAdditionalImageUpload = (url: string) => {
-    console.log(url, "url");
+    // console.log(url, "url");
     setFormData((prev) => ({
       ...prev,
       productImages: [...prev.productImages, url],
     }));
-    console.log(formData.productImages, "form data change image");
+    // console.log(formData.productImages, "form data change image");
     handleValidationOnChange();
   };
 
@@ -86,10 +86,10 @@ function AddProduct() {
     form.set("productThmbnail", formData.productThumbnail);
     form.set("productPrice", formData.productPrice);
     form.set("productDescription", formData.productDescription);
-    form.set("categoryID", formData.categoryID);
-    form.set("brandID", formData.brandID);
+    form.set("categoryId", formData.categoryId);
+    form.set("brandId", formData.brandId);
     form.set("stock", formData.stock);
-    console.log(formData.productImages, "prdccut image sihkkgf");
+    // console.log(formData.productImages, "prdccut image sihkkgf");
     formData.productImages.forEach((imageUrl) => {
       form.append("productImages[]", imageUrl); // Ensure to append each URL as a separate field
     });
@@ -109,8 +109,8 @@ function AddProduct() {
         productDescription: result.errors.productDescription
           ? result.errors.productDescription[0]
           : "",
-        categoryID: result.errors.categoryID ? result.errors.categoryID[0] : "",
-        brandID: result.errors.brandID ? result.errors.brandID[0] : "",
+        categoryId: result.errors.categoryId ? result.errors.categoryId[0] : "",
+        brandId: result.errors.brandId ? result.errors.brandId[0] : "",
         stock: result.errors.stock ? result.errors.stock[0] : "",
         productImages: result.errors.productImages
           ? result.errors.productImages[0]
@@ -121,8 +121,8 @@ function AddProduct() {
         productName: "",
         productPrice: "",
         productDescription: "",
-        brandID: "",
-        categoryID: "",
+        brandId: "",
+        categoryId: "",
         stock: "",
         productThumbnail: "",
         productImages: "",
@@ -157,8 +157,8 @@ function AddProduct() {
         productDescription: result.errors.productDescription
           ? result.errors.productDescription[0]
           : "",
-        categoryID: result.errors.categoryID ? result.errors.categoryID[0] : "",
-        brandID: result.errors.brandID ? result.errors.brandID[0] : "",
+        categoryId: result.errors.categoryId ? result.errors.categoryId[0] : "",
+        brandId: result.errors.brandId ? result.errors.brandId[0] : "",
         stock: result.errors.stock ? result.errors.stock[0] : "",
         productImages: result.errors.productImages
           ? result.errors.productImages[0]
@@ -170,7 +170,7 @@ function AddProduct() {
 
     try {
       // Sending data to the backend API
-      const response = await authorizedPostRequest("products", formData);
+      const response = await authorizedPostRequest("/products", formData);
       console.log(response);
       router.push("/dashboard/products");
     } catch (error) {
@@ -246,11 +246,11 @@ function AddProduct() {
             {dashboard_product.ENTER_PRODUCT_BARND}
           </label>
           <select
-            name="brandID"
+            name="brandId"
             onChange={(e) => {
               handleChange(e);
             }}
-            value={formData.brandID}
+            value={formData.brandId}
             className="border border-gray-400 px-4 py-2 w-3/5"
           >
             <option value="" disabled>
@@ -264,9 +264,9 @@ function AddProduct() {
                 </option>
               ))}
           </select>
-          {errors.brandID && (
+          {errors.brandId && (
             <p className="text-red-500 text-sm absolute bottom-0 pl-[40%]">
-              {errors.brandID}
+              {errors.brandId}
             </p>
           )}
         </div>
@@ -277,11 +277,11 @@ function AddProduct() {
             {dashboard_product.ENTER_RPODUCT_CATGEORY}
           </label>
           <select
-            name="categoryID"
+            name="categoryId"
             onChange={(e) => {
               handleChange(e);
             }}
-            value={formData.categoryID}
+            value={formData.categoryId}
             className="border border-gray-400 px-4 py-2 w-3/5"
           >
             <option value="" disabled>
@@ -295,9 +295,9 @@ function AddProduct() {
                 </option>
               ))}
           </select>
-          {errors.categoryID && (
+          {errors.categoryId && (
             <p className="text-red-500 text-sm absolute bottom-0 pl-[40%]">
-              {errors.categoryID}
+              {errors.categoryId}
             </p>
           )}
         </div>

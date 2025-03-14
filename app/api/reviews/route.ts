@@ -17,17 +17,17 @@ export const POST = async (req: NextRequest) => {
     });
   }
 
-  const userID = decodedUser.identifire;
-  const { productID, rating, description } = await req.json();
+  const userId = decodedUser.identifire;
+  const { productId, rating, description } = await req.json();
 
-  if (!userID) {
+  if (!userId) {
     return NextResponse.json({
       message: "User not authenticated or missing.",
       status: 401,
     });
   }
 
-  if (!productID || !(rating >= 0 && rating <= 5) || !description) {
+  if (!productId || !(rating >= 0 && rating <= 5) || !description) {
     return NextResponse.json({
       message: "Please enter all the required fields.",
       status: 409,
@@ -36,8 +36,8 @@ export const POST = async (req: NextRequest) => {
 
   try {
     const { success, message } = await addReviewService(
-      userID,
-      productID,
+      userId,
+      productId,
       rating,
       description
     );
@@ -67,7 +67,7 @@ export const GET = async (req: NextRequest) => {
 
   try {
     const { success, reviews, message } = await getReviewsOfProductService(
-      Number(id)
+      String(id)
     );
     console.log(success, reviews, message);
     if (!success) {
@@ -93,22 +93,22 @@ export const PATCH = async (req: NextRequest) => {
     );
   }
 
-  const userID = decodedUser.identifire;
+  const userId = decodedUser.identifire;
 
-  if (!userID) {
+  if (!userId) {
     return NextResponse.json({
       message: "User not authenticated or missing.",
     });
   }
-  const { reviewID, rating, description } = await req.json();
+  const { reviewId, rating, description } = await req.json();
 
-  if (!userID) {
+  if (!userId) {
     return NextResponse.json({
       message: "User not authenticated or missing.",
     });
   }
 
-  if (!reviewID || !rating || !description) {
+  if (!reviewId || !rating || !description) {
     return NextResponse.json({
       message: "Please enter review ID, rating, and description.",
     });
@@ -116,8 +116,8 @@ export const PATCH = async (req: NextRequest) => {
 
   try {
     const { success, message } = await updateReviewService(
-      userID,
-      reviewID,
+      userId,
+      reviewId,
       rating,
       description
     );
@@ -144,17 +144,17 @@ export const DELETE = async (req: NextRequest) => {
     );
   }
 
-  const userID = decodedUser.identifire;
-  const { reviewID } = await req.json();
+  const userId = decodedUser.identifire;
+  const { reviewId } = await req.json();
 
-  if (!reviewID) {
+  if (!reviewId) {
     return NextResponse.json({
       message: "Please provide a review ID to delete.",
     });
   }
 
   try {
-    const { success, message } = await deleteReviewService(userID, reviewID);
+    const { success, message } = await deleteReviewService(userId, reviewId);
     if (!success) {
       return NextResponse.json({ message: message });
     }

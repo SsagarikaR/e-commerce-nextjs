@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getWishListItemByIDService } from "@/services/apiServices/wishLists";
+import { getWishListItemByIDService } from "@/services/apiServices/wishList";
 import { checkToken } from "@/lib/midlleware/auth";
 
 // Controller to get a specific product in the product by ID
@@ -15,10 +15,11 @@ export const GET = async (
     );
   }
 
-  const userID = decodedUser.identifire;
+  const userId = decodedUser.identifire;
   const { id } = await params;
+  console.log(userId, id, "user is dnu id");
   try {
-    const result = await getWishListItemByIDService(userID, Number(id));
+    const result = await getWishListItemByIDService(userId, String(id));
     if (!result.success) {
       return NextResponse.json({ message: result.message });
     }

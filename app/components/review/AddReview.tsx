@@ -22,7 +22,7 @@ const fetcher = async (url: string) => {
 
 const AddReview = ({ pid }: { pid: string }) => {
   const router = useRouter();
-  const { data: product, error } = useSWR<products[], Error>(
+  const { data: product, error } = useSWR<products, Error>(
     `/products?id=${pid}`,
     fetcher
   );
@@ -47,7 +47,7 @@ const AddReview = ({ pid }: { pid: string }) => {
     e.preventDefault();
 
     const reviewData = {
-      productID: pid,
+      productId: pid,
       rating,
       description,
     };
@@ -81,12 +81,12 @@ const AddReview = ({ pid }: { pid: string }) => {
         <div className="w-11/12 flex items-center justify-between border border-gray-400  px-10 py-4 text-gray-700 font-semibold dark:bg-gray-300">
           <div className="text-2xl">{review.RATING_REVIEWS}</div>
           <div className="flex items-center justify-center gap-x-3">
-            <div className="text-lg">{product[0].productName}</div>
+            <div className="text-lg">{product.products[0].productName}</div>
             <Image
               width={240}
               height={240}
-              alt={product[0].productName}
-              src={product[0].productThumbnail}
+              alt={product.products[0].productName}
+              src={product.products[0].productThumbnail}
               className="w-24 shadow-md p-2"
             />
           </div>

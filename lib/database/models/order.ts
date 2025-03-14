@@ -1,59 +1,50 @@
-import { DataTypes } from "sequelize";
-import { sequelize } from "@/lib/database/db";
-import { Address } from "./address";
+import mongoose, { Schema, model, models } from "mongoose";
 
-export const Orders = sequelize.define(
-  "Orders",
+const orderSchema = new Schema(
   {
-    orderID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-    },
     userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      onDelete: "CASCADE",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
     status: {
-      type: DataTypes.ENUM("Pending", "Success", "Cancelled"),
-      defaultValue: "Pending",
+      type: String,
+      enum: ["Pending", "Success", "Cancelled"],
+      default: "Pending",
     },
-    addressID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: Address,
-        key: "addressID",
-      },
-      onDelete: "CASCADE",
+    addressId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Address",
+      required: true,
     },
     totalPrice: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      type: Number,
+      required: true,
     },
     handlingPrice: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: "10",
+      type: Number,
+      required: true,
+      default: 10,
     },
     platformFee: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: "6",
+      type: Number,
+      required: true,
+      default: 6,
     },
     deliveryCharge: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: "10",
+      type: Number,
+      required: true,
+      default: 10,
     },
     totalAmount: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      type: Number,
+      required: true,
     },
   },
   {
-    timestamps: false,
+    timestamps: true,
   }
 );
+
+const Order = models.Order || model("Order", orderSchema);
+export default Order;

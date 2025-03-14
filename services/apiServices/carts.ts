@@ -6,31 +6,31 @@ import {
   deleteFromCart,
   updateCartItemsQuantity,
   updateQuantityIfAlreadyExist,
-} from "@/dbQuery/carts";
+} from "@/dbQuery/cart";
 
 // Service to add an item to the cart
 export const addCartItemService = async (
-  userID: number,
-  productID: number,
+  userId: string,
+  productId: string,
   quantity: number
 ) => {
   try {
     // Check if the product already exists in the cart
     const existingCartItem = await selectFromCartByUserANDProduct(
-      userID,
-      productID
+      userId,
+      productId
     );
-    if (existingCartItem.length > 0) {
-      await updateQuantityIfAlreadyExist(userID, productID);
+    if (existingCartItem) {
+      await updateQuantityIfAlreadyExist(userId, productId);
       return { success: true, message: "Product quantity updated in cart" };
     }
 
     // Add new item to the cart
-    const result = await addNewCartItem(userID, productID, quantity);
+    const result = await addNewCartItem(userId, productId, quantity);
     return {
       success: true,
       message: "Product added to cart",
-      cartItemID: result[0],
+      cartItemId: result._id,
     };
   } catch (error) {
     console.error(error);
@@ -39,9 +39,10 @@ export const addCartItemService = async (
 };
 
 // Service to get all cart items by user
-export const getCartItemsService = async (userID: number) => {
+export const getCartItemsService = async (userId: string) => {
   try {
-    const cartItems = await getCartByUserID(userID);
+    const cartItems = await getCartByUserID(userId);
+    // console.log(cartItems, "cart item");
     return { success: true, cartItems };
   } catch (error) {
     console.error(error);
@@ -50,14 +51,14 @@ export const getCartItemsService = async (userID: number) => {
 };
 
 // Service to delete an item from the cart
-export const deleteCartItemService = async (cartItemID: number) => {
+export const deleteCartItemService = async (cartItemId: string) => {
   try {
-    const cartItem = await selectFromCartItemCartID(cartItemID);
-    if (cartItem.length === 0) {
+    const cartItem = await selectFromCartItemCartID(cartItemId);
+    if (!cartItem) {
       return { success: false, message: "Cart item not found" };
     }
 
-    await deleteFromCart(cartItemID);
+    await deleteFromCart(cartItemId);
     return { success: true, message: "Cart item deleted successfully" };
   } catch (error) {
     console.error(error);
@@ -68,15 +69,15 @@ export const deleteCartItemService = async (cartItemID: number) => {
 // Service to update the quantity of an item in the cart
 export const updateCartItemQuantityService = async (
   quantity: number,
-  cartItemID: number
+  cartItemId: string
 ) => {
   try {
-    const cartItem = await selectFromCartItemCartID(cartItemID);
-    if (cartItem.length === 0) {
+    const cartItem = await selectFromCartItemCartID(cartItemId);
+    if (!cartItem) {
       return { success: false, message: "Cart item not found" };
     }
 
-    await updateCartItemsQuantity(quantity, cartItemID);
+    await updateCartItemsQuantity(quantity, cartItemId);
     return {
       success: true,
       message: "Cart item quantity updated successfully",

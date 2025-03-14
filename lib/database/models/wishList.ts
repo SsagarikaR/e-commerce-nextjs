@@ -1,37 +1,23 @@
-import { sequelize } from "@/lib/database/db";
-import { DataTypes } from "sequelize";
-import { Produtcs } from "./product";
-import { Users } from "./user";
+import mongoose, { Schema, model, models } from "mongoose";
 
-export const WishLists = sequelize.define(
-  "WishLists",
+export const wishListSchema = new Schema(
   {
-    wishListID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
+    productId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+      required: true,
     },
-    productID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: Produtcs,
-        key: "productID",
-      },
-      onDelete: "CASCADE",
-    },
-    userID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: Users,
-        key: "userID",
-      },
-      onDelete: "CASCADE",
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
   },
   {
     timestamps: false,
   }
 );
+
+const Wishlist = models.Wishlist || model("Wishlist", wishListSchema);
+console.log(models, "model");
+export default Wishlist;

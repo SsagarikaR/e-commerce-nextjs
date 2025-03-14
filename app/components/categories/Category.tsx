@@ -18,7 +18,7 @@ async function Category() {
   console.log("Fetched categories:", categories);
 
   return (
-    <div className="pt-24 dark:bg-gray-700 lg:px-24 flex flex-col gap-y-1 md:px-16 px-4">
+    <div className="pt-24 dark:bg-gray-700 lg:px-24 xl:px-36 flex flex-col gap-y-1 md:px-16 px-4">
       <div className=" text-3xl flex flex-col gap-y-3  text-center font-serif  mb-2 text-gray-700 dark:text-white">
         <div className=" font-serif tracking-wider font-semibold">
           Categories
@@ -43,10 +43,7 @@ async function Category() {
           <Carousel className="relative overflow-visible">
             <CarouselContent>
               {categories.map((item, key) => (
-                <CarouselItem
-                  key={key}
-                  className="2xl:basis-1/5 lg:basis-1/4 basis-1/3 "
-                >
+                <CarouselItem key={key} className=" lg:basis-1/4 basis-1/3 ">
                   <CategoryCard
                     _id={item._id}
                     categoryName={item.categoryName}

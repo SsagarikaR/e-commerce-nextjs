@@ -14,7 +14,7 @@ export const GET = async (req: NextRequest) => {
   }
 
   const id = decodedUser?.identifire;
-  console.log(decodedUser);
+  // console.log(decodedUser);
   try {
     const result = await getUserByIDService(id);
 

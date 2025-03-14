@@ -1,28 +1,21 @@
-import { DataTypes } from "sequelize";
-import { sequelize } from "@/lib/database/db";
-import { Users } from "./user";
+import mongoose, { Schema, Document, Types } from "mongoose";
 
-export const Admins = sequelize.define(
-  "Admins",
+interface IAdmin extends Document {
+  userId: Types.ObjectId;
+}
+
+const adminSchema = new Schema<IAdmin>(
   {
-    adminID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    userID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: Users,
-        key: "userID",
-      },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
   },
-  {
-    timestamps: false,
-  }
+  { timestamps: true }
 );
 
-// console.log(Admins===sequelize.model("Admins"));
+const Admin =
+  mongoose.models.Admin || mongoose.model<IAdmin>("Admin", adminSchema);
+
+export default Admin;

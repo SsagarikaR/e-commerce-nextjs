@@ -14,20 +14,17 @@ export const POST = async (req: NextRequest) => {
     productDescription,
     productThumbnail,
     productPrice,
-    categoryID,
-    brandID,
+    categoryId,
+    brandId,
     stock,
     productImages,
   } = await req.json();
   const { isValid, decodedUser } = checkToken(req);
-
   if (!isValid) {
     return NextResponse.json({
       error: "Unauthorized. Invalid or missing token.",
     });
   }
-
-  console.log(decodedUser);
 
   const adminCheckResult = await isAdmin(req, decodedUser);
 
@@ -41,13 +38,14 @@ export const POST = async (req: NextRequest) => {
       productDescription,
       productThumbnail,
       productPrice,
-      categoryID,
-      brandID,
+      categoryId,
+      brandId,
       stock,
       productImages
     );
     return NextResponse.json(result);
   } catch (error) {
+    console.log(error);
     if (error instanceof Error) {
       return NextResponse.json({ message: error.message });
     }
@@ -61,7 +59,7 @@ export const GET = async (req: NextRequest) => {
   const url = new URL(req.url);
   const name = url.searchParams.get("name");
   const price = url.searchParams.get("price");
-  const categoryID = url.searchParams.get("categoryID");
+  const categoryId = url.searchParams.get("categoryId");
   const id = url.searchParams.get("id");
   const page = url.searchParams.get("page") || "1";
   const limit = url.searchParams.get("limit") || "8";
@@ -71,9 +69,9 @@ export const GET = async (req: NextRequest) => {
 
   try {
     const filters = {
-      categoryID: categoryID ? String(categoryID) : undefined,
+      categoryId: categoryId ? String(categoryId) : undefined,
       name: name ? String(name) : undefined,
-      id: id ? Number(id) : undefined,
+      id: id ? String(id) : undefined,
       price:
         price === "low-to-high" || price === "high-to-low"
           ? (price as "low-to-high" | "high-to-low")
@@ -105,8 +103,6 @@ export const DELETE = async (req: NextRequest) => {
       error: "Unauthorized. Invalid or missing token.",
     });
   }
-
-  console.log(decodedUser);
 
   const adminCheckResult = await isAdmin(req, decodedUser);
 
@@ -151,7 +147,7 @@ export const PATCH = async (req: NextRequest) => {
     });
   }
 
-  console.log(decodedUser);
+  // console.log(decodedUser);
 
   const adminCheckResult = await isAdmin(req, decodedUser);
 

@@ -13,7 +13,7 @@ import { fetcher } from "@/lib/helpers/unAuthorizedGetFetcher";
 import Image from "next/image";
 
 function ProductList({ page }: { page: number }) {
-  const { data: products, error } = useSWR<products[], Error>(
+  const { data: products, error } = useSWR<products, Error>(
     `products?page=${page}&limit=8`,
     fetcher
   );
@@ -33,8 +33,8 @@ function ProductList({ page }: { page: number }) {
 
   let totalPages: number;
 
-  if (products.length > 0) {
-    totalPages = Math.ceil(products[0].totalCount / 8);
+  if (products.products.length > 0) {
+    totalPages = Math.ceil(products.totalCount / 8);
   }
 
   const currentPage = page;
@@ -89,9 +89,9 @@ function ProductList({ page }: { page: number }) {
           </tr>
         </thead>
         <tbody>
-          {products.length > 0 ? (
-            products.map((product) => (
-              <tr key={product.productID}>
+          {products.products.length > 0 ? (
+            products.products.map((product) => (
+              <tr key={product._id}>
                 <td className="border-2 border-gray-400 p-2">
                   <div className="flex space-x-2 ">
                     <Image
@@ -108,10 +108,10 @@ function ProductList({ page }: { page: number }) {
                   {product.productPrice}
                 </td>
                 <td className="border-2 border-gray-400 p-2">
-                  {product.brandName}
+                  {product.brandId.brandName}
                 </td>
                 <td className="border-2 border-gray-400 p-2">
-                  {product.categoryName}
+                  {product.categoryId.categoryName}
                 </td>
                 <td className="border-2 border-gray-400 p-2">
                   {product.stock}
@@ -122,7 +122,7 @@ function ProductList({ page }: { page: number }) {
                     <FontAwesomeIcon
                       icon={faTrash}
                       className="w-5 cursor-pointer"
-                      onClick={() => handleDelete(product.productID)} // Trigger delete on click
+                      onClick={() => handleDelete(product._id)} // Trigger delete on click
                     />
                   </div>
                 </td>

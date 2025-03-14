@@ -14,7 +14,7 @@ function SortBy({
     <div className="relative group">
       {/* Dropdown Trigger */}
       <div className="flex gap-x-4 text-gray-700 font-bold items-center pl-6">
-        <div className="   py-2 px-4 rounded-md border-2 border-gray-300 hover:bg-gray-100 flex items-center gap-x-2 ">
+        <div className="py-2 px-4 w-40 rounded-md border-2 border-gray-300 hover:bg-gray-100 flex items-center gap-x-2 cursor-pointer">
           Sort by price ▼
         </div>
       </div>

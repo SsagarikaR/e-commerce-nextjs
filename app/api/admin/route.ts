@@ -5,7 +5,7 @@ import {
   updateAdminService,
 } from "@/services/apiServices/admins";
 import { checkToken, isAdmin } from "@/lib/midlleware/auth";
-import { selectAllAdmin } from "@/dbQuery/adminsMongo";
+import { selectAllAdmin } from "@/dbQuery/admin";
 
 // Create new admin
 export const POST = async (req: NextRequest) => {
