@@ -9,7 +9,7 @@ export const orderItemSchema = new Schema(
     },
     productId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Address",
+      ref: "Product",
       required: true,
     },
     quantity: {

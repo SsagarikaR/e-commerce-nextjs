@@ -6,8 +6,8 @@ import React from "react";
 import useSWR from "swr";
 
 function OrderDetails({ id }: { id: string }) {
-  const { data: order, error } = useSWR<OrderData[], Error>(`orders`, fetcher);
-  const currentOrder = order?.filter((order) => order.orderID === Number(id));
+  const { data: order, error } = useSWR<orderData[], Error>(`orders`, fetcher);
+  const currentOrder = order?.filter((order) => order._id === id);
   console.log(currentOrder);
   console.log(currentOrder);
   if (!currentOrder) {
@@ -37,28 +37,28 @@ function OrderDetails({ id }: { id: string }) {
           {currentOrder &&
             currentOrder[0].items.map((item) => (
               <div
-                key={item.productId}
+                key={item.productId._id}
                 className="shadow-md lg:p-2 p-1 w-full border border-gray-300"
               >
                 <div className="flex justify-between  lg:p-3 p-1 w-full">
                   <div className="flex flex-col text-lg lg:text-xl gap-y-3 font-semibold text-gray-700">
                     <div className="">
-                      <div>{item.productName}</div>
+                      <div>{item.productId.productName}</div>
                     </div>
-                    <div>₹{item.productPrice}</div>
+                    <div>₹{item.productId.productPrice}</div>
                     <div>Quantity: {item.quantity}</div>
                   </div>
                   <Image
                     width={440}
                     height={440}
-                    alt={item.productName}
-                    src={item.productThumbnail}
+                    alt={item.productId.productName}
+                    src={item.productId.productThumbnail}
                     className="lg:w-44 lg:h-44 w-32 h-32 shadow-md p-2"
                   />
                 </div>
                 <div className="flex justify-between">
                   <Link
-                    href={`/review?pid=${item.productId}`}
+                    href={`/review?pid=${item.productId._id}`}
                     className="bg-blue-300 p-4 py-2 rounded-lg hover:bg-blue-400"
                   >
                     Add Review
@@ -72,7 +72,7 @@ function OrderDetails({ id }: { id: string }) {
             <p className="font-semibold text-sm text-gray-600 border-b py-2">
               Shipping Details
             </p>
-            <div className="font-semibold">{currentOrder[0].name}</div>
+            <div className="font-semibold">{currentOrder[0].user.name}</div>
             <div>
               {currentOrder[0].address.state} , {currentOrder[0].address.city},{" "}
               {currentOrder[0].address.pincode},{" "}
@@ -81,7 +81,7 @@ function OrderDetails({ id }: { id: string }) {
             </div>
             <div>
               <p className="font-semibold">Phone number:</p>
-              <p>{currentOrder[0].contactNo}</p>
+              <p>{currentOrder[0].user.contactNo}</p>
             </div>
           </div>
           <div className="flex flex-col shadow-lg border border-gray-400 p-4 gap-2 dark:bg-gray-300">

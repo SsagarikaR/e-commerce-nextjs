@@ -12,7 +12,7 @@ declare global {
   }
 
   interface address {
-    addressID: number;
+    _id: string;
     state: string;
     city: string;
     pincode: string;
@@ -84,9 +84,9 @@ declare global {
   }
 
   interface OrderItem {
-    orderItemID: number;
-    orderId: number;
-    productId: number;
+    _id: string;
+    orderId: string;
+    productId: product;
     productName: string;
     productThumbnail: string;
     price: number;
@@ -100,16 +100,18 @@ declare global {
     image: string;
     name: string;
   }
-  interface OrderData extends user {
+  interface orderData {
+    _id: string;
+    userId: string;
     totalAmount: number;
     items: OrderItem[];
-    addressID: number;
+    addressId: string;
     totalPrice: number;
     status: string;
-    orderID: number;
     handlingPrice: number;
     platformFee: number;
     deliveryCharge: number;
+    user: user;
     address: address;
   }
 
@@ -122,8 +124,6 @@ declare global {
   }
 
   interface prefernce {
-    brandName: string;
-    brandThumbnail: string;
     _id: string;
     productDescription: string;
     productThumbnail: string;
@@ -162,15 +162,15 @@ declare global {
   }
 
   interface order extends address {
-    orderID: number;
+    orderId: number;
     userId: number;
     totalAmount: number;
     status: string;
   }
 
   interface orderItem {
-    orderId: number;
-    productId: number;
+    orderId: string;
+    productId: string;
     quantity: number;
     price: number;
     productName: string;
@@ -179,7 +179,7 @@ declare global {
     brandName: string;
   }
 
-  interface OrderDetail extends order {
+  interface orderDetail extends order {
     items: orderItem[];
   }
 

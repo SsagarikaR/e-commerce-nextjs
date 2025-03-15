@@ -3,24 +3,24 @@ import OrderItem from "@/lib/database/models/orderItem"; // Assuming the OrderIt
 import mongoose from "mongoose";
 
 export const insertOrder = async (
-  userID: string,
+  userId: string,
   totalPrice: number,
-  addressID: string,
+  addressId: string,
   totalAmount: number
 ) => {
   try {
     const newOrder = new Order({
-      userId: userID,
+      userId,
       totalPrice: totalPrice,
       status: "Pending",
-      addressId: addressID,
+      addressId,
       totalAmount: totalAmount,
     });
 
     // Save the order
     const order = await newOrder.save();
 
-    return { orderID: order._id }; // Return the inserted order's ID
+    return { orderId: order._id };
   } catch (error) {
     console.log("Error inserting order:", error);
     throw new Error("Error while inserting order");
@@ -28,14 +28,14 @@ export const insertOrder = async (
 };
 
 export const insertOrderItems = async (
-  orderID: string,
+  orderId: string,
   productId: string,
   quantity: number,
   price: number
 ) => {
   try {
     const newOrderItem = new OrderItem({
-      orderId: orderID,
+      orderId,
       productId: productId,
       quantity: quantity,
       price: price,
@@ -48,10 +48,10 @@ export const insertOrderItems = async (
   }
 };
 
-export const selectOrderByUserID = async (userID: string) => {
+export const selectOrderByUserID = async (userId: string) => {
   try {
     const orders = await Order.find({
-      userId: userID,
+      userId,
       status: "Pending",
     }).exec();
     return orders;
@@ -62,8 +62,8 @@ export const selectOrderByUserID = async (userID: string) => {
 };
 
 // First: Get orders (Order[] type)
-const getOrders = async (userID: string) => {
-  const orders = await Order.find({ userId: userID }).populate("userId").exec();
+const getOrders = async (userId: string) => {
+  const orders = await Order.find({ userId }).populate("userId").exec();
   return orders;
 };
 
@@ -84,22 +84,22 @@ const getOrders = async (userID: string) => {
 //   return result;
 // };
 
-const getOrderItems = async (orderIDs: string[]) => {
-  const orderItems = await OrderItem.find({ orderId: { $in: orderIDs } })
+const getOrderItems = async (orderIds: string[]) => {
+  const orderItems = await OrderItem.find({ orderId: { $in: orderIds } })
     .populate("productId")
     .exec();
   return orderItems;
 };
 
 // Combine order and items (OrderDetail[] type)
-export const getUserOrderDetails = async (userID: string) => {
-  const orders = await getOrders(userID); // Fetch orders using the above function
-  const orderIDs = orders.map((order) => order._id.toString()); // Get the order IDs
+export const getUserOrderDetails = async (userId: string) => {
+  const orders = await getOrders(userId); // Fetch orders using the above function
+  const orderIds = orders.map((order) => order._id.toString()); // Get the order IDs
 
-  const orderItems = await getOrderItems(orderIDs); // Fetch order items using the above function
+  const orderItems = await getOrderItems(orderIds);
 
   const result = await Order.aggregate([
-    { $match: { userId: new mongoose.Types.ObjectId(userID) } },
+    { $match: { userId: new mongoose.Types.ObjectId(userId) } },
     {
       $lookup: {
         from: "users",
@@ -124,10 +124,10 @@ export const getUserOrderDetails = async (userID: string) => {
     items: orderItems.filter(
       (item) => item.orderId.toString() === order._id.toString()
     ),
-    address: order.addressDetails[0], // Assuming only one address
-    user: order.userDetails[0], // Assuming only one user
+    address: order.addressDetails[0],
+    user: order.userDetails[0],
   }));
-
+  console.log(orderDetails, "orders fetch");
   return orderDetails;
 };
 
@@ -145,8 +145,8 @@ export const selectOrdersWithProductAndBrand = async (userID: string) => {
       // Step 2: Lookup to join OrderItems collection
       {
         $lookup: {
-          from: "orderitems", // Collection name in MongoDB
-          localField: "_id", // Join on orderId field
+          from: "orderitems",
+          localField: "_id",
           foreignField: "orderId",
           as: "orderItems",
         },
@@ -155,9 +155,9 @@ export const selectOrdersWithProductAndBrand = async (userID: string) => {
       // Step 3: Lookup to join Products collection via OrderItems
       {
         $lookup: {
-          from: "products", // Collection name in MongoDB
-          localField: "orderItems.productId", // Field in OrderItems
-          foreignField: "_id", // Field in Products
+          from: "products",
+          localField: "orderItems.productId",
+          foreignField: "_id",
           as: "productDetails",
         },
       },
@@ -165,9 +165,9 @@ export const selectOrdersWithProductAndBrand = async (userID: string) => {
       // Step 4: Lookup to join Brands collection via Products
       {
         $lookup: {
-          from: "brands", // Collection name in MongoDB
-          localField: "productDetails.brandID", // Field in Products
-          foreignField: "_id", // Field in Brands
+          from: "brands",
+          localField: "productDetails.brandID",
+          foreignField: "_id",
           as: "brandDetails",
         },
       },
@@ -175,9 +175,9 @@ export const selectOrdersWithProductAndBrand = async (userID: string) => {
       // Step 5: Lookup to join Users collection (user who placed the order)
       {
         $lookup: {
-          from: "users", // Collection name in MongoDB
-          localField: "userId", // Field in Orders
-          foreignField: "_id", // Field in Users
+          from: "users",
+          localField: "userId",
+          foreignField: "_id",
           as: "userDetails",
         },
       },
@@ -191,12 +191,12 @@ export const selectOrdersWithProductAndBrand = async (userID: string) => {
           orderItems: 1,
           productDetails: 1,
           brandDetails: 1,
-          userDetails: { $arrayElemAt: ["$userDetails", 0] }, // Extract the first user details (since it's a one-to-one relationship)
+          userDetails: { $arrayElemAt: ["$userDetails", 0] },
         },
       },
 
       // Step 7: Optionally limit the number of results (if needed)
-      { $limit: 8 }, // This step can be modified or omitted
+      { $limit: 8 },
     ]);
 
     return orders;

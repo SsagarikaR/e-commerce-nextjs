@@ -15,7 +15,7 @@ export const POST = async (req: NextRequest) => {
       { status: 401 }
     );
   }
-  const userID = decodedUser?.identifire;
+  const userId = decodedUser?.identifire;
   const {
     totalAmount,
     items,
@@ -32,7 +32,7 @@ export const POST = async (req: NextRequest) => {
     // console.log(req.body)
 
     const result = await createOrderService(
-      userID,
+      userId,
       totalAmount,
       items,
       state,
@@ -67,9 +67,9 @@ export const GET = async (req: NextRequest) => {
     );
   }
 
-  const userID = decodedUser?.identifire;
+  const userId = decodedUser?.identifire;
   try {
-    const orders = await fetchOrders(userID);
+    const orders = await fetchOrders(userId);
     // console.log("orders",orders)
 
     if (!orders || orders.length === 0) {

@@ -3,7 +3,7 @@ import { checkToken } from "@/lib/midlleware/auth";
 import { updateOrderStatusService } from "@/services/apiServices/orders";
 
 export const PATCH = async (req: NextRequest) => {
-  const { isValid, decodedUser } = checkToken(req);
+  const { isValid } = checkToken(req);
   if (!isValid) {
     return NextResponse.json(
       { error: "Unauthorized. Invalid or missing token." },
@@ -11,7 +11,6 @@ export const PATCH = async (req: NextRequest) => {
     );
   }
 
-  const userID = decodedUser.identifire;
   const { orderId } = await req.json();
 
   try {
@@ -29,6 +28,7 @@ export const PATCH = async (req: NextRequest) => {
 
     return NextResponse.json({ message: "Order status updated to Cancelled" });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({
       error: "Error in updating order status, please try again!",
     });

@@ -27,7 +27,7 @@ export const selectAddress = async (
   locality: string,
   address: string
 ) => {
-  return await Address.find({
+  return await Address.findOne({
     state,
     city,
     pincode,

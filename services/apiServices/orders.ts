@@ -1,4 +1,3 @@
-import { sequelize } from "@/lib/database/db";
 import {
   insertOrder,
   insertOrderItems,
@@ -13,7 +12,7 @@ import { createNewAddress, selectAddress } from "@/dbQuery/address";
 
 //create a new order
 export const createOrderService = async (
-  userID: number,
+  userId: string,
   totalAmount: number,
   items: orderItem[],
   state: string,
@@ -23,31 +22,27 @@ export const createOrderService = async (
   address: string,
   totalPrice: number
 ) => {
-  const t = await sequelize.transaction();
-
   try {
-    const existingOrder = await selectOrderByUserID(userID, t);
-    let addressID: number;
-    const existingAddress: address[] = await selectAddress(
+    const existingOrder = await selectOrderByUserID(userId);
+    let addressId: string;
+    const existingAddress: address = await selectAddress(
       state,
       city,
       pincode,
       locality,
-      address,
-      t
+      address
     );
-    if (existingAddress.length > 0) {
-      addressID = existingAddress[0].addressID;
+    if (existingAddress) {
+      addressId = existingAddress._id;
     } else {
-      const [result] = await createNewAddress(
+      const result = await createNewAddress(
         state,
         city,
         pincode,
         locality,
-        address,
-        t
+        address
       );
-      addressID = result;
+      addressId = result._id;
     }
 
     if (existingOrder.length > 0) {
@@ -56,39 +51,35 @@ export const createOrderService = async (
     }
 
     const result = await insertOrder(
-      userID,
+      userId,
       totalPrice,
-      addressID,
-      totalAmount,
-      t
+      addressId,
+      totalAmount
     );
+    console.log(result, "order id .........");
     // console.log(result,"result");
     if (result) {
       for (const item of items) {
         await insertOrderItems(
-          result.orderID,
+          result.orderId,
           item.productId,
           item.quantity,
-          item.price,
-          t
+          item.price
         );
       }
     }
 
-    await t.commit();
-
     return { success: true, result };
   } catch (error) {
     // Rollback the transaction in case of any error
-    await t.rollback();
     console.log(error, "error");
     throw new Error("Error while creating order and order items");
   }
 };
 
-export const fetchOrders = async (userID: number) => {
+export const fetchOrders = async (userId: string) => {
   try {
-    const orders = await getUserOrderDetails(userID);
+    const orders = await getUserOrderDetails(userId);
     // console.log(orders,"orders")
     return orders;
   } catch (error) {
@@ -101,7 +92,7 @@ export const fetchOrders = async (userID: number) => {
 };
 
 export const updateOrderAddressService = async (
-  orderId: number,
+  orderId: string,
   newAddress: string
 ) => {
   try {
@@ -113,7 +104,7 @@ export const updateOrderAddressService = async (
   }
 };
 
-export const deleteOrderService = async (orderId: number) => {
+export const deleteOrderService = async (orderId: string) => {
   try {
     const result = await deleteOrderQuery(orderId);
     return result;
@@ -124,7 +115,7 @@ export const deleteOrderService = async (orderId: number) => {
 };
 
 export const updateOrderStatusService = async (
-  orderId: number,
+  orderId: string,
   status: string
 ) => {
   try {
@@ -136,7 +127,7 @@ export const updateOrderStatusService = async (
   }
 };
 
-export const getOrderStatusById = async (orderId: number) => {
+export const getOrderStatusById = async (orderId: string) => {
   try {
     const result = await getOrderStatusByIdQuery(orderId);
     return result;

@@ -49,9 +49,9 @@ function MakeOrderPage({ id }: { id: string | null }) {
   const handleSubmitOrder = async () => {
     let items = [];
     items = cartItems.map((item) => ({
-      productId: item.productID,
+      productId: item.productDetails._id,
       quantity: item.quantity,
-      price: item.productPrice,
+      price: item.productDetails.productPrice,
     }));
     const response = await authorizedPostRequest("orders", {
       totalAmount,
@@ -111,13 +111,17 @@ function MakeOrderPage({ id }: { id: string | null }) {
                   <Image
                     width={240}
                     height={240}
-                    src={item.productThumbnail}
-                    alt={item.productName}
+                    src={item.productDetails.productThumbnail}
+                    alt={item.productDetails.productName}
                     className="w-24 h-24 object-cover rounded-lg"
                   />
                   <div className="flex-grow">
-                    <p className="text-lg font-semibold">{item.productName}</p>
-                    <p className="text-gray-700">Price: ₹{item.productPrice}</p>
+                    <p className="text-lg font-semibold">
+                      {item.productDetails.productName}
+                    </p>
+                    <p className="text-gray-700">
+                      Price: ₹{item.productDetails.productPrice}
+                    </p>
                     <p className="text-gray-700">Quantity: {item.quantity}</p>
                   </div>
                 </div>
@@ -199,7 +203,7 @@ function MakeOrderPage({ id }: { id: string | null }) {
                 {modal_btn.CANCEL}
               </button>
               <button
-                className="px-6 py-3 bg-purple-400 cursor-pointer text-white font-semibold rounded-lg hover:bg-purple-400 focus:outline-none"
+                className="px-6 py-3 bg-blue-400 cursor-pointer text-white font-semibold rounded-lg hover:bg-blue-500 focus:outline-none"
                 onClick={handleSubmitOrder}
               >
                 {modal_btn.CONFIRM}

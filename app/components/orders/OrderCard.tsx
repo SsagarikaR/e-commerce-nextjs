@@ -11,7 +11,7 @@ import Link from "next/link";
 import { orders } from "@/constants";
 import Image from "next/image";
 
-function OrderCard({ item }: { item: OrderData }) {
+function OrderCard({ item }: { item: orderData }) {
   const [showModal, setShowModal] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
@@ -22,7 +22,7 @@ function OrderCard({ item }: { item: OrderData }) {
   const confirmDelete = async () => {
     try {
       const response = await authorizedPatchRequest("orders/status", {
-        orderId: item.orderID,
+        orderId: item._id,
       });
       mutate("orders");
       setToastMessage("Order canceled successfully");
@@ -38,7 +38,7 @@ function OrderCard({ item }: { item: OrderData }) {
   const handleEdit = async () => {
     try {
       const response = await authorizedPatchRequest("orders", {
-        orderId: item.orderID,
+        orderId: item._id,
         newAddress: address,
       });
       console.log(response);
@@ -59,7 +59,7 @@ function OrderCard({ item }: { item: OrderData }) {
   return (
     <>
       <div
-        key={item.orderID}
+        key={item._id}
         className={` p-6 rounded-xl w-4/5 mx-auto shadow-lg m-y-2 bg-white  ${
           item.status === "Cancelled" ? "bg-gray-300" : "bg-white"
         } `}
@@ -77,24 +77,24 @@ function OrderCard({ item }: { item: OrderData }) {
           </p>
           <div className="mt-6 space-y-4">
             <h4 className="text-xl font-semibold text-gray-800">Items</h4>
-            <Link href={`/orders/${item.orderID}`}>
+            <Link href={`/orders/${item._id}`}>
               <div className="grid grid-cols-1  gap-6 ">
                 {item.items && item.items.length > 0 ? (
                   item.items.map((item) => (
                     <div
-                      key={item.productId}
+                      key={item.productId._id}
                       className=" p-4 rounded-lg shadow-lg flex items-center"
                     >
                       <Image
                         width={240}
                         height={240}
-                        src={item.productThumbnail}
-                        alt={item.productName}
+                        src={item.productId.productThumbnail}
+                        alt={item.productId.productName}
                         className="w-24 h-24 object-cover rounded-lg shadow-lg"
                       />
                       <div className="ml-4">
                         <p className="text-lg font-semibold text-gray-800">
-                          {item.productName}
+                          {item.productId.productName}
                         </p>
                         <p className="text-sm text-gray-600">
                           {orders.QUNATITY}: ₹{item.productPrice}
