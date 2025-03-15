@@ -6,10 +6,11 @@ import Image from "next/image";
 
 async function ProductCard({ product }: { product: product }) {
   console.log(product, "product....");
+  console.log(product._id, "product id.....");
   return (
     <div className=" flex flex-col gap-y-2 w-full shadow-2xl p-2  mx-auto  dark:bg-gray-300">
       <div className="gap-y-2 flex flex-col ">
-        <WishlistIcon productId={product._id} />
+        <WishlistIcon productID={product._id} />
         <Image
           alt={product.productName}
           width={300}
@@ -26,15 +27,15 @@ async function ProductCard({ product }: { product: product }) {
           <Image
             width={100}
             height={100}
-            src={product.brandId.brandThumbnail}
-            alt={product.brandId.brandName}
+            src={product.brandID.brandThumbnail}
+            alt={product.brandID.brandName}
             className="h-8 w-8 rounded-full border shadow-md "
           />
         </div>
         <div className="text-center ">₹{product.productPrice}</div>
         <div className="flex items-center justify-center gap-2 mt-2"></div>
       </div>
-      <AddToCartBtn productId={product._id} />
+      <AddToCartBtn productID={product._id} />
     </div>
   );
 }

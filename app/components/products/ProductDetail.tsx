@@ -33,8 +33,8 @@ async function ProductDetailPage({ id }: { id: string }) {
               <Image
                 width={100}
                 height={100}
-                alt={product.products[0].brandId.brandName}
-                src={product.products[0].brandId.brandThumbnail}
+                alt={product.products[0].brandID.brandName}
+                src={product.products[0].brandID.brandThumbnail}
                 className="w-10 h-10 rounded-full border "
               />
             </div>
@@ -47,7 +47,7 @@ async function ProductDetailPage({ id }: { id: string }) {
             {product.products[0].productDescription}
           </div>
           <div className="flex flex-col gap-y-2 pb-6">
-            <AddToCartBtn productId={product.products[0]._id} />
+            <AddToCartBtn productID={product.products[0]._id} />
           </div>
           <FetchReview
             id={product.products[0]._id}

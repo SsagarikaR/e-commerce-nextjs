@@ -1,12 +1,7 @@
-import {
-  createNewCategory,
-  deleteCategory,
-  selectAllCategories,
-  selectCategoryByID,
-  selectCategoryByName,
-  updateCategory,
-} from "@/dbQuery/categorie";
+import { Category } from "@/repository/repoFunction/categories";
 import { invalidateCache, getCache, setCache } from "@/lib/helpers/cacheHelper";
+
+const categoryRepo = Category.getInstance(process.env.DATABASE!);
 
 // Service to create a new category
 export const createCategoryService = async (
@@ -15,13 +10,17 @@ export const createCategoryService = async (
 ) => {
   try {
     // Check if the category already exists
-    const isCategoryExist = await selectCategoryByName(categoryName);
+    const isCategoryExist =
+      await categoryRepo.selectCategoryByName(categoryName);
     if (isCategoryExist) {
       return { success: false, message: "This category already exists" };
     }
 
     // Create the new category
-    const category = await createNewCategory(categoryName, categoryThumbnail);
+    const category = await categoryRepo.createNewCategory(
+      categoryName,
+      categoryThumbnail
+    );
     if (category) {
       // Invalidate cache for all categories to ensure the list is updated
       invalidateCache("categories:all");
@@ -47,7 +46,7 @@ export const getCategoriesService = async (name?: string) => {
     }
 
     if (name && typeof name === "string") {
-      const category = await selectCategoryByName(name);
+      const category = await categoryRepo.selectCategoryByName(name);
       if (!category) {
         return {
           success: false,
@@ -60,7 +59,7 @@ export const getCategoriesService = async (name?: string) => {
       return { success: true, categories: category };
     }
 
-    const categories = await selectAllCategories();
+    const categories = await categoryRepo.selectAllCategories();
     if (categories.length === 0) {
       return { success: false, message: "No categories found." };
     }
@@ -76,18 +75,22 @@ export const getCategoriesService = async (name?: string) => {
 
 // Service to update an existing category
 export const updateCategoryService = async (
-  categoryId: string,
+  categoryID: string,
   categoryName: string,
   categoryThumbnail: string
 ) => {
   try {
-    const isCategoryExist = await selectCategoryByID(categoryId);
+    const isCategoryExist = await categoryRepo.selectCategoryByID(categoryID);
     if (!isCategoryExist) {
       return { success: false, message: "Category not found" };
     }
 
     // Update the category
-    await updateCategory(categoryName, categoryThumbnail, categoryId);
+    await categoryRepo.updateCategory(
+      categoryName,
+      categoryThumbnail,
+      categoryID
+    );
 
     // Invalidate cache for all categories since an update occurred
     invalidateCache("categories:all");
@@ -101,15 +104,15 @@ export const updateCategoryService = async (
 };
 
 // Service to delete an existing category
-export const deleteCategoryService = async (categoryId: string) => {
+export const deleteCategoryService = async (categoryID: string) => {
   try {
-    const isCategoryExist = await selectCategoryByID(categoryId);
+    const isCategoryExist = await categoryRepo.selectCategoryByID(categoryID);
     if (!isCategoryExist) {
       return { success: false, message: "This category not found" };
     }
 
     // Delete the category
-    await deleteCategory(categoryId);
+    await categoryRepo.deleteCategory(categoryID);
 
     // Invalidate cache for all categories after deletion
     invalidateCache("categories:all");

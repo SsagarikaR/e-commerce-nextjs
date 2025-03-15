@@ -1,4 +1,4 @@
-import connectDB from "./lib/database/mongodb";
+import connectDB from "./database/mongodb";
 
 export async function register() {
   if (process.env.NEXT_RUNTIME === "nodejs") {

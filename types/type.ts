@@ -59,8 +59,8 @@ declare global {
     productImage2: string;
     productImage3: string;
     productImage4: string;
-    brandId: brands;
-    categoryId: categories;
+    brandID: brands;
+    categoryID: categories;
   }
 
   interface products {
@@ -70,8 +70,8 @@ declare global {
 
   interface cartItem {
     _id: string;
-    productId: string;
-    userId: string;
+    productID: string;
+    userID: string;
     brandDetails: brands;
     productDetails: product;
     categoryDetails: categories;
@@ -85,8 +85,8 @@ declare global {
 
   interface OrderItem {
     _id: string;
-    orderId: string;
-    productId: product;
+    orderID: string;
+    productID: product;
     productName: string;
     productThumbnail: string;
     price: number;
@@ -102,10 +102,10 @@ declare global {
   }
   interface orderData {
     _id: string;
-    userId: string;
+    userID: string;
     totalAmount: number;
     items: OrderItem[];
-    addressId: string;
+    addressID: string;
     totalPrice: number;
     status: string;
     handlingPrice: number;
@@ -117,9 +117,9 @@ declare global {
 
   interface CartStore {
     cartItems: cartItem[];
-    addItemToCart: (productId: string, quantity: number) => void;
-    removeItemFromCart: (cartItemId: string) => void;
-    updateCartItemQuantity: (cartItemId: string, quantity: number) => void;
+    addItemToCart: (productID: string, quantity: number) => void;
+    removeItemFromCart: (cartItemID: string) => void;
+    updateCartItemQuantity: (cartItemID: string, quantity: number) => void;
     fetchCartItems: () => void; // Function to fetch cart items from the backend
   }
 
@@ -127,16 +127,16 @@ declare global {
     _id: string;
     productDescription: string;
     productThumbnail: string;
-    productId: string;
+    productID: string;
     productName: string;
     productPrice: number;
-    userId: string;
+    userID: string;
   }
 
   interface wishlist {
     _id: string;
-    productId: product;
-    userId: user;
+    productID: product;
+    userID: user;
   }
 
   interface signinFormState<T> {
@@ -162,15 +162,15 @@ declare global {
   }
 
   interface order extends address {
-    orderId: number;
-    userId: number;
+    orderID: number;
+    userID: number;
     totalAmount: number;
     status: string;
   }
 
   interface orderItem {
-    orderId: string;
-    productId: string;
+    orderID: string;
+    productID: string;
     quantity: number;
     price: number;
     productName: string;
@@ -191,10 +191,10 @@ declare global {
 
   interface review {
     description: string;
-    productId: string;
+    productID: string;
     rating: number;
     _id: string;
-    userId: user;
+    userID: user;
   }
 
   interface cloudinaryInfo {

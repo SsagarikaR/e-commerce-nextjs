@@ -1,29 +1,23 @@
-import {
-  insertPrefernce,
-  selectPrefernceByProductANDUser,
-  fetchPreference,
-  updatePreference,
-  deletePreference,
-} from "@/dbQuery/preferences";
+import { Preference } from "@/repository/repoFunction/preferences";
 import { invalidateCache, getCache, setCache } from "@/lib/helpers/cacheHelper";
+
+const preferenceRepo = Preference.getInstance(process.env.DATABASE!);
 
 // Service function for creating a preference
 export const createPreferenceService = async (
-  productId: string,
-  userId: string
+  productID: string,
+  userID: string
 ) => {
-  const cacheKey = `preferences:${userId}`;
+  const cacheKey = `preferences:${userID}`;
   try {
-    const existingPreference = await selectPrefernceByProductANDUser(
-      productId,
-      userId
-    );
+    const existingPreference =
+      await preferenceRepo.selectPreferenceByProductANDUser(productID, userID);
 
     if (existingPreference) {
       return { message: "Preference already exists" };
     }
 
-    const result = await insertPrefernce(productId, userId);
+    const result = await preferenceRepo.insertPreference(productID, userID);
 
     invalidateCache(cacheKey);
     console.log(result);
@@ -35,8 +29,8 @@ export const createPreferenceService = async (
 };
 
 // Service function for fetching preferences
-export const fetchPreferencesService = async (userId: string) => {
-  const cacheKey = `preferences:${userId}`;
+export const fetchPreferencesService = async (userID: string) => {
+  const cacheKey = `preferences:${userID}`;
   try {
     const cachedPreferences = getCache(cacheKey);
     if (cachedPreferences) {
@@ -45,7 +39,7 @@ export const fetchPreferencesService = async (userId: string) => {
     }
 
     // Fetch preferences from database if cache is not available
-    const preferences = await fetchPreference(userId);
+    const preferences = await preferenceRepo.fetchPreference(userID);
     console.log(preferences, "prefernce service....");
     if (!preferences || preferences.length === 0) {
       return null;
@@ -63,14 +57,18 @@ export const fetchPreferencesService = async (userId: string) => {
 
 // Service function for updating a preference
 export const updatePreferenceService = async (
-  preferenceId: string,
-  productId: string,
-  userId: string
+  preferenceID: string,
+  productID: string,
+  userID: string
 ) => {
-  const cacheKey = `preferences:${userId}`;
+  const cacheKey = `preferences:${userID}`;
   try {
     // Update preference in the database
-    const preference = await updatePreference(preferenceId, productId, userId);
+    const preference = await preferenceRepo.updatePreference(
+      preferenceID,
+      productID,
+      userID
+    );
 
     if (!preference) {
       return { message: "Preference not found or not updated" };
@@ -88,13 +86,13 @@ export const updatePreferenceService = async (
 
 // Service function for deleting a preference
 export const deletePreferenceService = async (
-  preferenceId: string,
-  userId: string
+  preferenceID: string,
+  userID: string
 ) => {
-  const cacheKey = `preferences:${userId}`;
+  const cacheKey = `preferences:${userID}`;
   try {
     // Delete preference from the database
-    const preference = await deletePreference(preferenceId);
+    const preference = await preferenceRepo.deletePreference(preferenceID);
 
     // After deleting, invalidate the cache so that the changes are reflected
     invalidateCache(cacheKey);

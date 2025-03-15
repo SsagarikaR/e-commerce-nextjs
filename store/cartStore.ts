@@ -26,8 +26,8 @@ export const useCartStore = create<CartStore>((set) => ({
   },
 
   // Add an item to the cart
-  addItemToCart: (productId, quantity) => {
-    authorizedPostRequest("cart", { productId, quantity })
+  addItemToCart: (productID, quantity) => {
+    authorizedPostRequest("cart", { productID, quantity })
       .then((response) => {
         if (response.status === 200) {
           fetchCartItemsFromBackend().then((updatedCartItems) => {
@@ -41,8 +41,8 @@ export const useCartStore = create<CartStore>((set) => ({
   },
 
   // Remove an item from the cart
-  removeItemFromCart: (cartItemId) => {
-    authorizedDeleteRequest("cart", { cartItemId })
+  removeItemFromCart: (cartItemID) => {
+    authorizedDeleteRequest("cart", { cartItemID })
       .then((response) => {
         if (response.status === 200) {
           fetchCartItemsFromBackend().then((updatedCartItems) => {
@@ -56,8 +56,8 @@ export const useCartStore = create<CartStore>((set) => ({
   },
 
   // Update the quantity of an item in the cart
-  updateCartItemQuantity: (cartItemId, quantity) => {
-    authorizedPatchRequest("cart", { cartItemId, quantity })
+  updateCartItemQuantity: (cartItemID, quantity) => {
+    authorizedPatchRequest("cart", { cartItemID, quantity })
       .then((response) => {
         if ((response.status = 200)) {
           fetchCartItemsFromBackend().then((updatedCartItems) => {

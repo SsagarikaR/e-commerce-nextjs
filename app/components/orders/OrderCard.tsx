@@ -22,7 +22,7 @@ function OrderCard({ item }: { item: orderData }) {
   const confirmDelete = async () => {
     try {
       const response = await authorizedPatchRequest("orders/status", {
-        orderId: item._id,
+        orderID: item._id,
       });
       mutate("orders");
       setToastMessage("Order canceled successfully");
@@ -38,7 +38,7 @@ function OrderCard({ item }: { item: orderData }) {
   const handleEdit = async () => {
     try {
       const response = await authorizedPatchRequest("orders", {
-        orderId: item._id,
+        orderID: item._id,
         newAddress: address,
       });
       console.log(response);
@@ -82,22 +82,22 @@ function OrderCard({ item }: { item: orderData }) {
                 {item.items && item.items.length > 0 ? (
                   item.items.map((item) => (
                     <div
-                      key={item.productId._id}
+                      key={item.productID._id}
                       className=" p-4 rounded-lg shadow-lg flex items-center"
                     >
                       <Image
                         width={240}
                         height={240}
-                        src={item.productId.productThumbnail}
-                        alt={item.productId.productName}
+                        src={item.productID.productThumbnail}
+                        alt={item.productID.productName}
                         className="w-24 h-24 object-cover rounded-lg shadow-lg"
                       />
                       <div className="ml-4">
                         <p className="text-lg font-semibold text-gray-800">
-                          {item.productId.productName}
+                          {item.productID.productName}
                         </p>
                         <p className="text-sm text-gray-600">
-                          {orders.QUNATITY}: ₹{item.productPrice}
+                          {orders.PRICE}: ₹{item.productID.productPrice}
                         </p>
                         <p className="text-sm text-gray-600">
                           {orders.QUNATITY}: {item.quantity}

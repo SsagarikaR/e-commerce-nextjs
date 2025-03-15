@@ -10,10 +10,10 @@ const addProductSchema = z.object({
   productDescription: z
     .string({ message: "Description is required" })
     .min(1, { message: "Description is required" }),
-  brandId: z
+  brandID: z
     .string({ message: "Please choose a brand" })
     .min(1, { message: "Brand Id is required" }),
-  categoryId: z
+  categoryID: z
     .string({ message: "Please choose a category" })
     .min(1, { message: "Category Id is required" }),
   stock: z
@@ -33,8 +33,8 @@ export async function addProductAction(formData: FormData) {
   const unvalidatedData = {
     productName: formData.get("productName"),
     productThumbnail: formData.get("productThumbnail"),
-    categoryId: formData.get("categoryId"),
-    brandId: formData.get("brandId"),
+    categoryID: formData.get("categoryID"),
+    brandID: formData.get("brandID"),
     productDescription: formData.get("productDescription"),
     stock: formData.get("stock"),
     productPrice: formData.get("productPrice"),
@@ -51,8 +51,8 @@ export async function addProductAction(formData: FormData) {
       errors: {
         productName: formFieldErrors?.productName,
         productThumbnail: formFieldErrors?.productThumbnail,
-        categoryId: formFieldErrors?.categoryId,
-        brandId: formFieldErrors?.brandId,
+        categoryID: formFieldErrors?.categoryID,
+        brandID: formFieldErrors?.brandID,
         productDescription: formFieldErrors?.productDescription,
         stock: formFieldErrors?.stock,
         productPrice: formFieldErrors?.productPrice,

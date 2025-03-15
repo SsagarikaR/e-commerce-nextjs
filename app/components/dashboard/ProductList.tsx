@@ -19,7 +19,7 @@ function ProductList({ page }: { page: number }) {
   );
 
   const [showModal, setShowModal] = useState(false);
-  const [productToDelete, setProductToDelete] = useState<number | null>(null);
+  const [productToDelete, setProductToDelete] = useState<string | null>(null);
 
   // Handle loading state
   if (!products) {
@@ -39,7 +39,7 @@ function ProductList({ page }: { page: number }) {
 
   const currentPage = page;
 
-  const handleDelete = async (productID: number) => {
+  const handleDelete = async (productID: string) => {
     setProductToDelete(productID); // Set the product ID to be deleted
     setShowModal(true); // Show the modal
   };
@@ -108,10 +108,10 @@ function ProductList({ page }: { page: number }) {
                   {product.productPrice}
                 </td>
                 <td className="border-2 border-gray-400 p-2">
-                  {product.brandId.brandName}
+                  {product.brandID.brandName}
                 </td>
                 <td className="border-2 border-gray-400 p-2">
-                  {product.categoryId.categoryName}
+                  {product.categoryID.categoryName}
                 </td>
                 <td className="border-2 border-gray-400 p-2">
                   {product.stock}

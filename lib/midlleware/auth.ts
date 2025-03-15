@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 // import { QueryTypes } from "sequelize";
 import Jwt, { JwtPayload } from "jsonwebtoken";
 import dotenv from "dotenv";
-import Admin from "../database/models/admin";
+import Admin from "../../database/mongo-models/admin";
 dotenv.config();
 
 export const generateToken = async (id: number) => {
@@ -52,13 +52,13 @@ export const isAdmin = async (
 ) => {
   // Narrow the type to JwtPayload
   if (typeof decodedUser !== "string" && decodedUser !== null) {
-    const userId = decodedUser?.identifire;
+    const userID = decodedUser?.identifire;
 
     console.log(decodedUser?.identifire, "iden");
     console.log(decodedUser, "decodeduser");
 
     try {
-      const user = await Admin.findOne({ userId });
+      const user = await Admin.findOne({ userID });
 
       if (!user) {
         return NextResponse.json(

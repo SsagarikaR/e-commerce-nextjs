@@ -1,12 +1,7 @@
-import {
-  createNewBrand,
-  deleteBrandByID,
-  findAllBrand,
-  findBrandByName,
-  updateTheBrand,
-  selectBrandByID,
-} from "@/dbQuery/brand";
+import { Brand } from "@/repository/repoFunction/brand";
 import { invalidateCache, getCache, setCache } from "@/lib/helpers/cacheHelper";
+
+const brandRepo = Brand.getInstance(process.env.DATABASE!);
 
 // Service to create a new brand
 export const createBrandService = async (
@@ -14,12 +9,12 @@ export const createBrandService = async (
   brandThumbnail: string
 ) => {
   try {
-    const isBrandExist = await findBrandByName(brandName);
+    const isBrandExist = await brandRepo.findBrandByName(brandName);
     if (isBrandExist) {
       return { success: false, message: "This brand already exists" };
     }
 
-    const brand = await createNewBrand(brandName, brandThumbnail);
+    const brand = await brandRepo.createNewBrand(brandName, brandThumbnail);
     if (brand) {
       invalidateCache("brands:all");
       return { success: true, message: "Successfully added a new brand." };
@@ -43,7 +38,7 @@ export const getBrandsService = async (name?: string) => {
     }
 
     if (name && typeof name === "string") {
-      const brand = await findBrandByName(name);
+      const brand = await brandRepo.findBrandByName(name);
       if (!brand) {
         return { success: false, message: `No brand with name ${name} found.` };
       }
@@ -52,7 +47,7 @@ export const getBrandsService = async (name?: string) => {
       return { success: true, brands: brand };
     }
 
-    const brands = await findAllBrand();
+    const brands = await brandRepo.findAllBrands();
     if (brands.length === 0) {
       return { success: false, message: "No brands found." };
     }
@@ -67,17 +62,17 @@ export const getBrandsService = async (name?: string) => {
 
 // Service to update an existing brand
 export const updateBrandService = async (
-  brandId: string,
+  brandID: string,
   brandName: string,
   brandThumbnail: string
 ) => {
   try {
-    const isBrandExist = await selectBrandByID(brandId);
+    const isBrandExist = await brandRepo.selectBrandByID(brandID);
     if (!isBrandExist) {
       return { success: false, message: "Brand not found" };
     }
 
-    await updateTheBrand(brandId, brandName, brandThumbnail);
+    await brandRepo.updateTheBrand(brandID, brandName, brandThumbnail);
     invalidateCache("brands:all");
     invalidateCache(`brand:${brandName}`);
 
@@ -89,14 +84,14 @@ export const updateBrandService = async (
 };
 
 // Service to delete an existing brand
-export const deleteBrandService = async (brandId: string) => {
+export const deleteBrandService = async (brandID: string) => {
   try {
-    const isBrandExist = await selectBrandByID(brandId);
+    const isBrandExist = await brandRepo.selectBrandByID(brandID);
     if (!isBrandExist) {
       return { success: false, message: "This brand not found" };
     }
 
-    await deleteBrandByID(brandId);
+    await brandRepo.deleteBrandByID(brandID);
     invalidateCache("brands:all");
 
     return { success: true, message: "Successfully deleted the brand." };

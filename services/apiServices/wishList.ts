@@ -1,17 +1,16 @@
-import {
-  selectByUserAndProduct,
-  addProductToWishList,
-  getWishListByUserId,
-  selectFromWishListById,
-  deleteFromWishList,
-} from "@/dbQuery/wishLists";
+import { Wishlist } from "@/repository/repoFunction/wishLists";
+
+const wishlistRepo = Wishlist.getInstance(process.env.DATABASE!);
 
 // Service to add a product to the wishlist
 export const addProductToWishListService = async (
-  userId: string,
-  productId: string
+  userID: string,
+  productID: string
 ) => {
-  const existingItem = await selectByUserAndProduct(userId, productId);
+  const existingItem = await wishlistRepo.selectByUserAndProduct(
+    userID,
+    productID
+  );
   if (existingItem) {
     return {
       success: false,
@@ -19,7 +18,7 @@ export const addProductToWishListService = async (
     };
   }
 
-  const result = await addProductToWishList(userId, productId);
+  const result = await wishlistRepo.addProductToWishList(userID, productID);
   if (result) {
     return { success: true, message: "Product added to wishlist." };
   }
@@ -27,8 +26,8 @@ export const addProductToWishListService = async (
 };
 
 // Service to get all wishlist items for a user
-export const getWishListByUserService = async (userId: string) => {
-  const wishlist = await getWishListByUserId(userId);
+export const getWishListByUserService = async (userID: string) => {
+  const wishlist = await wishlistRepo.getWishListByUserID(userID);
   if (wishlist.length === 0) {
     return {
       success: false,
@@ -40,10 +39,13 @@ export const getWishListByUserService = async (userId: string) => {
 
 // Service to get a specific wishlist item by user and product id
 export const getWishListItemByIDService = async (
-  userId: string,
-  productId: string
+  userID: string,
+  productID: string
 ) => {
-  const wishlistItem = await selectByUserAndProduct(userId, productId);
+  const wishlistItem = await wishlistRepo.selectByUserAndProduct(
+    userID,
+    productID
+  );
   console.log(wishlistItem, "why why");
   if (!wishlistItem) {
     return { success: false, message: "Wishlist item not found." };
@@ -52,11 +54,11 @@ export const getWishListItemByIDService = async (
 };
 
 // Service to remove an item from the wishlist
-export const deleteFromWishListService = async (wishListId: string) => {
-  const wishlistItem = await selectFromWishListById(wishListId);
+export const deleteFromWishListService = async (wishListID: string) => {
+  const wishlistItem = await wishlistRepo.selectFromWishListByID(wishListID);
   if (!wishlistItem) {
     return { success: false, message: "Wishlist item not found." };
   }
-  await deleteFromWishList(wishListId);
+  await wishlistRepo.deleteFromWishList(wishListID);
   return { success: true, message: "Product removed from wishlist." };
 };

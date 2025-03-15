@@ -9,7 +9,8 @@ import {
 
 // Controller to add an item to the user's cart
 export const POST = async (req: NextRequest) => {
-  const { productId, quantity } = await req.json();
+  const { productID, quantity } = await req.json();
+  console.log(productID, quantity, "product quantity incadt");
   const { isValid, decodedUser } = checkToken(req);
   if (!isValid) {
     return NextResponse.json(
@@ -18,10 +19,10 @@ export const POST = async (req: NextRequest) => {
     );
   }
 
-  const userId = decodedUser.identifire;
+  const userID = decodedUser.identifire;
 
   try {
-    const result = await addCartItemService(userId, productId, quantity);
+    const result = await addCartItemService(userID, productID, quantity);
     if (result.success) {
       return NextResponse.json({
         message: result.message,
@@ -76,10 +77,10 @@ export const DELETE = async (req: NextRequest) => {
     );
   }
 
-  const { cartItemId } = await req.json();
+  const { cartItemID } = await req.json();
 
   try {
-    const result = await deleteCartItemService(cartItemId);
+    const result = await deleteCartItemService(cartItemID);
     if (result.success) {
       return NextResponse.json({ message: result.message, status: 200 });
     } else {
@@ -96,7 +97,7 @@ export const DELETE = async (req: NextRequest) => {
 
 // Controller to update the quantity of an item in the user's cart
 export const PATCH = async (req: NextRequest) => {
-  const { quantity, cartItemId } = await req.json();
+  const { quantity, cartItemID } = await req.json();
   const { isValid } = checkToken(req);
   if (!isValid) {
     return NextResponse.json(
@@ -106,7 +107,7 @@ export const PATCH = async (req: NextRequest) => {
   }
 
   try {
-    const result = await updateCartItemQuantityService(quantity, cartItemId);
+    const result = await updateCartItemQuantityService(quantity, cartItemID);
     if (result.success) {
       return NextResponse.json({ message: result.message, status: 200 });
     } else {

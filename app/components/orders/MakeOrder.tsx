@@ -49,7 +49,7 @@ function MakeOrderPage({ id }: { id: string | null }) {
   const handleSubmitOrder = async () => {
     let items = [];
     items = cartItems.map((item) => ({
-      productId: item.productDetails._id,
+      productID: item.productDetails._id,
       quantity: item.quantity,
       price: item.productDetails.productPrice,
     }));

@@ -52,7 +52,7 @@ async function FetchReview({ id, rating }: { id: number; rating: number }) {
                           className="w-6 h-6"
                         />
                       </div>
-                      <div className="text-2xl">{review.userId.name}</div>
+                      <div className="text-2xl">{review.userID.name}</div>
                     </div>
                     <div
                       className={`bg-green-500 flex p-1 gap-x-2 rounded-3xl items-center`}

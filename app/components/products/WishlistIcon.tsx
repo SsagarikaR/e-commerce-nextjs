@@ -9,29 +9,30 @@ import {
   authorizedPostRequest,
 } from "@/services/apiReqServices/authorizedRequest";
 
-export const fetchWishList = async (productId: string) => {
-  const response = await authorizedGetRequest(`wishlists/${productId}`);
+export const fetchWishList = async (productID: string) => {
+  const response = await authorizedGetRequest(`wishlists/${productID}`);
   return response;
 };
 
-export const addWishList = async (productId: string) => {
-  await authorizedPostRequest(`wishlists`, { productId });
+export const addWishList = async (productID: string) => {
+  console.log(productID, "product id adding");
+  await authorizedPostRequest(`wishlists`, { productID });
 };
 
-export const deleteWishList = async (wishListId: string) => {
-  const response = await authorizedDeleteRequest(`wishlists`, { wishListId });
+export const deleteWishList = async (wishListID: string) => {
+  const response = await authorizedDeleteRequest(`wishlists`, { wishListID });
   return response;
 };
 
-function WishlistIcon({ productId }: { productId: string }) {
+function WishlistIcon({ productID }: { productID: string }) {
   const [wishlistStatus, setWishlistStatus] = useState<boolean | null>(null);
   const [wishlistId, setWishlistId] = useState<string | undefined>(); // Use state to store the wishlist data
 
   useEffect(() => {
-    console.log(productId, "product id");
+    console.log(productID, "product id");
     const loadWishList = async () => {
       try {
-        const response = await fetchWishList(productId);
+        const response = await fetchWishList(productID);
         if (response.message) {
           setWishlistStatus(false);
         } else {
@@ -44,7 +45,7 @@ function WishlistIcon({ productId }: { productId: string }) {
       }
     };
     loadWishList();
-  }, [productId]);
+  }, [productID]);
 
   const handleClick = async () => {
     try {
@@ -53,9 +54,9 @@ function WishlistIcon({ productId }: { productId: string }) {
       // console.log(wishlistStatus, "status");
       if (!wishlistStatus) {
         // Add to wishlist
-        await addWishList(productId);
+        await addWishList(productID);
         setWishlistStatus(true);
-        const response = await fetchWishList(productId);
+        const response = await fetchWishList(productID);
         setWishlistId(response);
       } else {
         // Delete from wishlist
@@ -63,7 +64,7 @@ function WishlistIcon({ productId }: { productId: string }) {
           await deleteWishList(wishlistId);
           setWishlistStatus(false);
           setWishlistId(undefined); // Clear the wishlist after deletion
-          const response = await fetchWishList(productId);
+          const response = await fetchWishList(productID);
           setWishlistId(response._id);
         }
       }

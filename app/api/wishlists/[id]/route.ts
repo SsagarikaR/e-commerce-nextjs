@@ -15,11 +15,11 @@ export const GET = async (
     );
   }
 
-  const userId = decodedUser.identifire;
+  const userID = decodedUser.identifire;
   const { id } = await params;
-  console.log(userId, id, "user is dnu id");
+  console.log(userID, id, "user is dnu id");
   try {
-    const result = await getWishListItemByIDService(userId, String(id));
+    const result = await getWishListItemByIDService(userID, String(id));
     if (!result.success) {
       return NextResponse.json({ message: result.message });
     }

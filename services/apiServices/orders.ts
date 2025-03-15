@@ -7,12 +7,14 @@ import {
   updateOrderAddressQuery,
   getOrderStatusByIdQuery,
   getUserOrderDetails,
-} from "@/dbQuery/orders";
-import { createNewAddress, selectAddress } from "@/dbQuery/address";
+} from "@/repository/mongoQuery/orders";
+import { Address } from "@/repository/repoFunction/address";
+
+const addressRepo = Address.getInstance(process.env.DATABASE!);
 
 //create a new order
 export const createOrderService = async (
-  userId: string,
+  userID: string,
   totalAmount: number,
   items: orderItem[],
   state: string,
@@ -23,9 +25,9 @@ export const createOrderService = async (
   totalPrice: number
 ) => {
   try {
-    const existingOrder = await selectOrderByUserID(userId);
-    let addressId: string;
-    const existingAddress: address = await selectAddress(
+    const existingOrder = await selectOrderByUserID(userID);
+    let addressID: string;
+    const existingAddress: address = await addressRepo.selectAddress(
       state,
       city,
       pincode,
@@ -33,16 +35,16 @@ export const createOrderService = async (
       address
     );
     if (existingAddress) {
-      addressId = existingAddress._id;
+      addressID = existingAddress._id;
     } else {
-      const result = await createNewAddress(
+      const result = await addressRepo.createNewAddress(
         state,
         city,
         pincode,
         locality,
         address
       );
-      addressId = result._id;
+      addressID = result._id;
     }
 
     if (existingOrder.length > 0) {
@@ -51,18 +53,18 @@ export const createOrderService = async (
     }
 
     const result = await insertOrder(
-      userId,
+      userID,
       totalPrice,
-      addressId,
+      addressID,
       totalAmount
     );
     console.log(result, "order id .........");
-    // console.log(result,"result");
+    console.log(items, "result");
     if (result) {
       for (const item of items) {
         await insertOrderItems(
-          result.orderId,
-          item.productId,
+          result.orderID,
+          item.productID,
           item.quantity,
           item.price
         );
@@ -77,9 +79,9 @@ export const createOrderService = async (
   }
 };
 
-export const fetchOrders = async (userId: string) => {
+export const fetchOrders = async (userID: string) => {
   try {
-    const orders = await getUserOrderDetails(userId);
+    const orders = await getUserOrderDetails(userID);
     // console.log(orders,"orders")
     return orders;
   } catch (error) {
@@ -92,11 +94,11 @@ export const fetchOrders = async (userId: string) => {
 };
 
 export const updateOrderAddressService = async (
-  orderId: string,
+  orderID: string,
   newAddress: string
 ) => {
   try {
-    const result = await updateOrderAddressQuery(orderId, newAddress);
+    const result = await updateOrderAddressQuery(orderID, newAddress);
     return result;
   } catch (error) {
     console.error("Error in service:", error);
@@ -104,9 +106,9 @@ export const updateOrderAddressService = async (
   }
 };
 
-export const deleteOrderService = async (orderId: string) => {
+export const deleteOrderService = async (orderID: string) => {
   try {
-    const result = await deleteOrderQuery(orderId);
+    const result = await deleteOrderQuery(orderID);
     return result;
   } catch (error) {
     console.error("Error in service:", error);
@@ -115,11 +117,11 @@ export const deleteOrderService = async (orderId: string) => {
 };
 
 export const updateOrderStatusService = async (
-  orderId: string,
+  orderID: string,
   status: string
 ) => {
   try {
-    const result = await updateOrderStatusQuery(orderId, status);
+    const result = await updateOrderStatusQuery(orderID, status);
     return result;
   } catch (error) {
     console.error("Error in service:", error);
@@ -127,9 +129,9 @@ export const updateOrderStatusService = async (
   }
 };
 
-export const getOrderStatusById = async (orderId: string) => {
+export const getOrderStatusById = async (orderID: string) => {
   try {
-    const result = await getOrderStatusByIdQuery(orderId);
+    const result = await getOrderStatusByIdQuery(orderID);
     return result;
   } catch (error) {
     console.error("Error fetching order status:", error);

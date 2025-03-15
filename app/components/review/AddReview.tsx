@@ -47,7 +47,7 @@ const AddReview = ({ pid }: { pid: string }) => {
     e.preventDefault();
 
     const reviewData = {
-      productId: pid,
+      productID: pid,
       rating,
       description,
     };

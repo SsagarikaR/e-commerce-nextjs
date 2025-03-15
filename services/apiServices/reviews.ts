@@ -1,26 +1,20 @@
-import {
-  addNewReview,
-  selectByReviewID,
-  selectReviewOfProduct,
-  deleteReview,
-  updateReview,
-  calculateAverageRating,
-  updateProductRating,
-} from "@/dbQuery/review";
+import { Review } from "@/repository/repoFunction/review";
+
+const reviewRepo = Review.getInstance(process.env.DATABASE!);
 
 // Service function to add a new review
 export const addReviewService = async (
-  userId: string,
-  productId: string,
+  userID: string,
+  productID: string,
   rating: number,
   description: string
 ) => {
   try {
-    await addNewReview(userId, productId, rating, description);
+    await reviewRepo.addNewReview(userID, productID, rating, description);
 
-    const avgRating = await calculateAverageRating(productId);
+    const avgRating = await reviewRepo.calculateAverageRating(productID);
     console.log(avgRating, "avg rating");
-    await updateProductRating(productId, avgRating);
+    await reviewRepo.updateProductRating(productID, avgRating);
 
     return { success: true, message: "Thank you for adding a review!" };
   } catch (error) {
@@ -30,9 +24,9 @@ export const addReviewService = async (
 };
 
 // Service function to get all reviews for a product
-export const getReviewsOfProductService = async (productId: string) => {
+export const getReviewsOfProductService = async (productID: string) => {
   try {
-    const reviews = await selectReviewOfProduct(productId);
+    const reviews = await reviewRepo.selectReviewOfProduct(productID);
     // console.log(reviews, "reviews....");
     if (reviews.length === 0) {
       return { success: false, message: "No reviews found." };
@@ -46,18 +40,18 @@ export const getReviewsOfProductService = async (productId: string) => {
 
 // Service function to update a review
 export const updateReviewService = async (
-  userId: string,
-  reviewId: string,
+  userID: string,
+  reviewID: string,
   rating: number,
   description: string
 ) => {
   try {
-    const reviewExist = await selectByReviewID(reviewId);
+    const reviewExist = await reviewRepo.selectByReviewID(reviewID);
     if (reviewExist.length === 0) {
       return { success: false, message: "No review found for this review ID." };
     }
 
-    await updateReview(userId, reviewId, rating, description);
+    await reviewRepo.updateReview(userID, reviewID, rating, description);
     return { success: true, message: "Review updated successfully!" };
   } catch (error) {
     console.error(error);
@@ -66,14 +60,14 @@ export const updateReviewService = async (
 };
 
 // Service function to delete a review
-export const deleteReviewService = async (userId: string, reviewId: string) => {
+export const deleteReviewService = async (userID: string, reviewID: string) => {
   try {
-    const reviewExist = await selectByReviewID(reviewId);
+    const reviewExist = await reviewRepo.selectByReviewID(reviewID);
     if (reviewExist.length === 0) {
       return { success: false, message: "No review found for this review ID." };
     }
 
-    await deleteReview(userId, reviewId);
+    await reviewRepo.deleteReview(userID, reviewID);
     return { success: true, message: "Review deleted successfully!" };
   } catch (error) {
     console.error(error);

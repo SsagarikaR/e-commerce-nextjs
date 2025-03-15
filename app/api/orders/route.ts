@@ -15,7 +15,7 @@ export const POST = async (req: NextRequest) => {
       { status: 401 }
     );
   }
-  const userId = decodedUser?.identifire;
+  const userID = decodedUser?.identifire;
   const {
     totalAmount,
     items,
@@ -32,7 +32,7 @@ export const POST = async (req: NextRequest) => {
     // console.log(req.body)
 
     const result = await createOrderService(
-      userId,
+      userID,
       totalAmount,
       items,
       state,
@@ -67,9 +67,9 @@ export const GET = async (req: NextRequest) => {
     );
   }
 
-  const userId = decodedUser?.identifire;
+  const userID = decodedUser?.identifire;
   try {
-    const orders = await fetchOrders(userId);
+    const orders = await fetchOrders(userID);
     // console.log("orders",orders)
 
     if (!orders || orders.length === 0) {
@@ -94,10 +94,10 @@ export const PATCH = async (req: NextRequest) => {
     );
   }
 
-  const { orderId, newAddress } = await req.json();
-  console.log(orderId, newAddress);
+  const { orderID, newAddress } = await req.json();
+  // console.log(orderID, newAddress);
   try {
-    if (!orderId || !newAddress) {
+    if (!orderID || !newAddress) {
       return NextResponse.json(
         { message: "Please provide orderId,  and newAddress." },
         { status: 409 }
@@ -111,7 +111,7 @@ export const PATCH = async (req: NextRequest) => {
     //   return NextResponse.json({message: 'You cannot update the address of a cancelled order.' },{status:403});
     // }
 
-    const result = await updateOrderAddressService(orderId, newAddress);
+    const result = await updateOrderAddressService(orderID, newAddress);
 
     if (!result) {
       return NextResponse.json(
@@ -144,14 +144,14 @@ export const DELETE = async (req: NextRequest) => {
     );
   }
 
-  const { orderId } = await req.json();
+  const { orderID } = await req.json();
 
   try {
-    if (!orderId) {
+    if (!orderID) {
       return NextResponse.json({ message: "Please provide orderId." });
     }
 
-    await deleteOrderService(orderId);
+    await deleteOrderService(orderID);
 
     return NextResponse.json({ message: "Order deleted successfully" });
   } catch (error) {

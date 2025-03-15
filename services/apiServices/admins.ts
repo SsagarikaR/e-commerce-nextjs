@@ -1,21 +1,18 @@
-import {
-  createNewAdmin,
-  selectAdmin,
-  deleteAdminByID,
-  updateAdminByID,
-} from "@/dbQuery/admin";
+import { Admin } from "@/repository/repoFunction/admin";
+
+const adminRepo = Admin.getInstance(process.env.DATABASE!);
 
 // Service function to create a new admin
-export const createAdminService = async (userId: string) => {
+export const createAdminService = async (userID: string) => {
   try {
     // Check if the admin already exists
-    const existingAdmin = await selectAdminService(userId);
+    const existingAdmin = await selectAdminService(userID);
     if (existingAdmin) {
       return { success: false, message: "This Admin is already registered." };
     }
 
     // Create new admin
-    const admin = await createNewAdmin(userId);
+    const admin = await adminRepo.createNewAdmin(userID);
     console.log(admin);
     if (!admin) {
       return {
@@ -32,9 +29,9 @@ export const createAdminService = async (userId: string) => {
 };
 
 // Service function to get an admin by userID
-export const selectAdminService = async (userId: string) => {
+export const selectAdminService = async (userID: string) => {
   try {
-    return await selectAdmin(userId);
+    return await adminRepo.selectAdmin(userID);
   } catch (error) {
     console.error("Error fetching admin:", error);
     throw new Error("Error while fetching admin details.");
@@ -42,16 +39,16 @@ export const selectAdminService = async (userId: string) => {
 };
 
 // Service function to delete admin by userID
-export const deleteAdminService = async (userId: string) => {
+export const deleteAdminService = async (userID: string) => {
   try {
     // Check if the admin exists
-    const admin = await selectAdmin(userId);
+    const admin = await adminRepo.selectAdmin(userID);
     if (!admin) {
       return { success: false, message: "Admin not found" };
     }
 
     // Delete the admin
-    const result = await deleteAdminByID(userId);
+    const result = await adminRepo.deleteAdminByID(userID);
     console.log(result);
     return { success: true, message: "Admin deleted successfully" };
   } catch (error) {
@@ -61,16 +58,16 @@ export const deleteAdminService = async (userId: string) => {
 };
 
 // Service function to update admin by userID
-export const updateAdminService = async (userId: string, newUserId: string) => {
+export const updateAdminService = async (userID: string, newUserID: string) => {
   try {
     // Check if the admin exists
-    const admin = await selectAdminService(userId);
+    const admin = await selectAdminService(userID);
     if (!admin) {
       return { success: false, message: "Admin not found" };
     }
 
     // Update the admin
-    const result = await updateAdminByID(userId, newUserId);
+    const result = await adminRepo.updateAdminByID(userID, newUserID);
     console.log(result);
     if (!result) {
       return { success: false, message: "Failed to update admin" };

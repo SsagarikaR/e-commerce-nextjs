@@ -17,10 +17,10 @@ function CategoryList() {
   );
 
   const [showModal, setShowModal] = useState(false);
-  const [categoryToDelete, setCategoryToDelete] = useState<number | null>(null);
+  const [categoryToDelete, setCategoryToDelete] = useState<string | null>(null);
 
   // Handle delete category
-  const handleDelete = (categoryID: number) => {
+  const handleDelete = (categoryID: string) => {
     setCategoryToDelete(categoryID);
     setShowModal(true);
   };

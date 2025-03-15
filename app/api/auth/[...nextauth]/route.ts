@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { selectUserByEmail } from "@/dbQuery/user";
+import { selectUserByEmail } from "@/repository/mongoQuery/user";
 
 const handler = NextAuth({
   providers: [

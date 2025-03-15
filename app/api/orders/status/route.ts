@@ -11,14 +11,14 @@ export const PATCH = async (req: NextRequest) => {
     );
   }
 
-  const { orderId } = await req.json();
+  const { orderID } = await req.json();
 
   try {
-    if (!orderId) {
+    if (!orderID) {
       return NextResponse.json({ message: "Please provide orderId." });
     }
 
-    const result = await updateOrderStatusService(orderId, "Cancelled");
+    const result = await updateOrderStatusService(orderID, "Cancelled");
 
     if (!result) {
       return NextResponse.json({

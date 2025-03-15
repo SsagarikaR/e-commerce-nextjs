@@ -1,15 +1,8 @@
-// import bcrypt from "bcrypt";
-import {
-  selectUserByName,
-  selectUserByEmail,
-  createNewUser,
-  deleteUserByID,
-  selectUserByID,
-  updateUsersPassword,
-  selectAllUsers,
-} from "@/dbQuery/user";
+import { User } from "@/repository/repoFunction/user";
 import bcrypt from "bcryptjs";
 import { generateToken } from "@/lib/midlleware/auth";
+
+const userRepo = User.getInstance(process.env.DATABASE!);
 
 // Service to create a new user
 export const createUserService = async (
@@ -18,14 +11,14 @@ export const createUserService = async (
   contactNo: string,
   password: string
 ) => {
-  const existingUserByName = await selectUserByName(name);
+  const existingUserByName = await userRepo.selectUserByName(name);
   if (existingUserByName.length > 0) {
     return { success: false, message: "Username already taken" };
   }
 
   // console.log(existingUserByName);
 
-  const existingUserByEmail = await selectUserByEmail(email);
+  const existingUserByEmail = await userRepo.selectUserByEmail(email);
   if (existingUserByEmail) {
     return { success: false, message: "Email already registered" };
   }
@@ -33,7 +26,12 @@ export const createUserService = async (
 
   const hashedPassword = await bcrypt.hashSync(password, 10);
   console.log(hashedPassword, "hashed");
-  const user = await createNewUser(name, email, contactNo, hashedPassword);
+  const user = await userRepo.createNewUser(
+    name,
+    email,
+    contactNo,
+    hashedPassword
+  );
 
   // console.log("user created", user);
   if (!user) {
@@ -45,7 +43,7 @@ export const createUserService = async (
 
 // Service to get a user by email and password
 export const getUserService = async (email: string, password: string) => {
-  const user = await selectUserByEmail(email);
+  const user = await userRepo.selectUserByEmail(email);
 
   if (user.password) {
     const isPasswordValid = await bcrypt.compareSync(password, user.password);
@@ -63,13 +61,13 @@ export const getUserService = async (email: string, password: string) => {
 
 // Service to delete a user by their ID
 export const deleteUserService = async (id: string) => {
-  const user: user[] = await selectUserByID(id);
+  const user: user[] = await userRepo.selectUserByID(id);
 
   if (!user) {
     return { success: false, message: "User not found" };
   }
 
-  await deleteUserByID(id);
+  await userRepo.deleteUserByID(id);
   return { success: true, message: "User deleted successfully" };
 };
 
@@ -79,7 +77,7 @@ export const updatePasswordService = async (
   oldPassword: string,
   newPassword: string
 ) => {
-  const user: user[] = await selectUserByID(id);
+  const user: user[] = await userRepo.selectUserByID(id);
 
   if (!user) {
     return { success: false, message: "User not found" };
@@ -93,14 +91,14 @@ export const updatePasswordService = async (
   }
 
   const hashedPassword = await bcrypt.hash(newPassword, 10);
-  await updateUsersPassword(user[0]._id, hashedPassword);
+  await userRepo.updateUsersPassword(user[0]._id, hashedPassword);
 
   return { success: true, message: "Password updated successfully" };
 };
 
 export const getAllUsersService = async () => {
   try {
-    const users = await selectAllUsers();
+    const users = await userRepo.selectAllUsers();
     if (users.length === 0) {
       return { success: false, message: "No users found" };
     }
@@ -114,7 +112,7 @@ export const getAllUsersService = async () => {
 // Service function to retrieve a user by their ID
 export const getUserByIDService = async (id: string) => {
   try {
-    const users = await selectUserByID(id);
+    const users = await userRepo.selectUserByID(id);
     // console.log(users, "user from backend");
     if (!users) {
       return { success: false, message: "User not found" };

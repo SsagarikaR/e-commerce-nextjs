@@ -23,8 +23,8 @@ function AddProduct() {
     productName: "",
     productPrice: "",
     productDescription: "",
-    brandId: "",
-    categoryId: "",
+    brandID: "",
+    categoryID: "",
     stock: "",
     productThumbnail: "",
     productImages: [] as string[],
@@ -34,8 +34,8 @@ function AddProduct() {
     productName: "",
     productPrice: "",
     productDescription: "",
-    brandId: "",
-    categoryId: "",
+    brandID: "",
+    categoryID: "",
     stock: "",
     productThumbnail: "",
     productImages: "",
@@ -86,8 +86,8 @@ function AddProduct() {
     form.set("productThmbnail", formData.productThumbnail);
     form.set("productPrice", formData.productPrice);
     form.set("productDescription", formData.productDescription);
-    form.set("categoryId", formData.categoryId);
-    form.set("brandId", formData.brandId);
+    form.set("categoryID", formData.categoryID);
+    form.set("brandID", formData.brandID);
     form.set("stock", formData.stock);
     // console.log(formData.productImages, "prdccut image sihkkgf");
     formData.productImages.forEach((imageUrl) => {
@@ -109,8 +109,8 @@ function AddProduct() {
         productDescription: result.errors.productDescription
           ? result.errors.productDescription[0]
           : "",
-        categoryId: result.errors.categoryId ? result.errors.categoryId[0] : "",
-        brandId: result.errors.brandId ? result.errors.brandId[0] : "",
+        categoryID: result.errors.categoryID ? result.errors.categoryID[0] : "",
+        brandID: result.errors.brandID ? result.errors.brandID[0] : "",
         stock: result.errors.stock ? result.errors.stock[0] : "",
         productImages: result.errors.productImages
           ? result.errors.productImages[0]
@@ -121,8 +121,8 @@ function AddProduct() {
         productName: "",
         productPrice: "",
         productDescription: "",
-        brandId: "",
-        categoryId: "",
+        brandID: "",
+        categoryID: "",
         stock: "",
         productThumbnail: "",
         productImages: "",
@@ -157,8 +157,8 @@ function AddProduct() {
         productDescription: result.errors.productDescription
           ? result.errors.productDescription[0]
           : "",
-        categoryId: result.errors.categoryId ? result.errors.categoryId[0] : "",
-        brandId: result.errors.brandId ? result.errors.brandId[0] : "",
+        categoryID: result.errors.categoryID ? result.errors.categoryID[0] : "",
+        brandID: result.errors.brandID ? result.errors.brandID[0] : "",
         stock: result.errors.stock ? result.errors.stock[0] : "",
         productImages: result.errors.productImages
           ? result.errors.productImages[0]
@@ -246,11 +246,11 @@ function AddProduct() {
             {dashboard_product.ENTER_PRODUCT_BARND}
           </label>
           <select
-            name="brandId"
+            name="brandID"
             onChange={(e) => {
               handleChange(e);
             }}
-            value={formData.brandId}
+            value={formData.brandID}
             className="border border-gray-400 px-4 py-2 w-3/5"
           >
             <option value="" disabled>
@@ -264,9 +264,9 @@ function AddProduct() {
                 </option>
               ))}
           </select>
-          {errors.brandId && (
+          {errors.brandID && (
             <p className="text-red-500 text-sm absolute bottom-0 pl-[40%]">
-              {errors.brandId}
+              {errors.brandID}
             </p>
           )}
         </div>
@@ -277,11 +277,11 @@ function AddProduct() {
             {dashboard_product.ENTER_RPODUCT_CATGEORY}
           </label>
           <select
-            name="categoryId"
+            name="categoryID"
             onChange={(e) => {
               handleChange(e);
             }}
-            value={formData.categoryId}
+            value={formData.categoryID}
             className="border border-gray-400 px-4 py-2 w-3/5"
           >
             <option value="" disabled>
@@ -295,9 +295,9 @@ function AddProduct() {
                 </option>
               ))}
           </select>
-          {errors.categoryId && (
+          {errors.categoryID && (
             <p className="text-red-500 text-sm absolute bottom-0 pl-[40%]">
-              {errors.categoryId}
+              {errors.categoryID}
             </p>
           )}
         </div>

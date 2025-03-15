@@ -17,17 +17,17 @@ export const POST = async (req: NextRequest) => {
     });
   }
 
-  const userId = decodedUser.identifire;
-  const { productId, rating, description } = await req.json();
+  const userID = decodedUser.identifire;
+  const { productID, rating, description } = await req.json();
 
-  if (!userId) {
+  if (!userID) {
     return NextResponse.json({
       message: "User not authenticated or missing.",
       status: 401,
     });
   }
 
-  if (!productId || !(rating >= 0 && rating <= 5) || !description) {
+  if (!productID || !(rating >= 0 && rating <= 5) || !description) {
     return NextResponse.json({
       message: "Please enter all the required fields.",
       status: 409,
@@ -36,8 +36,8 @@ export const POST = async (req: NextRequest) => {
 
   try {
     const { success, message } = await addReviewService(
-      userId,
-      productId,
+      userID,
+      productID,
       rating,
       description
     );
@@ -93,22 +93,22 @@ export const PATCH = async (req: NextRequest) => {
     );
   }
 
-  const userId = decodedUser.identifire;
+  const userID = decodedUser.identifire;
 
-  if (!userId) {
+  if (!userID) {
     return NextResponse.json({
       message: "User not authenticated or missing.",
     });
   }
-  const { reviewId, rating, description } = await req.json();
+  const { reviewID, rating, description } = await req.json();
 
-  if (!userId) {
+  if (!userID) {
     return NextResponse.json({
       message: "User not authenticated or missing.",
     });
   }
 
-  if (!reviewId || !rating || !description) {
+  if (!reviewID || !rating || !description) {
     return NextResponse.json({
       message: "Please enter review ID, rating, and description.",
     });
@@ -116,8 +116,8 @@ export const PATCH = async (req: NextRequest) => {
 
   try {
     const { success, message } = await updateReviewService(
-      userId,
-      reviewId,
+      userID,
+      reviewID,
       rating,
       description
     );
@@ -144,17 +144,17 @@ export const DELETE = async (req: NextRequest) => {
     );
   }
 
-  const userId = decodedUser.identifire;
-  const { reviewId } = await req.json();
+  const userID = decodedUser.identifire;
+  const { reviewID } = await req.json();
 
-  if (!reviewId) {
+  if (!reviewID) {
     return NextResponse.json({
       message: "Please provide a review ID to delete.",
     });
   }
 
   try {
-    const { success, message } = await deleteReviewService(userId, reviewId);
+    const { success, message } = await deleteReviewService(userID, reviewID);
     if (!success) {
       return NextResponse.json({ message: message });
     }

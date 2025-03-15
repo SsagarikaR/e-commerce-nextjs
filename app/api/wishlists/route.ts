@@ -8,7 +8,9 @@ import { checkToken } from "@/lib/midlleware/auth";
 
 // Controller to add a product to the wishlist
 export const POST = async (req: NextRequest) => {
-  const { productId } = await req.json();
+  const body = await req.json();
+  console.log(body, "all body data"); // Log entire request body for debugging
+  const { productID } = body;
   const { isValid, decodedUser } = await checkToken(req);
   if (!isValid) {
     return NextResponse.json(
@@ -17,10 +19,10 @@ export const POST = async (req: NextRequest) => {
     );
   }
 
-  const userId = decodedUser.identifire;
+  const userID = decodedUser.identifire;
 
   try {
-    const result = await addProductToWishListService(userId, productId);
+    const result = await addProductToWishListService(userID, productID);
     if (!result.success) {
       return NextResponse.json({ message: result.message });
     }
@@ -44,10 +46,10 @@ export const GET = async (req: NextRequest) => {
     );
   }
 
-  const userId = decodedUser.identifire;
+  const userID = decodedUser.identifire;
 
   try {
-    const result = await getWishListByUserService(userId);
+    const result = await getWishListByUserService(userID);
     if (!result.success) {
       return NextResponse.json({ message: result.message });
     }
@@ -60,7 +62,7 @@ export const GET = async (req: NextRequest) => {
 
 // Controller to delete an item from the wishlist
 export const DELETE = async (req: NextRequest) => {
-  const { wishListId } = await req.json();
+  const { wishListID } = await req.json();
   const { isValid, decodedUser } = await checkToken(req);
   if (!isValid) {
     return NextResponse.json(
@@ -70,7 +72,7 @@ export const DELETE = async (req: NextRequest) => {
   }
 
   try {
-    const result = await deleteFromWishListService(wishListId);
+    const result = await deleteFromWishListService(wishListID);
     if (!result.success) {
       return NextResponse.json({ message: result.message, status: 400 });
     }

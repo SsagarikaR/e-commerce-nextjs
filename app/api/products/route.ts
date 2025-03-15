@@ -14,8 +14,8 @@ export const POST = async (req: NextRequest) => {
     productDescription,
     productThumbnail,
     productPrice,
-    categoryId,
-    brandId,
+    categoryID,
+    brandID,
     stock,
     productImages,
   } = await req.json();
@@ -38,8 +38,8 @@ export const POST = async (req: NextRequest) => {
       productDescription,
       productThumbnail,
       productPrice,
-      categoryId,
-      brandId,
+      categoryID,
+      brandID,
       stock,
       productImages
     );

@@ -5,11 +5,11 @@ import {
   updateAdminService,
 } from "@/services/apiServices/admins";
 import { checkToken, isAdmin } from "@/lib/midlleware/auth";
-import { selectAllAdmin } from "@/dbQuery/admin";
+import { selectAllAdmin } from "@/repository/mongoQuery/admin";
 
 // Create new admin
 export const POST = async (req: NextRequest) => {
-  const { userId } = await req.json();
+  const { userID } = await req.json();
   const { isValid, decodedUser } = checkToken(req);
 
   if (!isValid) {
@@ -28,7 +28,7 @@ export const POST = async (req: NextRequest) => {
   }
 
   try {
-    if (!userId) {
+    if (!userID) {
       return NextResponse.json(
         {
           message: "Please enter user's ID to add the user as admin",
@@ -37,7 +37,7 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    const { success, message } = await createAdminService(userId);
+    const { success, message } = await createAdminService(userID);
     if (!success) {
       return NextResponse.json({ message: message }, { status: 401 });
     }
@@ -85,7 +85,7 @@ export const GET = async (req: NextRequest) => {
 
 // Delete admin by userID
 export const DELETE = async (req: NextRequest) => {
-  const { userId } = await req.json();
+  const { userID } = await req.json();
   const { isValid, decodedUser } = checkToken(req);
 
   if (!isValid) {
@@ -104,7 +104,7 @@ export const DELETE = async (req: NextRequest) => {
   }
 
   try {
-    const { success, message } = await deleteAdminService(userId);
+    const { success, message } = await deleteAdminService(userID);
     if (!success) {
       return NextResponse.json({ message: message }, { status: 404 });
     }
@@ -123,7 +123,7 @@ export const DELETE = async (req: NextRequest) => {
 
 // Update admin by userID
 export const PATCH = async (req: NextRequest) => {
-  const { userId, newUserId } = await req.json();
+  const { userID, newUserID } = await req.json();
   const { isValid, decodedUser } = checkToken(req);
 
   if (!isValid) {
@@ -142,7 +142,7 @@ export const PATCH = async (req: NextRequest) => {
   }
 
   try {
-    const { success, message } = await updateAdminService(userId, newUserId);
+    const { success, message } = await updateAdminService(userID, newUserID);
     if (!success) {
       return NextResponse.json({ message: message }, { status: 404 });
     }

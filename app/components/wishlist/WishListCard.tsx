@@ -6,7 +6,7 @@ import Image from "next/image";
 
 interface WishListCardProps {
   item: wishlist;
-  onDelete: (wishListId: string) => void; // Callback to update the parent component state
+  onDelete: (wishListID: string) => void; // Callback to update the parent component state
   onShowToast: (message: string, type: "success" | "error") => void; // Toast callback
 }
 
@@ -15,7 +15,7 @@ function WishListCard({ item, onDelete, onShowToast }: WishListCardProps) {
     try {
       // Call the API to delete the item from the wishlist
       const response = await authorizedDeleteRequest("wishlists", {
-        wishListId: item._id,
+        wishListID: item._id,
       });
       if (response.status === 200) {
         onDelete(item._id);
@@ -35,22 +35,22 @@ function WishListCard({ item, onDelete, onShowToast }: WishListCardProps) {
         <Image
           width={280}
           height={280}
-          src={item.productId.productThumbnail}
+          src={item.productID.productThumbnail}
           className="w-28 shadow-md p-2 cursor-pointer"
-          alt={item.productId.productName}
+          alt={item.productID.productName}
         />
         <div className="flex flex-col">
           <div className="flex justify-center items-center gap-1">
-            <div>{item.productId.productName}</div>
+            <div>{item.productID.productName}</div>
             <Image
               width={80}
               height={80}
-              src={item.productId.brandId.brandThumbnail}
+              src={item.productID.brandID.brandThumbnail}
               className="w-8 h-8 border shadow-md rounded-full"
-              alt={item.productId.brandId.brandName}
+              alt={item.productID.brandID.brandName}
             />
           </div>
-          <div>₹{item.productId.productPrice}</div>
+          <div>₹{item.productID.productPrice}</div>
         </div>
       </div>
 
