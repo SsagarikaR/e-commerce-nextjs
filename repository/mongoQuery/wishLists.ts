@@ -26,23 +26,18 @@ export const addProductToWishList = async (
 };
 
 // Get all items in the user's wishlist, populated with product, brand, and category data
-export const getWishListByUserID = async (userID: string | number) => {
+export const getWishListByUserID = async (userID: string) => {
   return await Wishlist.find({ userID })
     .populate({
       path: "productID",
       model: Product,
       populate: [
-        {
-          path: "brandID",
-          model: Brand,
-        },
-        {
-          path: "categoryID",
-          model: Category,
-        },
+        { path: "brandID", model: Brand },
+        { path: "categoryID", model: Category },
       ],
     })
-    .populate({ path: "userID", model: User });
+    .populate({ path: "userID", model: User })
+    .lean(); // Convert Mongoose documents to plain objects
 };
 
 // Select a specific wishlist item by ID

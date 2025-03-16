@@ -69,9 +69,9 @@ export const fetchPreference = async (userID: string | number) => {
     { $unwind: { path: "$brandDetails", preserveNullAndEmptyArrays: true } },
     {
       $project: {
-        preferenceId: "$_id",
-        productId: "$productID",
-        userId: "$userID",
+        preferenceID: "$_id",
+        productID: "$productID",
+        userID: "$userID",
         productName: "$productDetails.productName",
         productDescription: "$productDetails.productDescription",
         productThumbnail: "$productDetails.productThumbnail",

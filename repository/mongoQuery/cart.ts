@@ -38,7 +38,7 @@ export const getCartByUserID = async (userID: string | number) => {
     // Convert the userId to ObjectId properly by using `new mongoose.Types.ObjectId()`
     const objectIdUserID = new mongoose.Types.ObjectId(userID);
 
-    // console.log(objectIdUserId, "userId after conversion");
+    console.log(objectIdUserID, "userId after conversion");
 
     // Perform aggregation query
     return await CartItem.aggregate([

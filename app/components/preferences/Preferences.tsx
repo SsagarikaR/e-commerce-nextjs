@@ -19,7 +19,7 @@ function Preferences() {
             Recommend for you
           </div>
 
-          <div className="grid  2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 self-center grid-cols-2  sm:gap-10 gap-4">
+          <div className="grid    lg:grid-cols-4 md:grid-cols-3 self-center grid-cols-2  sm:gap-10 gap-4">
             {preferences.map((item: prefernce) => (
               <PreferenceCard key={item._id} item={item} />
             ))}

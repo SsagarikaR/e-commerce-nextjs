@@ -11,7 +11,7 @@ function CartCard({ item }: { item: cartItem }) {
           height={360}
           alt={item.productDetails.productName}
           src={item.productDetails.productThumbnail}
-          className="md:w-36 w-28 shadow-md p-2"
+          className="md:w-36 w-28 shadow-md p-2 bg-gray-100 "
         />
         <div>
           <div>{item.productDetails.productName}</div>

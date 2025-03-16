@@ -17,7 +17,7 @@ function Cart() {
   return (
     <div className="w-screen pt-24 ">
       {cartItems && cartItems.length > 0 ? (
-        <div className="w-full sm:p-0 p-1 sm:w-11/12 xl:w-4/5 flex m-auto gap-x-6">
+        <div className="w-full sm:p-0 p-1 sm:w-11/12 xl:w-4/5 flex m-auto sm:gap-x-6">
           <div className="flex flex-col max-h-[800px] w-4/5 border">
             <div className="flex flex-col max-h-[900px] overflow-auto">
               {cartItems.map((item) => (

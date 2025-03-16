@@ -209,13 +209,13 @@ function Navbar() {
               Sign In
             </Link>
           )}
-          <div className="text-black dark:text-white cursor-pointer justify-center flex items-center">
+          {/* <div className="text-black dark:text-white cursor-pointer justify-center flex items-center">
             <FontAwesomeIcon
               icon={faCircleHalfStroke}
               className="md:w-7 md:h-7 w-6 h-6 p-2"
               onClick={toggleDarkMode}
             />
-          </div>
+          </div> */}
         </div>
       </nav>
       <nav
