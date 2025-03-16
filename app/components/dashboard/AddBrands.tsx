@@ -95,7 +95,7 @@ function AddBrands() {
 
         <div className="flex justify-end items-center">
           <button
-            className="bg-blue-400 px-10 py-2 text-lg font-semibold text-black rounded-md"
+            className="bg-primary px-10 py-2 text-lg font-semibold text-black rounded-md"
             type="submit"
             disabled={false}
           >

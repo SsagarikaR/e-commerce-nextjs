@@ -60,7 +60,7 @@ export const selectByReviewID = async (reviewID: string | number) => {
 };
 
 export const selectReviewOfProduct = async (productID: string | number) => {
-  const reviews = await Review.find({ productID }).populate("userId");
+  const reviews = await Review.find({ productID }).populate("userID");
   console.log(reviews, "Reviews with user details:");
   return reviews;
 };

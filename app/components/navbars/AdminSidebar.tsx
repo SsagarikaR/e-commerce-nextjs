@@ -42,12 +42,12 @@ function AdminSidebar({
         </div>
       )}
       <div
-        className={`${isNavOpen ? "flex fixed" : "hidden"} md:flex  w-[250px]  flex-col font-serif p-2 items-center text-xl font-semibold text-gray-700 h-screen shadow-2xl gap-8 justify-between bg-gradient-to-r from-gray-200 to-blue-100 z-10`}
+        className={`${isNavOpen ? "flex fixed" : "hidden"} md:flex  w-[250px]  flex-col font-serif p-2 items-center text-xl font-semibold text-gray-700 h-screen shadow-2xl gap-8 justify-between bg-custom-gradient z-10`}
       >
         <div>
           <div className="flex items-center gap-2 pb-10 pt-2">
             <Link href="/home">
-              <div className="text-blue-500 ">
+              <div className="text-secondary ">
                 <FontAwesomeIcon icon={faBagShopping} className="w-9 h-9 " />
               </div>
             </Link>
@@ -61,7 +61,7 @@ function AdminSidebar({
               <li className={`pl-10 cursor-pointer`}>
                 <Link
                   href="/dashboard/products"
-                  className={`${currentPath === "/dashboard/products" ? "bg-blue-300" : ""} hover:bg-blue-200 rounded-md px-4 py-1`}
+                  className={`${currentPath === "/dashboard/products" ? "bg-secondary" : ""} hover:bg-primary rounded-md px-4 py-1`}
                 >
                   {admin_sidebar.PRODUCT_LIST}
                 </Link>
@@ -69,7 +69,7 @@ function AdminSidebar({
               <li className={`pl-10 cursor-pointer`}>
                 <Link
                   href="/dashboard/categories"
-                  className={`${currentPath === "/dashboard/categories" ? "bg-blue-300 " : ""} hover:bg-blue-200 rounded-md px-4 py-1`}
+                  className={`${currentPath === "/dashboard/categories" ? "bg-secondary " : ""} hover:bg-primary rounded-md px-4 py-1`}
                 >
                   {admin_sidebar.CATGEOYR_LIST}
                 </Link>
@@ -78,7 +78,7 @@ function AdminSidebar({
             <div className={`flex gap-1 cursor-pointer`}>
               <Link
                 href="/dashboard/brands"
-                className={`${currentPath === "/dashboard/brands" ? "bg-blue-200" : ""} hover:bg-blue-200 rounded-md px-4 py-1`}
+                className={`${currentPath === "/dashboard/brands" ? "bg-secondary" : ""} hover:bg-primary rounded-md px-4 py-1`}
               >
                 {admin_sidebar.BRANDS}
               </Link>
@@ -86,7 +86,7 @@ function AdminSidebar({
             <div className={`flex gap-1 cursor-pointer`}>
               <Link
                 href="/dashboard/customers"
-                className={`${currentPath === "/dashboard/customers" ? "bg-blue-200" : ""} hover:bg-blue-200 rounded-md px-4 py-1`}
+                className={`${currentPath === "/dashboard/customers" ? "bg-secondary" : ""} hover:bg-primary rounded-md px-4 py-1`}
               >
                 {admin_sidebar.Customers}
               </Link>
@@ -94,7 +94,7 @@ function AdminSidebar({
           </div>
         </div>
         <div
-          className="pb-10 text-2xl text-blue-500 cursor-pointer underline"
+          className="pb-10 text-2xl  cursor-pointer underline"
           onClick={() => {
             Cookies.remove("token");
             window.location.reload();

@@ -18,14 +18,14 @@ async function Category() {
   console.log("Fetched categories:", categories);
 
   return (
-    <div className="pt-24 dark:bg-gray-700 lg:px-10 xl:px-36 flex flex-col gap-y-1  px-4">
-      <div className=" text-3xl flex flex-col gap-y-3  text-center font-serif  mb-2 text-gray-700 dark:text-white">
-        <div className=" font-serif tracking-wider font-semibold">
+    <div className="pt-24 dark:bg-gray-700 lg:px-32 xl:px-36 flex flex-col gap-y-1 px-4">
+      <div className="text-3xl flex flex-col gap-y-3 text-center font-serif mb-2 dark:text-white">
+        <div className="font-serif tracking-wider font-semibold">
           Categories
         </div>
       </div>
 
-      {/* ✅ Grid View on Small Screens */}
+      {/* Grid View on Small Screens */}
       <div className="grid grid-cols-2 gap-4 sm:hidden">
         {categories.map((item, key) => (
           <CategoryCard
@@ -37,13 +37,19 @@ async function Category() {
         ))}
       </div>
 
-      {/* ✅ Carousel for Medium+ Screens */}
+      {/* Carousel for Medium+ Screens */}
       {categories && categories.length > 0 && (
         <div className="hidden sm:block">
-          <Carousel className="relative overflow-visible">
-            <CarouselContent>
+          <Carousel
+            className="relative overflow-visible"
+            opts={{ align: "start", loop: true }}
+          >
+            <CarouselContent className="flex">
               {categories.map((item, key) => (
-                <CarouselItem key={key} className=" lg:basis-1/4 basis-1/3 ">
+                <CarouselItem
+                  key={key}
+                  className="sm:basis-1/2 md:basis-1/3 xl:basis-1/4"
+                >
                   <CategoryCard
                     _id={item._id}
                     categoryName={item.categoryName}
@@ -52,6 +58,7 @@ async function Category() {
                 </CarouselItem>
               ))}
             </CarouselContent>
+
             {/* Custom Previous Button */}
             <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-gray-800 text-white p-4 rounded-full hover:bg-gray-600 transition duration-300 ease-in-out">
               <span className="text-2xl">←</span>

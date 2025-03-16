@@ -15,7 +15,7 @@ async function page({ searchParams }: { searchParams: { page?: string } }) {
         <div>
           <Link
             href="/dashboard/products/create"
-            className="bg-blue-400 px-10 py-2 text-lg font-semibold "
+            className="bg-secondary px-10 py-2 text-lg font-semibold "
           >
             ADD+
           </Link>

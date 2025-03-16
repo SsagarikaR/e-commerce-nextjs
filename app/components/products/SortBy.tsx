@@ -27,7 +27,7 @@ function SortBy({
           >
             <div
               className={`cursor-pointer p-2 hover:bg-gray-100 ${
-                price === "low-to-high" ? "text-blue-600" : "text-gray-600"
+                price === "low-to-high" ? "text-secondary" : "text-gray-600"
               }`}
             >
               low-to-high
@@ -38,7 +38,7 @@ function SortBy({
           >
             <div
               className={`cursor-pointer p-2 hover:bg-gray-100 ${
-                price === "high-to-low" ? "text-blue-600" : "text-gray-600"
+                price === "high-to-low" ? "text-secondary" : "text-gray-600"
               }`}
             >
               high-to-low

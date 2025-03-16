@@ -43,7 +43,14 @@ async function FetchReview({ id, rating }: { id: number; rating: number }) {
           <div className="flex flex-col mt-4">
             {reviews && reviews.length > 0 ? (
               reviews.map((review: review) => (
-                <div className="flex flex-col" key={review._id}>
+                <div
+                  className="flex flex-col"
+                  key={
+                    process.env.DATABASE === "mongodb"
+                      ? review._id
+                      : review.reviewID
+                  }
+                >
                   <div className="flex items-center gap-2">
                     <div className="flex items-center gap-1">
                       <div>

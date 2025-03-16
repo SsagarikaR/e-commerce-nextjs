@@ -59,7 +59,7 @@ function OrderDetails({ id }: { id: string }) {
                 <div className="flex justify-between">
                   <Link
                     href={`/review?pid=${item.productID._id}`}
-                    className="bg-blue-300 p-4 py-2 rounded-lg hover:bg-blue-400"
+                    className="bg-primary p-4 py-2 rounded-lg hover:bg-secondary"
                   >
                     Add Review
                   </Link>

@@ -11,13 +11,22 @@ export const addProductToWishListService = async (
     userID,
     productID
   );
-  if (existingItem) {
-    return {
-      success: false,
-      message: "Product already exists in the wishlist.",
-    };
+  console.log(userID, productID, existingItem, "exist,exist....");
+  if (process.env.DATABASE === "mongodb") {
+    if (existingItem) {
+      return {
+        success: false,
+        message: "Product already exists in the wishlist.",
+      };
+    }
+  } else if (process.env.DATABASE === "mongodb") {
+    if (existingItem.length > 0) {
+      return {
+        success: false,
+        message: "Product already exists in the wishlist.",
+      };
+    }
   }
-
   const result = await wishlistRepo.addProductToWishList(userID, productID);
   if (result) {
     return { success: true, message: "Product added to wishlist." };
@@ -46,7 +55,7 @@ export const getWishListItemByIDService = async (
     userID,
     productID
   );
-  console.log(wishlistItem, "why why");
+  // console.log(wishlistItem, userID, productID, "why why");
   if (!wishlistItem) {
     return { success: false, message: "Wishlist item not found." };
   }

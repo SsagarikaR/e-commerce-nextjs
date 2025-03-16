@@ -43,19 +43,31 @@ export const createUserService = async (
 
 // Service to get a user by email and password
 export const getUserService = async (email: string, password: string) => {
-  const user = await userRepo.selectUserByEmail(email);
-
+  const result = await userRepo.selectUserByEmail(email);
+  console.log(result, "user......");
+  let user;
+  if (process.env.DATABASE === "mongodb") {
+    user = result;
+  } else {
+    user = result[0];
+  }
   if (user.password) {
     const isPasswordValid = await bcrypt.compareSync(password, user.password);
     if (!isPasswordValid) {
       return { success: false, message: "Invalid password" };
     }
     delete user.password;
-    const userToReturn = user.toJSON();
-    const token = await generateToken(user._id);
-    userToReturn.token = token;
-    // console.log(userToReturn, "user....");
-    return { success: true, user: userToReturn };
+    let token;
+    if (process.env.DATABASE === "mongodb") {
+      token = await generateToken(user._id);
+      const userToReturn = user.toJSON();
+      userToReturn.token = token;
+      return { success: true, user: userToReturn };
+    } else {
+      token = await generateToken(user.userID);
+      user.token = token;
+      return { success: true, user: user };
+    }
   }
 };
 

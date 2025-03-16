@@ -8,7 +8,13 @@ import { price_detail } from "@/constants";
 
 function Cart() {
   const { cartItems, fetchCartItems } = useCartStore();
-  console.log(cartItems, "cart items");
+  console.log(cartItems, process.env.DATABASE, "cart items");
+
+  const isSQLCartItem = (
+    cartItem: cartItem | sqlCartItem
+  ): cartItem is sqlCartItem => {
+    return "productName" in cartItem;
+  };
 
   useEffect(() => {
     fetchCartItems();
@@ -21,13 +27,16 @@ function Cart() {
           <div className="flex flex-col max-h-[800px] w-4/5 border">
             <div className="flex flex-col max-h-[900px] overflow-auto">
               {cartItems.map((item) => (
-                <CartCard key={item._id} item={item} />
+                <CartCard
+                  key={isSQLCartItem(cartItems[0]) ? item.cartItemID : item._id}
+                  item={item}
+                />
               ))}
             </div>
             <div className="flex justify-end p-2 px-10 border border-gray-400 dark:border-white dark:bg-gray-300">
               <Link
                 href="/checkout"
-                className="bg-blue-300 hover:bg-blue-400 p-6 py-3 rounded-md"
+                className="bg-primary hover:bg-secondary p-6 py-3 rounded-md"
               >
                 Place Order
               </Link>

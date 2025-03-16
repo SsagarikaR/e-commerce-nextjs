@@ -172,7 +172,7 @@ function MakeOrderPage({ id }: { id: string | null }) {
             ))}
             <div className="flex  items-end  mb-9 ">
               <button
-                className="px-6 py-3 bg-blue-400 cursor-pointer text-white text-lg font-semibold rounded-lg shadow-md hover:bg-blue-500 focus:outline-none"
+                className="px-6 py-3 bg-primary cursor-pointer text-white text-lg font-semibold rounded-lg shadow-md hover:bg-secondary focus:outline-none"
                 onClick={handleConfirm}
               >
                 Confirm Order
@@ -203,7 +203,7 @@ function MakeOrderPage({ id }: { id: string | null }) {
                 {modal_btn.CANCEL}
               </button>
               <button
-                className="px-6 py-3 bg-blue-400 cursor-pointer text-white font-semibold rounded-lg hover:bg-blue-500 focus:outline-none"
+                className="px-6 py-3 bg-primary cursor-pointer text-white font-semibold rounded-lg hover:bg-secondary focus:outline-none"
                 onClick={handleSubmitOrder}
               >
                 {modal_btn.CONFIRM}

@@ -17,7 +17,7 @@ const Pagination = ({ category, currentPage, totalPages }: paginationProps) => {
                 ? `/products?page=${currentPage - 1}`
                 : `/dashboard/products?page=${currentPage - 1}`
           }
-          className="bg-blue-300 p-2 m-1 rounded-md border-gray-300 border"
+          className="bg-secondary hover:rounded-lg p-2 m-1 rounded-md border-gray-300 border"
         >
           {pagination.PREVIOUS}
         </Link>
@@ -32,7 +32,7 @@ const Pagination = ({ category, currentPage, totalPages }: paginationProps) => {
                 ? `/products?page=${currentPage + 1}`
                 : `/dashboard/products?page=${currentPage + 1}`
           }
-          className="bg-blue-300 p-2 m-1 rounded-md border-gray-300 border"
+          className="bg-secondary p-2 m-1 hover:rounded-lg  rounded-md border-gray-300 border"
         >
           {pagination.NEXT}
         </Link>

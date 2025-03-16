@@ -28,7 +28,7 @@ const ConfirmModal: React.FC<ModalProps> = ({
             {modal_btn.CANCEL}
           </button>
           <button
-            className="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded"
+            className="bg-primary hover:bg-secondary text-white px-4 py-2 rounded"
             onClick={onConfirm}
           >
             {modal_btn.CONFIRM}

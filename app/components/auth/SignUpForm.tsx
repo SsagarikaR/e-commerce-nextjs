@@ -63,7 +63,7 @@ function SignUpForm() {
           })}
           <button
             type="submit"
-            className="w-full h-[48px] bg-blue-400 rounded-lg shadow-md text-white font-semibold text-lg mt-4 cursor-pointer"
+            className="w-full h-[48px] bg-secondary rounded-lg shadow-md text-white font-semibold text-lg mt-4 cursor-pointer"
           >
             {`Sign Up`}
           </button>

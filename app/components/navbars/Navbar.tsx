@@ -7,7 +7,6 @@ import {
   faSearch,
   faCartShopping,
   faHeart,
-  faCircleHalfStroke,
   faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
@@ -81,10 +80,10 @@ function Navbar() {
     signOut({ callbackUrl: "/" });
   };
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    localStorage.setItem("darkMode", (!isDarkMode).toString());
-  };
+  // const toggleDarkMode = () => {
+  //   setIsDarkMode(!isDarkMode);
+  //   localStorage.setItem("darkMode", (!isDarkMode).toString());
+  // };
 
   // Check if dark mode was set previously in localStorage
   useEffect(() => {
@@ -101,11 +100,11 @@ function Navbar() {
   return (
     <>
       <nav
-        className={`${isSearch ? "hidden" : "flex"} sm:flex h-20 dark:bg-gray-700 bg-gray-200 p-1 lg:p-10 items-center justify-between font-serif shadow-xl fixed w-full z-20`}
+        className={`${isSearch ? "hidden" : "flex"} sm:flex h-20 dark:bg-gray-700 bg-[#fcf8f7] p-1 lg:p-10 items-center justify-between font-serif shadow-xl fixed w-full z-20`}
       >
         <div className="flex justify-center items-center sm:gap-10">
           <Link href="/home">
-            <div className="text-blue-500 flex items-center justify-center sm:gap-2 cursor-pointer">
+            <div className="text-secondary flex items-center justify-center sm:gap-2 cursor-pointer">
               <FontAwesomeIcon
                 icon={faBagShopping}
                 className="sm:w-12 sm:h-12 w-8 h-8"
@@ -136,7 +135,7 @@ function Navbar() {
             />
           </div>
 
-          <div className="relative text-blue-500 md:flex hidden justify-center items-center ">
+          <div className="relative text-secondary md:flex hidden justify-center items-center ">
             <Link href="/cart">
               <FontAwesomeIcon
                 icon={faCartShopping}
@@ -164,7 +163,7 @@ function Navbar() {
           {/* Profile Icon with Dropdown */}
           {user !== undefined && !user.message && !user.error ? (
             <div className="relative flex justify-center items-center gap-x-2 group">
-              <div className="text-blue-500 flex justify-center items-center cursor-pointer">
+              <div className="text-secondary flex justify-center items-center cursor-pointer">
                 <FontAwesomeIcon icon={faCircleUser} className="w-8 h-8" />
               </div>
               <div className="text-2xl text-black font-semibold sm:inline-block hidden cursor-pointer dark:text-white">
@@ -205,7 +204,7 @@ function Navbar() {
               </div>
             </div>
           ) : (
-            <Link href="/signin" className="bg-blue-300 px-4 py-1 rounded-lg">
+            <Link href="/signin" className="bg-secondary px-4 py-1 rounded-lg">
               Sign In
             </Link>
           )}

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 function layout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <div className="flex  min-w-screen flex-col dark:bg-gray-700  bg-gradient-to-r from-gray-200 to-blue-200">
+    <div className="flex  min-w-screen flex-col dark:bg-gray-700  bg-custom-gradient">
       <Navbar />
       <Breadcrumb />
       {children}

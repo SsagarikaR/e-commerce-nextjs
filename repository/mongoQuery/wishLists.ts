@@ -37,7 +37,7 @@ export const getWishListByUserID = async (userID: string) => {
       ],
     })
     .populate({ path: "userID", model: User })
-    .lean(); // Convert Mongoose documents to plain objects
+    .lean();
 };
 
 // Select a specific wishlist item by ID

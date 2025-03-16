@@ -20,9 +20,9 @@ const Breadcrumb: React.FC = () => {
 
   return (
     <nav className="p-4 rounded-md pt-24 z-10 fixed w-screen flex dark:bg-gray-700 font-semibold">
-      <ol className="list-reset flex text-blue-600">
+      <ol className="list-reset flex text-secondary">
         <li>
-          <Link href="/" className="hover:text-blue-800 capitalize">
+          <Link href="/" className="hover:text-secondary capitalize">
             Home
           </Link>
           <span className="mx-2">/</span>
@@ -35,7 +35,7 @@ const Breadcrumb: React.FC = () => {
 
             return (
               <li key={index}>
-                <Link href={path} className="hover:text-blue-800 capitalize">
+                <Link href={path} className="hover:text-secondary capitalize">
                   {segment}
                 </Link>
                 {index !== pathSegments.length - 1 && (

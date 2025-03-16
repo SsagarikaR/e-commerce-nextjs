@@ -1,6 +1,7 @@
 declare global {
   interface user {
     _id: string;
+    userID: number;
     name?: string;
     email?: string;
     contactNo?: string;
@@ -49,6 +50,7 @@ declare global {
 
   interface product {
     _id: string;
+    productID: number;
     productName: string;
     productDescription: string;
     productThumbnail: string;
@@ -65,16 +67,56 @@ declare global {
 
   interface products {
     products: product[];
+    productID: number;
+    totalCount: number;
+  }
+
+  interface sqlbrands {
+    brandID: number;
+    brandName: string;
+    brandThumbnail: string;
+  }
+
+  interface sqlCatgeory {
+    categoryID: number;
+    categoryName: string;
+    categoryThumbnail: string;
+  }
+
+  interface sqlProduct extends sqlCatgeory, sqlbrands {
+    _id: string;
+    productID: string;
+    productName: string;
+    productDescription: string;
+    productThumbnail: string;
+    productPrice: number;
+    stock: number;
+    rating: number;
+    productImage1: string;
+    productImage2: string;
+    productImage3: string;
+    productImage4: string;
     totalCount: number;
   }
 
   interface cartItem {
     _id: string;
+    cartItemID: number;
     productID: string;
     userID: string;
     brandDetails: brands;
     productDetails: product;
     categoryDetails: categories;
+    handlingPrice: number;
+    platformFee: number;
+    deliveryCharge: number;
+    quantity: number;
+    totalPrice: number;
+    totalAmount: number;
+  }
+
+  interface sqlCartItem extends user, sqlCatgeory, sqlProduct {
+    cartItemID: number;
     handlingPrice: number;
     platformFee: number;
     deliveryCharge: number;
@@ -116,7 +158,7 @@ declare global {
   }
 
   interface CartStore {
-    cartItems: cartItem[];
+    cartItems: cartItem[] | sqlCartItem[];
     addItemToCart: (productID: string, quantity: number) => void;
     removeItemFromCart: (cartItemID: string) => void;
     updateCartItemQuantity: (cartItemID: string, quantity: number) => void;
@@ -125,6 +167,7 @@ declare global {
 
   interface prefernce {
     _id: string;
+    preferenceID: number;
     productDescription: string;
     productThumbnail: string;
     productID: string;
@@ -134,9 +177,14 @@ declare global {
   }
 
   interface wishlist {
-    _id: string;
+    _id?: string;
+    wishListID: number;
     productID: product;
     userID: user;
+  }
+
+  interface sqlWishList extends sqlProduct, user {
+    wishListID: number;
   }
 
   interface signinFormState<T> {
@@ -194,6 +242,7 @@ declare global {
     productID: string;
     rating: number;
     _id: string;
+    reviewID: number;
     userID: user;
   }
 

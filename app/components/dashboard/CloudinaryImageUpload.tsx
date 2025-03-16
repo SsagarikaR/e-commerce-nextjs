@@ -25,7 +25,7 @@ function CloudinaryImageUpload({ seturl }: cloudinaryImageUploadProps) {
       {({ open }) => (
         <button
           type="button"
-          className="bg-blue-300 p-2 rounded-lg hover:bg-blue-400"
+          className="bg-primary p-2 rounded-lg hover:bg-secondary"
           onClick={() => open()}
         >
           Upload

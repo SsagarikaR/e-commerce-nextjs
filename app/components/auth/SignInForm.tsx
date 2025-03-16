@@ -55,7 +55,7 @@ function SignInForm() {
           ))}
           <button
             type="submit"
-            className="w-full h-[48px] bg-blue-400 rounded-lg shadow-md text-white font-semibold text-lg cursor-pointer"
+            className="w-full h-[48px] bg-secondary rounded-lg shadow-md text-white font-semibold text-lg cursor-pointer"
           >
             {!isLoading ? "Sign In" : "signing in..."}
           </button>

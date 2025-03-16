@@ -7,7 +7,7 @@ function Layout({ children }: { children: ReactNode }) {
 
   return (
     <div
-      className={`w-screen flex font-serif min-h-screen ${isNavOpen && "bg-gray-200"} bg-gradient-to-r from-gray-200 to-blue-200`}
+      className={`w-screen flex font-serif min-h-screen ${isNavOpen && "bg-gray-200"} bg-custom-gradient`}
     >
       <AdminSidebar isNavOpen={isNavOpen} setNavOpen={setNavOpen} />
       <div

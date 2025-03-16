@@ -9,22 +9,22 @@ import {
   authorizedPostRequest,
 } from "@/services/apiReqServices/authorizedRequest";
 
-export const fetchWishList = async (productID: string) => {
+export const fetchWishList = async (productID: string | number) => {
   const response = await authorizedGetRequest(`wishlists/${productID}`);
   return response;
 };
 
-export const addWishList = async (productID: string) => {
+export const addWishList = async (productID: string | number) => {
   console.log(productID, "product id adding");
   await authorizedPostRequest(`wishlists`, { productID });
 };
 
-export const deleteWishList = async (wishListID: string) => {
+export const deleteWishList = async (wishListID: string | number) => {
   const response = await authorizedDeleteRequest(`wishlists`, { wishListID });
   return response;
 };
 
-function WishlistIcon({ productID }: { productID: string }) {
+function WishlistIcon({ productID }: { productID: string | number }) {
   const [wishlistStatus, setWishlistStatus] = useState<boolean | null>(null);
   const [wishlistId, setWishlistId] = useState<string | undefined>(); // Use state to store the wishlist data
 
@@ -33,12 +33,24 @@ function WishlistIcon({ productID }: { productID: string }) {
     const loadWishList = async () => {
       try {
         const response = await fetchWishList(productID);
+
         if (response.message) {
           setWishlistStatus(false);
         } else {
-          setWishlistId(response._id); // Store the wishlist in state
+          // Store the wishlist in state
           // console.log(response, wishList, "response");
-          setWishlistStatus(true);
+          if (response._id) {
+            setWishlistId(response._id);
+            setWishlistStatus(true);
+            return;
+          }
+          if (response.length > 0) {
+            setWishlistId(response[0].wishListID);
+            setWishlistStatus(true);
+            return;
+          }
+          setWishlistStatus(false);
+          return;
         }
       } catch (error) {
         console.log("Error fetching wishlist:", error);

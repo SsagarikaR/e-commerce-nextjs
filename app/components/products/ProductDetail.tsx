@@ -24,34 +24,63 @@ async function ProductDetailPage({ id }: { id: string }) {
       {/* Render product details if product is available */}
       <div className="flex p-20 gap-10 flex-col lg:flex-row">
         <ProductDetailImage product={product} />
-        <div className=" w-[400px] md:w-[500px] lg:w-[400px] xl:w-[500px] dark:text-white text-gray-700 gap-y-9 flex flex-col m-auto pl-10 lg:p-0">
+        <div className=" w-[400px] md:w-[500px] lg:w-[400px] xl:w-[500px] dark:text-white text-gray-700 gap-y-9 flex flex-col m-auto md:pl-20 pl-10 lg:p-0">
           <div className="flex gap-y-4 flex-col  ">
             <div className="flex gap-x-3">
               <div className="text-3xl font-semibold">
-                {product.products[0].productName}
+                {process.env.DATABASE === "mongodb"
+                  ? product.products[0].productName
+                  : product[0].productName}
               </div>
               <Image
                 width={100}
                 height={100}
-                alt={product.products[0].brandID.brandName}
-                src={product.products[0].brandID.brandThumbnail}
+                alt={
+                  process.env.DATABASE === "mongodb"
+                    ? product.products[0].brandID.brandName
+                    : product[0].brandName
+                }
+                src={
+                  process.env.DATABASE === "mongodb"
+                    ? product.products[0].brandID.brandThumbnail
+                    : product[0].brandThumbnail
+                }
                 className="w-10 h-10 rounded-full border "
               />
             </div>
             <div className="text-2xl font-normal">
-              ₹{product.products[0].productPrice}
+              ₹
+              {process.env.DATABASE === "mongodb"
+                ? product.products[0].productPrice
+                : product[0].productPrice}
             </div>
             <div className=" border-b border-gray-300  md:w-[500px] xl:w-[500px]"></div>
           </div>
           <div className="text-justify text-lg">
-            {product.products[0].productDescription}
+            {process.env.DATABASE === "mongodb"
+              ? product.products[0].productDescription
+              : product[0].productDescription}
           </div>
           <div className="flex flex-col gap-y-2 pb-6">
-            <AddToCartBtn productID={product.products[0]._id} />
+            <AddToCartBtn
+              productID={
+                process.env.DATABASE === "mongodb"
+                  ? product.products[0]._id
+                  : product[0].productID
+              }
+            />
           </div>
           <FetchReview
-            id={product.products[0]._id}
-            rating={product.products[0].rating}
+            id={
+              process.env.DATABASE === "mongodb"
+                ? product.products[0]._id
+                : product[0].productID
+            }
+            rating={
+              process.env.DATABASE === "mongodb"
+                ? product.products[0].rating
+                : product[0].rating
+            }
           />
         </div>
       </div>
