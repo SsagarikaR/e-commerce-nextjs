@@ -37,7 +37,7 @@ function CustomerList() {
   if (!customers) return <div>Loading...</div>;
 
   return (
-    <div className="w-full mt-24 text-lg text-gray-700 h-[800px] overflow-auto">
+    <div className="w-full mt-24 text-lg  h-[800px] overflow-auto">
       <table className="border w-full border-collapse">
         <thead>
           <tr>
@@ -75,7 +75,7 @@ function CustomerList() {
                         <FontAwesomeIcon
                           icon={faUserPlus}
                           className="w-8 h-8 cursor-pointer"
-                          onClick={() => handleAddAdmin(item._id)} // Add user as admin when clicked
+                          onClick={() => handleAddAdmin(item._id!)} // Add user as admin when clicked
                         />
                       </div>
                     )}

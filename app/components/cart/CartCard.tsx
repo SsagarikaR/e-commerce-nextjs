@@ -25,7 +25,7 @@ function CartCard({ item }: { item: cartItem | sqlCartItem }) {
               ? item.productThumbnail
               : item.productDetails.productThumbnail
           }
-          className="md:w-36 w-28 shadow-md p-2 bg-gray-100 "
+          className="md:w-36 w-28 shadow-md p-2 bg-white"
         />
         <div>
           <div>
@@ -45,9 +45,12 @@ function CartCard({ item }: { item: cartItem | sqlCartItem }) {
         <div className="flex items-center gap-2 ">
           {item.quantity !== 1 && (
             <button
-              className="px-2 py-1 bg-gray-300 dark:bg-white rounded"
+              className="px-2 py-1 bg-white rounded"
               onClick={() => {
-                updateCartItemQuantity(item._id, item.quantity - 1);
+                updateCartItemQuantity(
+                  isSQLCartItem(item) ? item.cartItemID : item._id,
+                  item.quantity - 1
+                );
               }}
             >
               -
@@ -55,9 +58,12 @@ function CartCard({ item }: { item: cartItem | sqlCartItem }) {
           )}
           <p className="text-lg">{item.quantity}</p>
           <button
-            className="px-2 py-1  dark:bg-white bg-gray-300 rounded"
+            className="px-2 py-1  bg-white  rounded"
             onClick={() => {
-              updateCartItemQuantity(item._id, item.quantity + 1);
+              updateCartItemQuantity(
+                isSQLCartItem(item) ? item.cartItemID : item._id,
+                item.quantity + 1
+              );
             }}
           >
             +
@@ -67,7 +73,9 @@ function CartCard({ item }: { item: cartItem | sqlCartItem }) {
           <button
             className="mt-2 px-2 py-2 text-sm sm:text-base sm:px-6 sm:py-2 bg-red-500 hover:bg-red-400  text-white rounded"
             onClick={() => {
-              removeItemFromCart(item._id);
+              removeItemFromCart(
+                isSQLCartItem(item) ? item.cartItemID : item._id
+              );
             }}
           >
             Remove

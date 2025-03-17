@@ -24,7 +24,7 @@ async function ProductDetailPage({ id }: { id: string }) {
       {/* Render product details if product is available */}
       <div className="flex p-20 gap-10 flex-col lg:flex-row">
         <ProductDetailImage product={product} />
-        <div className=" w-[400px] md:w-[500px] lg:w-[400px] xl:w-[500px] dark:text-white text-gray-700 gap-y-9 flex flex-col m-auto md:pl-20 pl-10 lg:p-0">
+        <div className=" w-[400px] md:w-[500px] lg:w-[400px] xl:w-[500px] dark:text-white gap-y-9 flex flex-col m-auto md:pl-20 pl-10 lg:p-0">
           <div className="flex gap-y-4 flex-col  ">
             <div className="flex gap-x-3">
               <div className="text-3xl font-semibold">

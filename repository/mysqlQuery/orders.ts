@@ -2,11 +2,11 @@ import { sequelize } from "../../database/sqldb";
 import { QueryTypes, Transaction } from "sequelize";
 
 export const insertOrder = async (
-  userID: number,
+  userID: number | string,
   totalPrice: number,
-  addressID: number,
+  addressID: number | string,
   totalAmount: number,
-  t: Transaction
+  t?: Transaction
 ) => {
   try {
     const [result] = await sequelize.query(
@@ -26,11 +26,11 @@ export const insertOrder = async (
 };
 
 export const insertOrderItems = async (
-  orderID: number,
-  productId: number,
+  orderID: number | string,
+  productId: number | string,
   quantity: number,
   price: number,
-  t: Transaction
+  t?: Transaction
 ) => {
   try {
     await sequelize.query(
@@ -48,7 +48,10 @@ export const insertOrderItems = async (
   }
 };
 
-export const selectOrderByUserID = async (userID: number, t: Transaction) => {
+export const selectOrderByUserID = async (
+  userID: number | string,
+  t?: Transaction
+) => {
   try {
     return await sequelize.query(
       `SELECT * FROM Orders WHERE userId = :userID AND status = 'Pending'`,
@@ -65,7 +68,7 @@ export const selectOrderByUserID = async (userID: number, t: Transaction) => {
 };
 
 // First: Get orders (Order[] type)
-const getOrders = async (userID: number): Promise<order[]> => {
+const getOrders = async (userID: number | string): Promise<sqlOrder[]> => {
   const query = `
       SELECT o.*,u.*
       FROM Orders o 
@@ -73,7 +76,7 @@ const getOrders = async (userID: number): Promise<order[]> => {
       WHERE o.userID=:userID
     `;
 
-  const result: order[] = await sequelize.query(query, {
+  const result: sqlOrder[] = await sequelize.query(query, {
     replacements: { userID },
     type: QueryTypes.SELECT,
   });
@@ -81,7 +84,9 @@ const getOrders = async (userID: number): Promise<order[]> => {
   return result;
 };
 
-const getOrderItems = async (orderIDs: number[]): Promise<orderItem[]> => {
+const getOrderItems = async (
+  orderIDs: (number | string)[]
+): Promise<sqlOrderItem[]> => {
   const query = `
     SELECT oi.*, p.productName, p.productThumbnail, p.productPrice, b.brandName
     FROM OrderItems oi
@@ -90,7 +95,7 @@ const getOrderItems = async (orderIDs: number[]): Promise<orderItem[]> => {
     WHERE oi.orderId IN (?)
   `;
 
-  const result: orderItem[] = await sequelize.query(query, {
+  const result: sqlOrderItem[] = await sequelize.query(query, {
     replacements: [orderIDs],
     type: QueryTypes.SELECT,
   });
@@ -99,12 +104,12 @@ const getOrderItems = async (orderIDs: number[]): Promise<orderItem[]> => {
 };
 
 // Combine order and items (OrderDetail[] type)
-export const getUserOrderDetails = async (userID: number) => {
+export const getUserOrderDetails = async (userID: number | string) => {
   const orders = await getOrders(userID);
 
   // Extracting the order IDs for further querying the items
-  const orderIDs = orders.map((order) => order.orderId);
-
+  const orderIDs = orders.map((order) => order.orderID);
+  console.log(orderIDs, "order ids", orders);
   // Fetching the order items based on order IDs
   const orderItems = await getOrderItems(orderIDs);
   console.log(orderItems);
@@ -121,7 +126,7 @@ export const getUserOrderDetails = async (userID: number) => {
     WHERE o.userID = :userID
   `;
 
-  const result: order[] = await sequelize.query(query, {
+  const result: sqlOrder[] = await sequelize.query(query, {
     replacements: { userID },
     type: QueryTypes.SELECT,
   });
@@ -172,7 +177,7 @@ export const selectOrdersWithProductAndBrand = async (userID: number) => {
   }
 };
 
-export const deleteOrderQuery = async (orderId: number) => {
+export const deleteOrderQuery = async (orderId: number | string) => {
   try {
     const result = await sequelize.query(
       `DELETE FROM Orders WHERE orderID = :orderId`,
@@ -189,7 +194,7 @@ export const deleteOrderQuery = async (orderId: number) => {
 };
 
 export const updateOrderStatusQuery = async (
-  orderId: number,
+  orderId: number | string,
   status: string
 ) => {
   try {
@@ -208,7 +213,7 @@ export const updateOrderStatusQuery = async (
 };
 
 export const updateOrderAddressQuery = async (
-  orderId: number,
+  orderId: number | string,
   newAddress: string
 ) => {
   try {
@@ -227,7 +232,7 @@ export const updateOrderAddressQuery = async (
 };
 
 // Query to fetch order status
-export const getOrderStatusByIdQuery = async (orderId: number) => {
+export const getOrderStatusByIdQuery = async (orderId: number | string) => {
   try {
     const result: order[] = await sequelize.query(
       `SELECT status FROM Orders WHERE orderID = :orderId`,

@@ -48,7 +48,7 @@ function AddReviewForm({ pid }: { pid: string }) {
   return (
     <>
       <form className="w-11/12 gap-4 flex flex-col " onSubmit={handleSubmit}>
-        <div className="flex flex-col border border-gray-400 p-4 gap-y-2 text-gray-600 dark:bg-gray-300">
+        <div className="flex flex-col border border-gray-400 p-4 gap-y-2  dark:bg-gray-300">
           <div className="text-lg font-semibold">{review.RATE_PRODUCT}</div>
           <input
             type="number"
@@ -69,7 +69,7 @@ function AddReviewForm({ pid }: { pid: string }) {
           />
         </div>
 
-        <div className="border border-gray-400  text-gray-600 dark:bg-gray-300">
+        <div className="border border-gray-400   dark:bg-gray-300">
           <div className="p-4 text-lg font-semibold">
             {review.REVIEW_PRODUCT}
           </div>

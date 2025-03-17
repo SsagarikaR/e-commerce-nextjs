@@ -19,7 +19,7 @@ export const POST = async (req: NextRequest) => {
     );
   }
 
-  const userID = decodedUser.identifire;
+  const userID = decodedUser?.identifire;
 
   try {
     const result = await addCartItemService(userID, productID, quantity);
@@ -52,7 +52,7 @@ export const GET = async (req: NextRequest) => {
     );
   }
 
-  const userId = decodedUser.identifire;
+  const userId = decodedUser?.identifire;
 
   try {
     const result = await getCartItemsService(userId);
@@ -62,7 +62,7 @@ export const GET = async (req: NextRequest) => {
     console.error(error);
     return NextResponse.json({
       error: "An error occurred while fetching the cart items",
-      sttaus: 500,
+      status: 500,
     });
   }
 };

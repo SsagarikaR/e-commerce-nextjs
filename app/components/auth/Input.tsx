@@ -4,7 +4,7 @@ function Input({ field, id, type, error }: InputProps) {
   return (
     <div className={`relative mb-9 ${id === "password" ? "space-y-2" : ""}`}>
       <input
-        className="w-[90%] p-3 bg-gray-200 border border-gray-400 rounded-lg text-gray-800 font-medium text-lg focus:outline-none"
+        className="w-[90%] p-3 bg-gray-200 border border-gray-400 rounded-lg  font-medium text-lg focus:outline-none"
         id={id}
         type={type}
         placeholder={`Enter your ${field}`}

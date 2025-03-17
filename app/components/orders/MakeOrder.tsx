@@ -46,12 +46,20 @@ function MakeOrderPage({ id }: { id: string | null }) {
     }
   };
 
+  const isSQLCartItem = (
+    cartItem: cartItem | sqlCartItem
+  ): cartItem is sqlCartItem => {
+    return "productName" in cartItem;
+  };
+
   const handleSubmitOrder = async () => {
     let items = [];
     items = cartItems.map((item) => ({
-      productID: item.productDetails._id,
+      productID: isSQLCartItem(item) ? item.productID : item.productDetails._id,
       quantity: item.quantity,
-      price: item.productDetails.productPrice,
+      price: isSQLCartItem(item)
+        ? item.productPrice
+        : item.productDetails.productPrice,
     }));
     const response = await authorizedPostRequest("orders", {
       totalAmount,
@@ -111,18 +119,31 @@ function MakeOrderPage({ id }: { id: string | null }) {
                   <Image
                     width={240}
                     height={240}
-                    src={item.productDetails.productThumbnail}
-                    alt={item.productDetails.productName}
+                    src={
+                      isSQLCartItem(item)
+                        ? item.productThumbnail
+                        : item.productDetails.productThumbnail
+                    }
+                    alt={
+                      isSQLCartItem(item)
+                        ? item.productName
+                        : item.productDetails.productName
+                    }
                     className="w-24 h-24 object-cover rounded-lg"
                   />
                   <div className="flex-grow">
                     <p className="text-lg font-semibold">
-                      {item.productDetails.productName}
+                      {isSQLCartItem(item)
+                        ? item.productName
+                        : item.productDetails.productName}
                     </p>
-                    <p className="text-gray-700">
-                      Price: ₹{item.productDetails.productPrice}
+                    <p className="">
+                      Price: ₹
+                      {isSQLCartItem(item)
+                        ? item.productPrice
+                        : item.productDetails.productPrice}
                     </p>
-                    <p className="text-gray-700">Quantity: {item.quantity}</p>
+                    <p className="">Quantity: {item.quantity}</p>
                   </div>
                 </div>
               ))
@@ -157,7 +178,7 @@ function MakeOrderPage({ id }: { id: string | null }) {
         </div>
 
         {/* Address Input Fields Dynamically Rendered */}
-        <div className="flex flex-col gap-y-2 text-gray-700">
+        <div className="flex flex-col gap-y-2 ">
           <div className="">Shipping address:</div>
           <div className="grid grid-cols-2 gap-4 relative">
             {inputFields.map((field) => (

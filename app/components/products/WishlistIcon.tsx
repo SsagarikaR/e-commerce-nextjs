@@ -86,7 +86,7 @@ function WishlistIcon({ productID }: { productID: string | number }) {
   };
 
   return (
-    <div className="absolute m-2 cursor-pointer" onClick={handleClick}>
+    <div className="absolute m-2  cursor-pointer" onClick={handleClick}>
       {wishlistStatus === null ? (
         <FontAwesomeIcon icon={notWishList} className="w-8 h-8" />
       ) : wishlistStatus ? (

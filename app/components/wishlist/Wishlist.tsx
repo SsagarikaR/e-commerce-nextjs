@@ -43,11 +43,6 @@ function Wishlist() {
     return <div>Error: {error.message}</div>;
   }
 
-  // Determine the user name correctly based on type
-  const userName = isSQLWishlist(wishlists)
-    ? wishlists[0].name
-    : wishlists[0].userID.name;
-
   // Handle the delete event
   const handleDelete = (wishListID: string | number) => {
     if (isSQLWishlist(wishlists)) {
@@ -72,15 +67,19 @@ function Wishlist() {
   return (
     <div className="flex p-0 sm:p-4 w-11/12 md:w-4/5 gap-x-10 mx-auto font-serif">
       {wishlists.length > 0 && (
-        <div className="hidden md:flex shadow-lg p-4 w-1/5 h-28 justify-center items-center gap-x-4 dark:bg-gray-300 border-gray-300 border">
+        <div className="hidden md:flex shadow-lg p-4 w-1/5 h-28 justify-center items-center gap-x-4 dark:bg-gray-300 border-gray-400 border">
           <FontAwesomeIcon icon={faCircleUser} className="w-10 h-10" />
-          <div className="flex flex-col text-gray-600">
+          <div className="flex flex-col ">
             <p>Hello,</p>
-            <div className="text-xl">{userName}</div>
+            <div className="text-xl">
+              {isSQLWishlist(wishlists)
+                ? wishlists[0].name
+                : wishlists[0].userID.name}
+            </div>
           </div>
         </div>
       )}
-      <div className="flex flex-col w-full sm:w-4/5 mx-auto">
+      <div className="flex flex-col w-full sm:w-4/5 mx-auto gap-y-1">
         <div className="text-lg dark:text-white">
           {wishlist.MY_WISHLIST}({wishlists.length || 0})
         </div>

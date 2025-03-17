@@ -53,7 +53,7 @@ function WishListCard({ item, onDelete, onShowToast }: WishListCardProps) {
     : item.productID.productPrice;
 
   return (
-    <div className="flex shadow-lg items-center justify-between font-serif text-sm md:text-md lg:text-lg font-semibold text-gray-700 p-4 dark:bg-gray-300 border-gray-300 border">
+    <div className="flex shadow-lg items-center justify-between font-serif text-sm md:text-md lg:text-lg font-semibold  p-4 dark:bg-gray-300 border-gray-400 border">
       <div className="flex justify-center items-center gap-x-2">
         <Image
           width={280}

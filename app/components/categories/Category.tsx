@@ -30,7 +30,9 @@ async function Category() {
         {categories.map((item, key) => (
           <CategoryCard
             key={key}
-            _id={item._id}
+            id={
+              process.env.DATABASE === "mongodb" ? item._id! : item.categoryID!
+            }
             categoryName={item.categoryName}
             categoryThumbnail={item.categoryThumbnail}
           />
@@ -51,7 +53,11 @@ async function Category() {
                   className="sm:basis-1/2 md:basis-1/3 xl:basis-1/4"
                 >
                   <CategoryCard
-                    _id={item._id}
+                    id={
+                      process.env.DATABASE === "mongodb"
+                        ? item._id!
+                        : item.categoryID!
+                    }
                     categoryName={item.categoryName}
                     categoryThumbnail={item.categoryThumbnail}
                   />

@@ -42,7 +42,7 @@ function AdminSidebar({
         </div>
       )}
       <div
-        className={`${isNavOpen ? "flex fixed" : "hidden"} md:flex  w-[250px]  flex-col font-serif p-2 items-center text-xl font-semibold text-gray-700 h-screen shadow-2xl gap-8 justify-between bg-custom-gradient z-10`}
+        className={`${isNavOpen ? "flex fixed" : "hidden"} md:flex  w-[250px]  flex-col font-serif p-2 items-center text-xl font-semibold  h-screen shadow-2xl gap-8 justify-between bg-custom-gradient z-10`}
       >
         <div>
           <div className="flex items-center gap-2 pb-10 pt-2">

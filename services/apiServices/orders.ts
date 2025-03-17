@@ -1,16 +1,18 @@
-import {
-  insertOrder,
-  insertOrderItems,
-  selectOrderByUserID,
-  updateOrderStatusQuery,
-  deleteOrderQuery,
-  updateOrderAddressQuery,
-  getOrderStatusByIdQuery,
-  getUserOrderDetails,
-} from "@/repository/mongoQuery/orders";
+// import {
+//   insertOrder,
+//   insertOrderItems,
+//   selectOrderByUserID,
+//   updateOrderStatusQuery,
+//   deleteOrderQuery,
+//   updateOrderAddressQuery,
+//   getOrderStatusByIdQuery,
+//   getUserOrderDetails,
+// } from "@/repository/mongoQuery/orders";
+import { Orders } from "@/repository/repoFunction/orders";
 import { Address } from "@/repository/repoFunction/address";
 
 const addressRepo = Address.getInstance(process.env.DATABASE!);
+const orderRepo = Orders.getInstance(process.env.DATABASE!);
 
 //create a new order
 export const createOrderService = async (
@@ -25,7 +27,7 @@ export const createOrderService = async (
   totalPrice: number
 ) => {
   try {
-    const existingOrder = await selectOrderByUserID(userID);
+    const existingOrder = await orderRepo.selectOrderByUserID(userID);
     let addressID: string;
     const existingAddress: address = await addressRepo.selectAddress(
       state,
@@ -52,7 +54,7 @@ export const createOrderService = async (
       return { success: false, message: "You already have a pending order." };
     }
 
-    const result = await insertOrder(
+    const result = await orderRepo.insertOrder(
       userID,
       totalPrice,
       addressID,
@@ -62,7 +64,7 @@ export const createOrderService = async (
     console.log(items, "result");
     if (result) {
       for (const item of items) {
-        await insertOrderItems(
+        await orderRepo.insertOrderItems(
           result.orderID,
           item.productID,
           item.quantity,
@@ -81,7 +83,7 @@ export const createOrderService = async (
 
 export const fetchOrders = async (userID: string) => {
   try {
-    const orders = await getUserOrderDetails(userID);
+    const orders = await orderRepo.getUserOrderDetails(userID);
     // console.log(orders,"orders")
     return orders;
   } catch (error) {
@@ -98,7 +100,7 @@ export const updateOrderAddressService = async (
   newAddress: string
 ) => {
   try {
-    const result = await updateOrderAddressQuery(orderID, newAddress);
+    const result = await orderRepo.updateOrderAddressQuery(orderID, newAddress);
     return result;
   } catch (error) {
     console.error("Error in service:", error);
@@ -108,7 +110,7 @@ export const updateOrderAddressService = async (
 
 export const deleteOrderService = async (orderID: string) => {
   try {
-    const result = await deleteOrderQuery(orderID);
+    const result = await orderRepo.deleteOrderQuery(orderID);
     return result;
   } catch (error) {
     console.error("Error in service:", error);
@@ -121,7 +123,7 @@ export const updateOrderStatusService = async (
   status: string
 ) => {
   try {
-    const result = await updateOrderStatusQuery(orderID, status);
+    const result = await orderRepo.updateOrderStatusQuery(orderID, status);
     return result;
   } catch (error) {
     console.error("Error in service:", error);
@@ -131,7 +133,7 @@ export const updateOrderStatusService = async (
 
 export const getOrderStatusById = async (orderID: string) => {
   try {
-    const result = await getOrderStatusByIdQuery(orderID);
+    const result = await orderRepo.getOrderStatusByIdQuery(orderID);
     return result;
   } catch (error) {
     console.error("Error fetching order status:", error);

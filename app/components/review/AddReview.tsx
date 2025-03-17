@@ -10,7 +10,7 @@ const AddReview = async ({ pid }: { pid: string }) => {
   return (
     <>
       <div className="w-full pt-16 flex flex-col justify-center items-center font-serif gap-2">
-        <div className="w-11/12 flex items-center justify-between border border-gray-400  px-10 py-4 text-gray-700 font-semibold dark:bg-gray-300">
+        <div className="w-11/12 flex items-center justify-between border border-gray-400  px-10 py-4  font-semibold dark:bg-gray-300">
           <div className="text-2xl">{review.RATING_REVIEWS}</div>
           <div className="flex items-center justify-center gap-x-3">
             <div className="text-lg">{product.products[0].productName}</div>

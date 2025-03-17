@@ -7,7 +7,7 @@ function Signin() {
   return (
     <div className="flex min-h-screen min-w-full font-serif justify-center items-center bg-custom-gradient">
       <div className="relative w-[900px] h-[580px] bg-white rounded-3xl shadow-lg overflow-hidden">
-        <div className="absolute top-0 right-0 w-[55%] h-full bg-white flex flex-col items-center text-gray-800 text-center z-10 p-10">
+        <div className="absolute top-0 right-0 w-[55%] h-full bg-white flex flex-col items-center  text-center z-10 p-10">
           <h1 className="text-4xl mb-4">{auth_text.SIGNIN}</h1>
           <SignInForm />
           <GoogleSignin />

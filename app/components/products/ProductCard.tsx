@@ -10,7 +10,7 @@ function isMongoProduct(product: product | sqlProduct): product is product {
 
 async function ProductCard({ product }: { product: product | sqlProduct }) {
   console.log(product, "product....");
-  console.log(product._id, "product id.....");
+  // console.log(product._id, "product id.....");
 
   // Extract brand details correctly based on product type
   const brandThumbnail = isMongoProduct(product)
@@ -22,6 +22,13 @@ async function ProductCard({ product }: { product: product | sqlProduct }) {
     : product.brandName; // SQL stores it directly
 
   const productTD = isMongoProduct(product) ? product._id : product.productID;
+
+  const ismongoProduct = (
+    product: product | sqlProduct
+  ): product is product => {
+    return "_id" in product;
+  };
+  console.log(ismongoProduct);
 
   return (
     <div className="flex flex-col gap-y-2 w-full shadow-2xl p-2 relative mx-auto dark:bg-gray-300">
@@ -37,8 +44,10 @@ async function ProductCard({ product }: { product: product | sqlProduct }) {
           />
         </Link>
         <div className="flex items-center justify-center sm:gap-x-2 gap-x-1">
-          <Link href={`/products/${product._id}`}>
-            <div className="text-center sm:text-base text-sm font-semibold text-gray-700 cursor-pointer">
+          <Link
+            href={`/products/${isMongoProduct(product) ? product._id : product.productID}`}
+          >
+            <div className="text-center sm:text-base text-sm font-semibold  cursor-pointer">
               {product.productName}
             </div>
           </Link>

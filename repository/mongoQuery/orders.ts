@@ -3,9 +3,9 @@ import OrderItem from "@/database/mongo-models/orderItem"; // Assuming the Order
 import mongoose from "mongoose";
 
 export const insertOrder = async (
-  userID: string,
+  userID: string | number,
   totalPrice: number,
-  addressID: string,
+  addressID: string | number,
   totalAmount: number
 ) => {
   try {
@@ -28,8 +28,8 @@ export const insertOrder = async (
 };
 
 export const insertOrderItems = async (
-  orderID: string,
-  productID: string,
+  orderID: string | number,
+  productID: string | number,
   quantity: number,
   price: number
 ) => {
@@ -37,8 +37,8 @@ export const insertOrderItems = async (
     const newOrderItem = new OrderItem({
       orderID,
       productID,
-      quantity: quantity,
-      price: price,
+      quantity,
+      price,
     });
 
     await newOrderItem.save();
@@ -48,7 +48,7 @@ export const insertOrderItems = async (
   }
 };
 
-export const selectOrderByUserID = async (userID: string) => {
+export const selectOrderByUserID = async (userID: string | number) => {
   try {
     const orders = await Order.find({
       userID,
@@ -62,7 +62,7 @@ export const selectOrderByUserID = async (userID: string) => {
 };
 
 // First: Get orders (Order[] type)
-const getOrders = async (userID: string) => {
+const getOrders = async (userID: string | number) => {
   const orders = await Order.find({ userID }).populate("userID").exec();
   return orders;
 };
@@ -75,7 +75,7 @@ const getOrderItems = async (orderIDs: string[]) => {
 };
 
 // Combine order and items (OrderDetail[] type)
-export const getUserOrderDetails = async (userID: string) => {
+export const getUserOrderDetails = async (userID: string | number) => {
   const orders = await getOrders(userID); // Fetch orders using the above function
   const orderIDs = orders.map((order) => order._id.toString()); // Get the order IDs
 
@@ -191,7 +191,7 @@ export const selectOrdersWithProductAndBrand = async (userID: string) => {
   }
 };
 
-export const deleteOrderQuery = async (orderID: string) => {
+export const deleteOrderQuery = async (orderID: string | number) => {
   try {
     const result = await Order.deleteOne({ _id: orderID }).exec();
     return result;
@@ -202,7 +202,7 @@ export const deleteOrderQuery = async (orderID: string) => {
 };
 
 export const updateOrderStatusQuery = async (
-  orderID: string,
+  orderID: string | number,
   status: string
 ) => {
   try {
@@ -218,7 +218,7 @@ export const updateOrderStatusQuery = async (
 };
 
 export const updateOrderAddressQuery = async (
-  orderID: string,
+  orderID: string | number,
   newAddress: string
 ) => {
   try {
@@ -234,7 +234,7 @@ export const updateOrderAddressQuery = async (
 };
 
 // Query to fetch order status
-export const getOrderStatusByIdQuery = async (orderID: string) => {
+export const getOrderStatusByIdQuery = async (orderID: string | number) => {
   try {
     const order = await Order.findById(orderID).select("status").exec();
     return order?.status; // Return the order's status

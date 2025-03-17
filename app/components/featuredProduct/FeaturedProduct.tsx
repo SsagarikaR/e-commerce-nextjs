@@ -17,7 +17,7 @@ async function FeaturedProduct() {
       {isMongoDBResponse(productsData)
         ? // MongoDB Products
           productsData.products.length > 0 && (
-            <section className="dark:bg-gray-700 xl:px-36 pt-5 flex flex-col gap-y-1 md:px-10 px-0">
+            <section className="dark:bg-gray-700 lg:px-20 md:px-6 xl:px-36 pt-5 flex flex-col gap-y-1  px-4">
               <div className="text-3xl flex flex-col gap-y-3 text-center font-serif mb-2  dark:text-white">
                 <h2 className="text-3xl font-serif tracking-wider font-semibold">
                   Featured Products
@@ -30,7 +30,7 @@ async function FeaturedProduct() {
                 ))}
               </div>
 
-              <div className="flex justify-center mt-4">
+              <div className="flex justify-center mt-4 ">
                 <Link
                   href="/products"
                   className="bg-secondary px-10 py-2 rounded-lg hover:rounded-xl text-xl "
@@ -55,12 +55,14 @@ async function FeaturedProduct() {
                 ))}
               </div>
 
-              <Link
-                href="/products"
-                className="bg-secondary px-10 py-2 rounded-lg text-2xl"
-              >
-                Show All
-              </Link>
+              <div className="flex justify-center mt-4 ">
+                <Link
+                  href="/products"
+                  className="bg-secondary px-10 py-2 rounded-lg text-xl"
+                >
+                  Show All
+                </Link>
+              </div>
             </section>
           )}
     </>

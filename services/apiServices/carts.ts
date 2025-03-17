@@ -14,9 +14,17 @@ export const addCartItemService = async (
       userID,
       productID
     );
-    if (existingCartItem) {
-      await cartRepo.updateQuantityIfAlreadyExist(userID, productID);
-      return { success: true, message: "Product quantity updated in cart" };
+    if (process.env.DATABSE === "mongodb") {
+      if (existingCartItem) {
+        await cartRepo.updateQuantityIfAlreadyExist(userID, productID);
+        return { success: true, message: "Product quantity updated in cart" };
+      }
+    }
+    if (process.env.DATABASE === "mysql") {
+      if (existingCartItem.length > 0) {
+        await cartRepo.updateQuantityIfAlreadyExist(userID, productID);
+        return { success: true, message: "Product quantity updated in cart" };
+      }
     }
 
     // Add new item to the cart

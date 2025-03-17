@@ -18,7 +18,7 @@ const fetchPaginatedProducts = async (
   page: number
 ): Promise<products | sqlProduct[]> => {
   const queryParams = new URLSearchParams();
-  if (category) queryParams.append("categoryId", category);
+  if (category) queryParams.append("categoryID", category);
   if (name) queryParams.append("name", name);
   if (price) queryParams.append("price", price);
   queryParams.append("page", String(page));

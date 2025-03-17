@@ -60,6 +60,7 @@ export const getProductsService = async (
   page: number,
   limit: number
 ) => {
+  console.log(filters, filters.categoryID, "filternum filter");
   const products = await productRepo.getProductWithCondition(
     filters,
     page,

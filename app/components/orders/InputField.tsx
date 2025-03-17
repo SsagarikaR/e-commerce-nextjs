@@ -26,7 +26,7 @@ const InputField: React.FC<InputFieldProps> = ({
           value={value}
           onChange={onChange}
           rows={4}
-          className="w-full  p-3  border border-gray-300 rounded-lg shadow-sm focus:outline-none dark:text-black focus:ring-2 focus:ring-secondary"
+          className="w-full  p-3  border border-gray-400 rounded-lg shadow-sm focus:outline-none dark:text-black focus:ring-2 focus:ring-secondary"
           placeholder={placeholder}
         />
       ) : (
@@ -35,7 +35,7 @@ const InputField: React.FC<InputFieldProps> = ({
           id={id}
           value={value}
           onChange={onChange}
-          className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none dark:text-black focus:ring-2 focus:ring-secondary"
+          className="w-full p-3 border border-gray-400 rounded-lg shadow-sm focus:outline-none dark:text-black focus:ring-2 focus:ring-secondary"
           placeholder={placeholder}
         />
       )}

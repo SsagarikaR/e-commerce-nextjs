@@ -64,7 +64,7 @@ function ProductList({ page }: { page: number }) {
   };
 
   return (
-    <div className="w-full  mt-16 text-sm md:text-lg text-gray-700 h-[700px] xl:h-[800px] overflow-auto">
+    <div className="w-full  mt-16 text-sm md:text-lg  h-[700px] xl:h-[800px] overflow-auto">
       <table className="border w-full border-collapse ">
         <thead>
           <tr>

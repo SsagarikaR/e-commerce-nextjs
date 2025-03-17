@@ -6,6 +6,7 @@ import {
   updateProductService,
 } from "@/services/apiServices/products";
 import { checkToken, isAdmin } from "@/lib/midlleware/auth";
+import { fileURLToPath } from "url";
 
 // Controller to create a product
 export const POST = async (req: NextRequest) => {
@@ -59,17 +60,17 @@ export const GET = async (req: NextRequest) => {
   const url = new URL(req.url);
   const name = url.searchParams.get("name");
   const price = url.searchParams.get("price");
-  const categoryId = url.searchParams.get("categoryId");
+  const categoryID = url.searchParams.get("categoryID");
   const id = url.searchParams.get("id");
   const page = url.searchParams.get("page") || "1";
   const limit = url.searchParams.get("limit") || "8";
-
+  console.log(categoryID, "catlum cat id");
   const currentPage = Number(page);
   const itemsPerPage = Number(limit);
 
   try {
     const filters = {
-      categoryId: categoryId ? String(categoryId) : undefined,
+      categoryID: categoryID ? String(categoryID) : undefined,
       name: name ? String(name) : undefined,
       id: id ? String(id) : undefined,
       price:
@@ -77,7 +78,8 @@ export const GET = async (req: NextRequest) => {
           ? (price as "low-to-high" | "high-to-low")
           : undefined,
     };
-
+    console.log(filters, "filterit now");
+    console.log(filters);
     const products = await getProductsService(
       filters,
       currentPage,

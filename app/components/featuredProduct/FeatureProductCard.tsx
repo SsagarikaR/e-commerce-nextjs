@@ -10,7 +10,7 @@ function isMongoDBProduct(item: product | sqlProduct): item is product {
 
 function FeatureProductCard({ item }: { item: product | sqlProduct }) {
   const productID = isMongoDBProduct(item) ? item._id : item.productID;
-
+  console.log(productID, "productid of feture cart.....");
   return (
     <div className="m-auto flex justify-center font-serif items-center mt-2 flex-col p-2  bg-gray-100 pb-10 border-gray-400 gap-y-3 md:w-[250px] md:h-[350px] lg:w-[300px] lg:h-[400px] xl:w-[280px] xl:h-[400px] rounded-lg 2xl:w-[320px] 2xl:h-[450px] sm:w-[300px] sm:h-[400px]">
       <Link href={`/products/${productID}`}>

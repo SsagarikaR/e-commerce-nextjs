@@ -11,7 +11,7 @@ import Link from "next/link";
 import { orders } from "@/constants";
 import Image from "next/image";
 
-function OrderCard({ item }: { item: orderData }) {
+function OrderCard({ item }: { item: orderData | sqlOrderData }) {
   const [showModal, setShowModal] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
@@ -34,6 +34,20 @@ function OrderCard({ item }: { item: orderData }) {
       console.log(error);
     }
   };
+
+  // Type guards
+  function isSqlDBOrder(
+    order: orderData | sqlOrderData
+  ): order is sqlOrderData {
+    return "orderID" in order;
+  }
+
+  // Type guards
+  function isSqlDBOrderItem(
+    orderItem: OrderItem | sqlOrderItem
+  ): orderItem is sqlOrderItem {
+    return "orderId" in orderItem;
+  }
 
   const handleEdit = async () => {
     try {
@@ -60,12 +74,12 @@ function OrderCard({ item }: { item: orderData }) {
     <>
       <div
         key={item._id}
-        className={` p-6 rounded-xl w-4/5 mx-auto shadow-lg m-y-2 bg-white  ${
+        className={` p-6 font-serif rounded-xl w-4/5 mx-auto shadow-lg m-y-2 bg-white  ${
           item.status === "Cancelled" ? "bg-gray-300" : "bg-white"
         } `}
       >
         <div className={`relative`}>
-          <p className="text-lg text-gray-600 mt-2">
+          <p className="text-lg  mt-2">
             Status:{" "}
             <span
               className={`font-semibold ${
@@ -76,37 +90,54 @@ function OrderCard({ item }: { item: orderData }) {
             </span>
           </p>
           <div className="mt-6 space-y-4">
-            <h4 className="text-xl font-semibold text-gray-800">Items</h4>
+            <h4 className="text-xl font-semibold ">Items</h4>
             <Link href={`/orders/${item._id}`}>
               <div className="grid grid-cols-1  gap-6 ">
                 {item.items && item.items.length > 0 ? (
                   item.items.map((item) => (
                     <div
-                      key={item.productID._id}
-                      className=" p-4 rounded-lg shadow-lg flex items-center"
+                      key={
+                        isSqlDBOrderItem(item)
+                          ? item.productId
+                          : item.productID._id
+                      }
+                      className=" p-4 rounded-lg shadow-lg flex items-center border-gray-200 border"
                     >
                       <Image
                         width={240}
                         height={240}
-                        src={item.productID.productThumbnail}
-                        alt={item.productID.productName}
+                        src={
+                          isSqlDBOrderItem(item)
+                            ? item.productThumbnail
+                            : item.productID.productThumbnail
+                        }
+                        alt={
+                          isSqlDBOrderItem(item)
+                            ? item.productName
+                            : item.productID.productName
+                        }
                         className="w-24 h-24 object-cover rounded-lg shadow-lg"
                       />
                       <div className="ml-4">
-                        <p className="text-lg font-semibold text-gray-800">
-                          {item.productID.productName}
+                        <p className="text-lg font-semibold ">
+                          {isSqlDBOrderItem(item)
+                            ? item.productName
+                            : item.productID.productName}
                         </p>
-                        <p className="text-sm text-gray-600">
-                          {orders.PRICE}: ₹{item.productID.productPrice}
+                        <p className="text-sm ">
+                          {orders.PRICE}: ₹
+                          {isSqlDBOrderItem(item)
+                            ? item.productPrice
+                            : item.productID.productPrice}
                         </p>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm ">
                           {orders.QUNATITY}: {item.quantity}
                         </p>
                       </div>
                     </div>
                   ))
                 ) : (
-                  <p className="text-sm text-gray-600">{orders.NO_ITEMS}</p>
+                  <p className="text-sm ">{orders.NO_ITEMS}</p>
                 )}
                 {toastVisible && (
                   <Toast
@@ -124,10 +155,11 @@ function OrderCard({ item }: { item: orderData }) {
             <div className="flex items-center">
               {!isEdit ? (
                 <>
-                  <p className="text-sm text-gray-600">
-                    {orders.ADDRESS}: {item.address.state} , {item.address.city}
-                    , {item.address.pincode}, {item.address.locality},{" "}
-                    {item.address.address}
+                  <p className="text-sm ">
+                    {orders.ADDRESS}:{" "}
+                    {isSqlDBOrder(item)
+                      ? `${item.state}, ${item.city}, ${item.pincode}, ${item.locality}, ${item.address}`
+                      : `${item.address.state}, ${item.address.city}, ${item.address.pincode}, ${item.address.locality}, ${item.address.address}`}
                   </p>
                 </>
               ) : (
@@ -138,7 +170,7 @@ function OrderCard({ item }: { item: orderData }) {
                     onChange={(e) => {
                       setAddress(e.target.value);
                     }}
-                    className="border-gray-300 border outline-none"
+                    className="border-gray-400 border outline-none"
                   ></textarea>
                   <div className="text-green-400" onClick={handleEdit}>
                     <FontAwesomeIcon icon={faCheckCircle} className="h-5 w-5" />

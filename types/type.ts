@@ -8,12 +8,14 @@ declare global {
     password?: string;
     token?: string;
     role?: string;
+    image?: string;
     message?: string;
     error?: string;
   }
 
   interface address {
     _id: string;
+    addressID: number;
     state: string;
     city: string;
     pincode: string;
@@ -36,8 +38,14 @@ declare global {
     rows?: number;
   }
 
+  interface categoryCardProp {
+    id: string | number;
+    categoryName: string;
+    categoryThumbnail: string;
+  }
   interface categories {
     _id?: string;
+    categoryID: number;
     categoryName: string;
     categoryThumbnail: string;
   }
@@ -125,6 +133,12 @@ declare global {
     totalAmount: number;
   }
 
+  interface sessionUser {
+    email: string;
+    image: string;
+    name: string;
+  }
+
   interface OrderItem {
     _id: string;
     orderID: string;
@@ -137,11 +151,17 @@ declare global {
     brandName: string;
   }
 
-  interface sessionUser {
-    email: string;
-    image: string;
-    name: string;
+  interface sqlOrderItem {
+    orderId: number;
+    productId: number;
+    quantity: number;
+    price: number;
+    productName: string;
+    productThumbnail: string;
+    productPrice: number;
+    brandName: string;
   }
+
   interface orderData {
     _id: string;
     userID: string;
@@ -157,11 +177,25 @@ declare global {
     address: address;
   }
 
+  interface sqlOrderData extends address, user {
+    orderID: number;
+    totalAmount: number;
+    items: sqlOrderItem[];
+    totalPrice: number;
+    status: string;
+    handlingPrice: number;
+    platformFee: number;
+    deliveryCharge: number;
+  }
+
   interface CartStore {
     cartItems: cartItem[] | sqlCartItem[];
-    addItemToCart: (productID: string, quantity: number) => void;
-    removeItemFromCart: (cartItemID: string) => void;
-    updateCartItemQuantity: (cartItemID: string, quantity: number) => void;
+    addItemToCart: (productID: string | number, quantity: number) => void;
+    removeItemFromCart: (cartItemID: string | number) => void;
+    updateCartItemQuantity: (
+      cartItemID: string | number,
+      quantity: number
+    ) => void;
     fetchCartItems: () => void; // Function to fetch cart items from the backend
   }
 
@@ -216,6 +250,13 @@ declare global {
     status: string;
   }
 
+  interface sqlOrder extends address {
+    orderID: number | string;
+    userId: number;
+    totalAmount: number;
+    status: string;
+  }
+
   interface orderItem {
     orderID: string;
     productID: string;
@@ -242,6 +283,7 @@ declare global {
     productID: string;
     rating: number;
     _id: string;
+    name: string;
     reviewID: number;
     userID: user;
   }

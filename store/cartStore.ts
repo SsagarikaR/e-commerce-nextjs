@@ -27,6 +27,7 @@ export const useCartStore = create<CartStore>((set) => ({
 
   // Add an item to the cart
   addItemToCart: (productID, quantity) => {
+    console.log(productID, quantity, "added item get the cart");
     authorizedPostRequest("cart", { productID, quantity })
       .then((response) => {
         if (response.status === 200) {
